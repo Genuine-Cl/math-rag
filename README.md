@@ -1,5 +1,9 @@
 # math-rag：数学论文检索增强问答（RAG）
 
+![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue)
+![License: MIT](https://img.shields.io/badge/License-MIT-green)
+![CI](https://github.com/Genuine-Cl/math-rag/actions/workflows/ci.yml/badge.svg)
+
 针对 LaTeX 数学论文的检索增强问答系统，包含：LaTeX 论文加载与清洗、两种切分策略对比、
 MMR + BM25 混合检索、离线评估（Recall@k / MRR / nDCG），以及基于证据的 DeepSeek 问答 Agent。
 

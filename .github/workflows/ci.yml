@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          # 只装测试需要的依赖：不装 sentence-transformers/torch，
+          # 保持 CI 快（测试不涉及嵌入模型与真实 LLM 调用）
+          pip install "langchain>=0.3" langchain-chroma langchain-community langchain-openai chromadb pyyaml rank-bm25 pytest
+
+      - name: Run tests
+        run: pytest -q
