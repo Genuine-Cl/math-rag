@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "math-rag"
+version = "0.2.0"
+description = "Math paper retrieval-augmented QA: LaTeX-aware chunking, hybrid retrieval, and offline evaluation"
+requires-python = ">=3.10"
+dependencies = [
+    "langchain>=0.3",
+    "langchain-chroma",
+    "langchain-huggingface",
+    "langchain-community",
+    "langchain-openai",
+    "langchain-text-splitters",
+    "chromadb",
+    "sentence-transformers",
+    "pyyaml",
+    "rank-bm25",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

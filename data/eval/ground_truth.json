@@ -1,0 +1,67 @@
+[
+  {
+    "question": "What is the p-Laplace operator and how is it defined?",
+    "relevant": ["p_laplacian_v01", "articulo_infinitas_soluciones"]
+  },
+  {
+    "question": "How is the first eigenvalue of the p-Laplacian characterized?",
+    "relevant": [
+      "p_laplacian_v01",
+      "p_torsion_final",
+      "2026_05_28-BS-fk-type-ineq",
+      "Eigenvalue_comparison_theorems_for_the_Witten-Laplacian_and_the_weighted_p-Laplacian_on_complete_manifolds_with_a_modified_Ricci_curvature"
+    ]
+  },
+  {
+    "question": "What is the first eigenvalue under Neumann boundary conditions?",
+    "relevant": ["Burago-Ivanov-Lassas-Lu_APDE_revised", "eigenvalue3", "Polya202506"]
+  },
+  {
+    "question": "What is p-torsion rigidity?",
+    "relevant": ["p_torsion_final"]
+  },
+  {
+    "question": "What does the Witten Laplacian eigenvalue comparison theorem say?",
+    "relevant": ["Eigenvalue_comparison_theorems_for_the_Witten-Laplacian_and_the_weighted_p-Laplacian_on_complete_manifolds_with_a_modified_Ricci_curvature"]
+  },
+  {
+    "question": "What Liouville theorems hold for p-Laplacian equations in convex cones?",
+    "relevant": ["Liouville_theorems_for_p-Laplacian_equations_in_convex_cones"]
+  },
+  {
+    "question": "What gradient continuity results hold for p-Laplacian obstacle problems?",
+    "relevant": ["LO_GRADIENT_CONTINUITY_FOR_p-LAPLACIAN_OBSTACLE_PROBLEMS_UNDER_MEAN_OSCILLATION_CONDITIONS"]
+  },
+  {
+    "question": "What Gaussian lower bounds are known for the Laplace-Beltrami heat kernel?",
+    "relevant": ["GaussianLowerBounds_LaplaceBeltrami_hal2"]
+  },
+  {
+    "question": "What results are known for the nonlinear Schrodinger equation?",
+    "relevant": ["BaldelliBernini_2026"]
+  },
+  {
+    "question": "What Faber-Krahn type inequalities hold on combinatorial graphs?",
+    "relevant": ["Faber-Krahn-Dirichlet-combinatorial-graph-260326"]
+  },
+  {
+    "question": "What Hessian estimates are known for Dirichlet and Neumann eigenfunctions of the Laplacian?",
+    "relevant": ["Hessian-eigenfunctions"]
+  },
+  {
+    "question": "What is the logarithmic p-Laplacian on hyperbolic space and its extension problem?",
+    "relevant": ["hyperbolic_logarithm_arXiv"]
+  },
+  {
+    "question": "What oscillation bounds hold for fully nonlinear elliptic equations with Neumann boundary conditions?",
+    "relevant": ["arXiv.2020.1.1"]
+  },
+  {
+    "question": "What does Polya's conjecture state?",
+    "relevant": ["Polya202506"]
+  },
+  {
+    "question": "What is the p-Kohler-Jobin inequality?",
+    "relevant": ["p_torsion_final"]
+  }
+]

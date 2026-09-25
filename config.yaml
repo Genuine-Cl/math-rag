@@ -1,0 +1,39 @@
+# 全局配置：所有可调参数集中在这里，代码里不硬编码。
+# 面试可讲点：配置与逻辑分离；敏感信息用环境变量覆盖。
+
+paths:
+  papers_dir: data/papers          # 论文 .tex 目录（相对项目根目录）
+  persist_dir: chroma_db           # 向量库缓存，每次实验重建，不入库
+  log_file: logs/experiment.json   # 对比实验结果输出
+  ground_truth: data/eval/ground_truth.json   # 检索评估标注集（15 题，论文级标注）
+
+embedding:
+  # 默认用多语言小模型：英/中/法/西/意文论文都能处理，CPU 上快（约 420MB）。
+  # 质量升级可换 BAAI/bge-m3：多语言大模型，能出稠密+稀疏向量，
+  # 但约 2GB、CPU 上慢 4~5 倍。论文全英文且追求速度可换 BAAI/bge-small-en-v1.5。
+  model_name: paraphrase-multilingual-MiniLM-L12-v2
+  device: cpu
+  normalize_embeddings: true
+  batch_size: 32
+
+chunking:
+  chunk_size: 800
+  chunk_overlap: 100
+
+retrieval:
+  search_type: mmr        # mmr / similarity
+  k: 3                    # 最终返回条数
+  fetch_k: 12             # MMR 候选池大小，会被钳制为不超过语料块数
+  lambda_mult: 0.7        # 越大越重相关性，越小越重多样性
+  hybrid: true            # 是否启用 BM25 + 稠密向量 混合检索
+  dense_weight: 0.6       # 混合检索中稠密向量权重，BM25 权重 = 1 - dense_weight
+
+llm:
+  model: deepseek-chat    # 公开 DeepSeek API 模型名，可用环境变量 DEEPSEEK_MODEL 覆盖
+  base_url: https://api.deepseek.com
+  temperature: 0
+  timeout: 60
+  max_retries: 2
+
+agent:
+  max_iterations: 6       # react 模式每问最多调用几轮工具，防止死循环、控制成本

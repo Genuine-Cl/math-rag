@@ -1,0 +1,976 @@
+\documentclass[a4paper,12pt,reqno]{amsart}
+\linespread{1.2}
+\vbadness=2000%suppresses 1132 badness warning
+\hbadness=3500%suppresses 3200 badness warning
+
+%reducing to 10pt brings down to 14 pages, if page limit is a concern
+
+%%%%%%%%%%%INPUTS%%%%%%%%%%%
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{anyfontsize}
+\usepackage[english]{babel}
+\usepackage{stmaryrd}
+\usepackage{amsthm,amsfonts,amsmath,amssymb}
+\usepackage{verbatim}
+
+%%%%%%%%%%%PAGE GEOMETRY%%%%%%%%%%%
+
+\usepackage[%
+	left=3.5cm,       
+	right=3.5cm,      
+	top=3.5cm,        
+	bottom=3.5cm,     
+	heightrounded,    
+	bindingoffset=0mm 
+]{geometry}
+
+\overfullrule=20pt
+
+%%%%%%%%%%%GRAPHICS%%%%%%%%%%%
+
+\usepackage[dvipsnames]{xcolor}
+\usepackage{graphicx}
+
+%%%%%%%%%%%MATHS%%%%%%%%%%%
+
+\usepackage{xfrac}
+\usepackage{functan}
+\usepackage{mathtools}
+\usepackage{mathrsfs}
+%\usepackage{amssymb}automatically loaded by amsart class
+%usepackage{amsmath}automatically loaded by functan
+
+\numberwithin{equation}{section}
+\allowdisplaybreaks
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Rn}{\mathbb{R}^N}
+\newcommand{\del}{\delta}
+\newcommand{\N}{\mathbb{N}}
+\renewcommand{\H}{\mathcal{H}}
+\renewcommand{\S}{\mathcal{S}}
+\newcommand{\de}{{\partial}}
+\newcommand{\pa}{{\partial}}
+\newcommand{\di}{\,\mathrm{d}}
+%\renewcommand{\N}{\mathcal{N}}
+\renewcommand{\O}{\mathcal{O}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\K}{\mathcal{K}}
+\newcommand{\p}{\mathcal{P}}
+\newcommand{\D}{\mathcal{D}}
+\newcommand{\Om}{\Omega}
+\newcommand{\e}{\varepsilon}
+\newcommand{\ds}{\displaystyle}
+
+
+\DeclareMathOperator{\diam}{diam}
+\DeclareMathOperator{\proj}{proj}
+\DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\hull}{hull}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\essinf}{ess\,inf}
+\DeclareMathOperator{\esssup}{ess\,sup}
+\DeclareMathOperator{\Div}{div}
+\renewcommand{\div}{\Div}
+\DeclareMathOperator{\Per}{Per}
+
+%%%%%%%%COMMENTS%%%%%%%%
+% http://latexcolor.com
+
+\usepackage[textwidth=2.5cm]{todonotes}
+\newcommand{\giulio}[1]{{\color{blue} Giulio says: #1}}
+\newcommand{\giorgio}[1]{{\color{purple}#1}}
+%\newcommand{\giorgio}[1]{{\color{purple} Giorgio says: #1}}
+
+%%%%%%%OTHER PACKAGES%%%%%%%%
+
+\usepackage{enumitem}
+
+%%%%%%%%%LINE NUMBERING FOR REFEREES' EASE%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%\usepackage[pagewise, mathlines]{lineno}  %numbering lines per refereees %%%option displaymath is now obsolete
+%\linenumbers %numbering linee per refereees
+%
+%\usepackage{etoolbox} %% <- for \pretocmd, \apptocmd and \patchcmd
+%
+%% Patch 'normal' math environment: (currently unused, but good to have)
+% \newcommand*\linenomathpatch[1]{%
+%   \expandafter\pretocmd\csname #1\endcsname {\linenomath}{}{}%
+%   \expandafter\pretocmd\csname #1*\endcsname{\linenomath}{}{}%
+%   \expandafter\apptocmd\csname end#1\endcsname {\endlinenomath}{}{}%
+%   \expandafter\apptocmd\csname end#1*\endcsname{\endlinenomath}{}{}%
+% }
+%% Patch AMS math environment:
+%\newcommand*\linenomathpatchAMS[1]{%
+%  \expandafter\pretocmd\csname #1\endcsname {\linenomathAMS}{}{}%
+%  \expandafter\pretocmd\csname #1*\endcsname{\linenomathAMS}{}{}%
+%  \expandafter\apptocmd\csname end#1\endcsname {\endlinenomath}{}{}%
+%  \expandafter\apptocmd\csname end#1*\endcsname{\endlinenomath}{}{}%
+%}
+%
+%% Definition of \linenomathAMS depends on whether the mathlines option is provided
+%\expandafter\ifx\linenomath\linenomathWithnumbers
+%  \let\linenomathAMS\linenomathWithnumbers
+%  %% The following line gets rid of an extra line numbers at the bottom:
+%  \patchcmd\linenomathAMS{\advance\postdisplaypenalty\linenopenalty}{}{}{}
+%\else
+%  \let\linenomathAMS\linenomathNonumbers
+%\fi
+%
+%\linenomathpatch{equation} %% <- unnecessary, equation is already patched
+%\linenomathpatchAMS{gather}
+%\linenomathpatchAMS{multline}
+%\linenomathpatchAMS{align}
+%\linenomathpatchAMS{alignat}
+%\linenomathpatchAMS{flalign}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%HYPERREF & FRIENDS%%%%%%%%%%%
+
+\usepackage[
+colorlinks=true,
+urlcolor=teal,
+citecolor=magenta,
+linkcolor=teal,
+linktocpage,
+pdfpagelabels,
+bookmarksnumbered,
+bookmarksopen,
+breaklinks=true]
+{hyperref}
+
+\usepackage{thmtools}%%%NEEDED TO FIX SOME BACKWARD COMPATIBILITY WITH CLEVEREF!
+
+\usepackage[capitalize,nameinlink,noabbrev]
+{cleveref}
+\newcommand{\creflastconjunction}{, and\nobreakspace}%force use of serial/oxford comma
+
+%\usepackage{refcheck} % commentare una volta completato il draft %clashes with cleveref
+
+%%%%%%%%%%%THEOREMS%%%%%%%%%%%
+
+\theoremstyle{plain}
+	\newtheorem{theorem}{Theorem}[section]
+	\newtheorem{lemma}[theorem]{Lemma}
+	\newtheorem{proposition}[theorem]{Proposition}
+	\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+	\newtheorem{definition}[theorem]{Definition}
+	\newtheorem{example}[theorem]{Example}
+	\newtheorem{remark}[theorem]{Remark}
+    
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title[Spectral inequalities for weighted $p$-Laplacians]{Spectral inequalities for weighted $p$-Laplacians via Talenti symmetrization}%
+
+\author[G.~Bartoli]{Giulio Bartoli}
+\address[G.~Bartoli]{
+Institut f\"ur Mathematik, Goethe-Universit\"at Frankfurt, \linebreak Robert-Mayer-Str.~10, 60325 Frankfurt am Main, Germany  
+}
+\email{bartoli@mathematik.uni-frankfurt.de}
+
+\author[G.~Saracco]{Giorgio Saracco}
+\address[G.~Saracco]{
+Dipartimento di Matematica e Informatica, Universit\`a di Ferrara, via Machiavelli 30, 44121 Ferrara (FE), Italy
+}
+\email{giorgio.saracco@unife.it}
+
+\keywords{Faber--Krahn inequality, Saint-Venant inequality, isoperimetric inequality, Talenti symmetrization, weighted $p$-Laplacian, Witten Laplacian}
+
+\subjclass[2020]{Primary 35P15. Secondary 35J92, 49Q10}
+%
+%35P15 – Estimation of eigenvalues, upper and lower bounds
+%
+%35J92 – Quasilinear elliptic equations with p-Laplacian
+%
+%49Q10 – Optimization of shapes other than minimal surfaces
+%
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{abstract}
+%
+We consider the weighted $p$-Laplacian associated with a measure $\mu$ that is absolutely continuous with respect to the Lebesgue measure on an open connected subset $X\subset\mathbb{R}^N$. 
+We prove that Talenti's weighted P\'olya--Szeg\H{o} inequality---originally established for Lipschitz functions on $X$---extends to Sobolev functions with zero boundary trace on arbitrary Borel subsets $\Omega\subset X$. 
+This yields Faber--Krahn-type inequalities for the first $(p,q)$-eigenvalue the weighted Dirichlet $p$-Laplacian. 
+We present several examples fitting this abstract framework, including classical Euclidean and Gaussian cases alongside new results for homogeneous weights in convex cones, anisotropic Gaussians, and log-concave Gaussian perturbations.%
+\end{abstract}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Introduction}
+
+Let $\mathcal{L}^N$ be the standard $N$-dimensional Lebesgue measure on $\mathbb{R}^N$ and let $X\subset\mathbb{R}^N$ be an open and connected set. Given $W:X\to\mathbb{R}$, a continuous function, we consider the measure
+%
+\begin{equation}
+\label{eq:measures}
+\mu = e^{W(x)}\mathcal{L}^N.
+\end{equation}
+%
+This measure is absolutely continuous with respect to the Lebesgue measure and its Radon--Nikod\'ym derivative is $e^{W}$, which we shall call the \emph{density} or \emph{weight}, while we shall refer to $W$ as the \emph{potential}. Measures of this kind are Borel and encompass, for instance, log-convex and log-concave measures that arise in connection with Witten Laplacians and Gaussian-type diffusions.
+
+For a Borel set $\Omega\subset X$ and $p\in(1,+\infty)$, we define the space $L^p_\mu(\Omega)$ as the collection of all $\mu$-measurable functions $u$ on $\Omega$ such that
+%
+\[
+\|u\|_{p,\mu,\Omega}^p = \int_\Omega |u(x)|^p \,\mathrm{d}\mu < +\infty.
+\]
+%
+This space, equipped with the norm $\|\,\cdot\,\|_{p,\mu,\Omega}$ is a Banach space.
+%
+The weighted Sobolev space $W^{1,p}_{\mu,0}(\Omega)$ is defined as the closure of $C^\infty_c(\Omega)$ with respect to the norm
+%
+\begin{equation}
+\label{eq:norm}
+\|u\|_{1,p,\mu,\Omega}
+= 
+\bigl(\|u\|_{p,\mu,\Omega}^p + \|\nabla u\|_{p,\mu,\Omega}^p \bigr)^{\frac1p}
+= 
+\Bigl(\|u\|_{p,\mu,\Omega}^p + \sum_{i=1}^N \|\partial_i u\|^p_{p,\mu,\Omega} \Bigr)^{\frac1p}.
+\end{equation}
+%
+Local boundedness of the weight ensures that these spaces have the usual functional-analytic properties (see, \emph{e.g.}, \cite{Bre10book,KO84}).
+
+The \emph{first Dirichlet eigenvalue} of the weighted $p$-Laplacian on $\Omega$ is defined variationally by
+%
+\begin{equation*}
+%\label{eq:lambda1}
+\lambda_{1,p}^\mu(\Omega)
+=
+\inf
+\left\{
+\frac{\|\nabla u\|^p_{p,\mu,\Omega}}{\|u\|^p_{p,\mu,\Omega}} \,:\, u\in W^{1,p}_{\mu,0}(\Omega),\, u \neq 0
+\right\}.
+\end{equation*}
+%
+This is naturally associated with the principal eigenvalue problem 
+%
+\[
+-\Delta_{p,\mu} u = \lambda\,|u|^{p-2}u \quad\text{in }\Omega,\qquad u=0\quad\text{on }\partial\Omega,
+\]
+%
+where the weighted (or Witten-type) $p$-Laplacian of $u$, $-\Delta_{p,\mu}(u)$, is given by
+%
+\[
+-\Delta_{p,\mu}(u) = -\div(|\nabla u|^{p-2}\nabla u) - |\nabla u|^{p-2}\langle \nabla W, \nabla u\rangle,
+\]
+%
+that is, the usual $p$-Laplacian paired with a drift term, refer, \emph{e.g.}, to~\cite{DMWX21}.
+
+A classical problem in shape optimization is identifying sets $\Omega^*\subset X$ such that the \emph{Faber--Krahn inequality}
+%
+\begin{equation}
+\label{eq:fk-ineq}
+\lambda_{1,p}^\mu(\Omega^*) \le \lambda_{1,p}^\mu(\Omega), \qquad \forall \Omega\subset X \text{ with } \mu(\Omega)=\mu(\Omega^*),
+\end{equation}
+%
+holds. 
+
+A similar shape optimization problem revolves around the \emph{$p$-torsional rigidity} of the weighted $p$-Laplacian on $\Omega$, variationally defined as
+%
+\begin{equation*}
+%\label{eq:T}
+T_{p}^\mu(\Omega)
+=
+\sup
+\left\{
+\frac{\|u\|^p_{1,\mu,\Omega}}{\|\nabla u\|^p_{p,\mu,\Omega}} \,:\, u\in W^{1,p}_{\mu,0}(\Omega),\, \nabla u \neq 0
+\right\},
+\end{equation*}
+%
+First, we remark that different conventions exist: in place of the $p$-th powers of the norms, some take the $p/(p-1)$-th power, equivalently, the $p'$-th power, being $p'$ the conjugate exponent of $p$. 
+Second, usually one requires $u\neq 0$ and not $\nabla u \neq 0$. In the classic Euclidean space endowed with the Lebesgue measure, requiring either $u\neq 0$ or $\nabla u\neq 0$ is the same for functions in $W^{1,p}_{\mu,0}(\Omega)$.
+Here, working with a general measure, it might happen that nonzero constant functions belong to $W^{1,p}_{\mu,0}(\Omega)$, and for these the ratio within the supremum would be ill-posed. This for instance occurs when $\Omega=\mathbb{R}^N$ and $\mu$ is the Gaussian measure.
+Finally, we also recall that the $p$-torsional rigidity is naturally associated with the PDE
+%
+\[
+-\Delta_{p,\mu} u = 1 \quad\text{in }\Omega,\qquad u=0\quad\text{on }\partial\Omega,
+\]
+%
+
+The $p$-torsional rigidity analog of the Faber--Krahn inequality~\eqref{eq:fk-ineq} is the  \emph{Saint-Venant inequality}, and one looks for sets $\Omega^*\subset X$, if they exist,   such that 
+%
+\begin{equation}
+\label{eq:sv-ineq}
+T_{p}^\mu(\Omega^*) \ge T_{p}^\mu(\Omega), \qquad \forall \Omega\subset X \text{ with } \mu(\Omega)=\mu(\Omega^*),
+\end{equation}
+%
+holds. 
+%
+
+Finally, we mention that these two inequalities are just particular instances of Faber--Krahn-type inequalities for the first $(p,q)$-eigenvalue of the weighted $p$-Laplacian, refer to \cref{rem:pq-eingevalue}.
+
+
+In the Euclidean setting, corresponding to $X=\mathbb{R}^N$ and $W\equiv c\in\mathbb{R}$, inequality~\eqref{eq:fk-ineq} was proved to hold true independently by Faber~\cite{Fab23} and Krahn~\cite{Kra25}, whereas inequality~\eqref{eq:sv-ineq} by P\'olya~\cite{Pol48}. In both cases, $\Omega^*=B$, a Euclidean ball. 
+The proof relies on the \emph{Schwarz symmetrization}~\cite{HL30,Sch90book}, which entails the (Euclidean) \emph{P\'olya--Szeg\H{o} principle}~\cite{PS51book}. Roughly speaking, the symmetrization allows to transform a Sobolev function $u$ on $\Omega$ into a Sobolev function $u^\sharp$ defined on a different set, $\Omega^\sharp$, decreasing the Sobolev seminorm $\|\nabla u\|_{p, \mathcal{L}^N,\Omega}$, while keeping  the $L^p$ norm $\|u\|_{p, \mathcal{L}^N,\Omega}$ unchanged. From this principle, both the Faber--Krahn~\eqref{eq:fk-ineq} and Saint-Venant~\eqref{eq:sv-ineq} inequalities  follow at once.
+
+In the Gaussian setting, corresponding to $X=\mathbb{R}^N$ and $W(x)=-\|x\|^2/2$, the Faber--Krahn inequality~\eqref{eq:fk-ineq} has been proved~\cite{Ehr84} via a different symmetrization, known as \emph{Ehrhard symmetrization}~\cite{Ehr83}. The same symmetrization allows to prove the Saint-Venant inequality~\eqref{eq:sv-ineq} in this setting~\cite[Sect.~5]{Liv24}.
+More recently, similar strategies based on rearrangements tailored to the underlying isoperimetric sets have been successfully used to derive the Faber--Krahn inequality~\eqref{eq:fk-ineq} for radially log-convex weights in metric measure spaces~\cite{CM25,NV25}.
+
+In this note we revisit the Faber--Krahn and Saint-Venant inequalities in the weighted setting of measures of the form \eqref{eq:measures} by exploiting an abstract symmetrization introduced by Talenti in~\cite{Tal97}. 
+Our first goal is to show that Talenti's weighted P\'olya--Szeg\H{o} principle~\cite[Main Thm.]{Tal97}, originally formulated for Lipschitz functions on the whole of $X$, extends to Sobolev functions with zero trace on arbitrary Borel subsets $\Omega\subset X$. 
+This extension, obtained via a density argument in weighted Sobolev spaces, immediately yields as corollaries the corresponding Faber--Krahn and Saint-Venant inequalities for the weighted $p$-Laplacian associated with $\mu$. 
+The advantage of Talenti's approach is that the symmetrization is specified abstractly by a function $f$ whose superlevel sets saturate a suitable weighted relative isoperimetric inequality and whose lines of steepest descent are straight. 
+Once such an $f$ is available, the P\'olya--Szeg\H{o} principle, the Faber--Krahn and Saint-Venant inequalities follow in a unified way, without having to construct an ad hoc rearrangement for each measure.
+
+In \cref{sec:symmetrization}, we recall Talenti symmetrization in the present setting, introduce the associated symmetrized sets, and prove some basic properties. 
+In \cref{sec:polya-szego}, we state Talenti's weighted P\'olya--Szeg\H{o} inequality and extend it from Lipschitz to Sobolev functions with zero trace, thereby deriving the corresponding Faber--Krahn inequality~\eqref{eq:fk-ineq} and Saint-Venant inequality~\eqref{eq:sv-ineq}. 
+In \cref{sec:examples}, we exhibit several classes of measures for which the hypotheses of Talenti's theorem are satisfied. We recover the Faber--Krahn and Saint-Venant inequalities in the following frameworks: the classical Euclidean; the classical Gaussian. The Faber--Krahn inequality is also recovered in the setting of radial log-convex measures, whereas the Saint-Venant's one appears to be new. Further, we prove them in new settings: suitable homogeneous weights supported in convex cones; anisotropic Gaussian measures; and concave one-dimensional perturbations of the Gaussian measure. In all these settings, the more general Faber--Krahn-type inequalities for the first $(p,q)$-eigenvalue of the weighted $p$-Laplacian holds, see \cref{rem:pq-eingevalue}.
+Finally, in \cref{sec:future}, we list future directions of research.
+
+\subsection*{Acknowledgments} 
+
+The present note stems from G.B.'s Master's Thesis. It has been written up while G.S.\ visited G.B.\ at the Goethe-Universität Frankfurt, whose hospitality is kindly acknowledged. Both authors are members of INdAM--GNAMPA. G.B.\ is supported by the Deutsche Forschungsgemeinschaft (DFG, German Research Foundation), Project No.~555837013.
+
+\section{Talenti symmetrization}
+\label{sec:symmetrization}
+
+In this section we recall the symmetrization defined in~\cite{Tal97}. We let $X$ be an open and connected subset of $\mathbb{R}^N$ and $\mu$ a measure on a $\sigma$-algebra of subsets of $X$, which is absolutely continuous with respect to the Lebesgue measure $\mathcal{L}^N$.
+
+\begin{definition}[$\mu$-distribution function]
+%
+Given a real-valued $\mu$-measurable function $v:X \to \R$ such that the superlevel sets $\{\,|v(x)|>t\,\}$ have finite $\mu$-measure for all $t>0$, the \emph{$\mu$-distribution function} of $v$, denoted by $\Phi_v^\mu$, is the map that associates to any $t>0$ the $\mu$-measure of the superlevel set $\{\,|v|>t\,\}$, \emph{i.e.}, the map from $[0,+\infty)$ into $[0,+\infty)$ defined by 
+%
+\begin{equation}
+\label{eq:distribution-function}
+\Phi^\mu_v(t)=\mu\bigl(\{\,x \in X:|v(x)|>t\,\}\bigr).
+\end{equation}
+%
+\end{definition}
+
+If no confusion can arise, we will drop the superscript $\mu$ and denote it simply by $\Phi_v$ and refer to it simply as the distribution function.
+It is clear that $\Phi_v$: decreases monotonically; is right continuous\footnote{If $v$ is continuous, it improves to continuity.}. % as a consequence of the continuity from below property of the measure $\mu$. (vedi es 1.8 maggi)
+Moreover, one has
+%
+\[
+\Phi_v(0)=\mu\bigl(\{\,x \in X:v(x)\neq0\,\}\bigr)
+\]
+%
+and 
+%
+\[
+\{\,t\geq0:\Phi_v(t)=0\,\}=[\|v\|_{\infty},+\infty),
+\]
+%
+where the essential supremum is with respect to the measure $\mu$.
+
+\begin{definition}[$\mu$-decreasing rearrangement]
+\label{def:d-rearrangement}
+%
+Given a real-valued $\mu$-mea\-sur\-able function $v:X \to \R$ such that the superlevel sets $\{\,|v(x)|>t\,\}$ have finite $\mu$-measure for all $t>0$, we define the \emph{$\mu$-decreasing rearrangement} of $v$ by
+%
+\begin{equation}
+\label{eq:decreasing-rearrangement}
+v^{\mu,*}(s)=\inf\{\,t \geq 0 : \Phi_v^\mu(t)\leq s\,\}.
+\end{equation}
+%
+\end{definition}
+
+As for the distribution function, if no confusion can arise, we will drop the superscript $\mu$ and denote the $\mu$-decreasing rearrangement of $v$ with $v^*$ and refer to it simply as the decreasing rearrangement.
+
+The decreasing rearrangement $v^*$ can also be interpreted as the distribution function of $\Phi_v$ with respect to the Lebesgue measure. Hence, the function $v^*$ is a decreasing, right-continuous map from $[0,+\infty)$ into $[0,+\infty)$, satisfying $v^*(0)=\|v\|_\infty$ and
+\[
+\{\, s\geq 0 : v^*(s)=0\,\}=\bigl[\,\mu\bigl(\{\,x \in X: v(x)\neq0\,\}\bigr),+\infty\bigr).
+\]
+Moreover, for every $y>0$ we have
+%
+\begin{equation}
+\label{eq:superlevelsets-v*}
+\{\, s\geq 0 : v^*(s)>y\,\}=[\,0,\Phi_v(y)).
+\end{equation}
+%
+
+\begin{definition}[$(\mu,f)$-Talenti symmetrization] \label{def:talenti}
+%
+Let $f:X\to[0,1]$ be a smooth function such that
+%
+\begin{equation}
+\label{eq:hp-f-talenti}
+\tag{H1}
+\inf f=0,
+\quad 
+\sup f=1, 
+\quad
+\text{and }
+\nabla f(x)\neq 0,
+\text{ when $0<f(x)<1$}.
+\end{equation}
+%
+Assume further that
+%
+\begin{equation}
+\label{eq:hp-f-mu-talenti}
+\tag{H2}
+\mu\bigl(\{x\in X\,:\, f(x)>t\}\bigr) < +\infty,
+\text{ if $t\in(0,1)$.}
+\end{equation}
+%
+Given a Borel subset $\Omega\subset X$ and a $\mu$-measurable function $u:\Omega \to \R$ such that the superlevel sets $\{\,|u(x)|>t\,\}$ have finite $\mu$-measure for all $t>0$, the \emph{$(\mu,f)$-Talenti symmetrization} of $u$ is the function $u^{\mu,\sharp}:X\to[0,+\infty)$ given by
+%
+\begin{equation}
+\label{eq:def-symmetrized}
+u^{\mu,\sharp}(x)=\tilde{u}^{\mu,*}(\Phi^\mu_f(f(x))),
+\end{equation}
+%
+where $\tilde{u}$ is the extension to zero of $u$ to $X\setminus\Omega$.
+\end{definition}
+
+If no confusion can arise, we will drop the superscript $\mu$ and denote it simply by $u^\sharp$. For the sake of ease, we will say Talenti symmetrization, without expliciting the dependence on the measure $\mu$ and on the function $f$.
+
+\begin{definition}[Symmetrization of a set]
+%
+Let $\mu$, $f$, and $\Omega$ be as in \cref{def:talenti}. We define its Talenti symmetrized as
+%
+\(
+\Omega^\sharp = \{x\in X\,:\, \chi_\Omega^\sharp(x)>0 \}.
+\)
+%
+\end{definition}
+
+
+We now prove the following lemma, which characterizes the symmetrized set $\Omega^\sharp$ as the union of the zero-superlevel sets of the Talenti symmetrized of all $\mu$-measurable functions defined on $\Omega$.
+
+\begin{lemma}
+\label{lem:levelset-symmetrizedset-inclusion}
+%
+Let $\mu$, $f$, and $\Omega$ be as in \cref{def:talenti}. We have that
+%
+\[
+\bigcup\, \{ x\,:\, u^\sharp (x) > 0\} = \Omega^\sharp,
+\]
+%
+where the union is taken among all $\mu$-measurable functions $u$ defined on $\Omega$.
+%
+\end{lemma}
+
+\begin{proof}
+%
+Let us show the two opposite inclusions. On the one hand, since $\chi_\Omega$ is $\mu$-measurable, one inclusion is trivial, by definition of $\Omega^\sharp$.
+
+On the other hand, let us start writing down the zero-superlevel set of $\chi_\Omega^\sharp$. By definition~\eqref{eq:def-symmetrized}, setting $\sigma=\sigma(x)=\Phi_f(f(x))$, we have
+%
+\[
+\chi_\Omega^\sharp(x) = \chi_\Omega^* (\sigma(x)).
+\]
+%
+Recall that by definition~\eqref{eq:decreasing-rearrangement}
+%
+\[
+\chi_\Omega^*(s) = \inf\{t\ge 0\,:\, \Phi_{\chi_\Omega}(t)\le s\},
+\]
+%
+where the distribution function of $\chi_\Omega$, refer to~\eqref{eq:distribution-function}, is
+%
+\[
+\Phi_{\chi_\Omega}(t) = \mu\bigl(\{z\in X\,:\, \chi_\Omega(z) > t \}\bigr).
+\]
+%
+Thus, we have
+%
+\[
+\Phi_{\chi_\Omega}(t) 
+=
+\left\{
+\begin{aligned}
+&\mu(\Omega), \quad &&\text{if $t\in[0,1)$,}\\
+&0, &&\text{otherwise.}
+\end{aligned}
+\right.
+\]
+%
+Therefore, we get
+\begin{equation}
+\label{eq:chi_char}
+\chi_\Omega^*(s) 
+=
+\left\{
+\begin{aligned}
+&0, \quad &&\text{if $s\ge\mu(\Omega)$,}\\
+&1, &&\text{otherwise.}
+\end{aligned}
+\right.
+\end{equation}
+%
+
+Let now $u$ be any $\mu$-measurable function defined on $\Omega$, let $x \in \{u^\sharp>0\}$, and $\sigma(x)=\Phi_f(f(x))$ as before. By definition of $u^\sharp$ and the characterization of $u^*$ given in~\eqref{eq:superlevelsets-v*},
+%
+\(
+\sigma(x) \in [0, \Phi_u(0)).
+\)
+%
+Therefore, we have $\sigma(x) < \Phi_u(0) \le \mu(\Omega)$. Hence, by~\eqref{eq:chi_char}, $x\in\Omega^\sharp$.
+%
+\end{proof}
+
+In virtue of this lemma, given a $\mu$-measurable $u$ defined on a $\mu$-measurable set $\Omega$, we can treat its Talenti symmetrization $u^\sharp$ as defined on $\Omega^\sharp$.
+
+\begin{proposition}[Continuity of the symmetrization]
+\label{prop:cnt-sym}
+%
+Let $\mu$, $f$, and $\Omega$ be as in \cref{def:talenti}. For every $u \in L^p_\mu(\Omega)$, its Talenti symmetrization $u^\sharp$ belongs to $L^p_\mu(\Omega^\sharp)$ and
+%
+\begin{equation}
+\label{eq:Lp-norm-preserved}
+\|u\|_{p,\mu,\Omega} = \|u^\sharp\|_{p,\mu,\Omega^\sharp}.
+\end{equation}
+%
+Moreover, if $(u_n)_{n\in\mathbb{N}}\subset L^p_\mu(\Om)$ is a sequence converging to $u$ in $L^p_\mu(\Omega)$, then $u_n^\sharp \to u^\sharp$ in $L^p_\mu(\Omega^\sharp)$.
+%
+\end{proposition}
+
+\begin{proof}
+%
+Notice that the second part of the statement, \emph{i.e.}, the continuity, immediately follows from~\eqref{eq:Lp-norm-preserved}. Thus, it is enough to prove this equality.
+
+The construction of the Talenti symmetrization ensures that every superlevel set of $u^\sharp$ coincides with a superlevel set of $f$.  
+Indeed, for every $t>0$,
+\[
+\{\,x\in X:u^\sharp(x)>t\,\}=\{\,x\in X:f(x)>f^*(\Phi_{\tilde{u}}(t))\,\}, 
+\]
+%
+also owing to the fact that---being $f$ continuous---the restriction of $\Phi_f$ to $[0,1]$ and the restriction of $f^*$ to $[0,\mu(X))$ are one the inverse of the other. Moreover, $\Phi_{u^\sharp}(t)=\Phi_{\tilde{u}}(t)$.  Then, by the layer-cake formula (see~\cite[Ex.~1.13]{Mag12book}), the definition~\eqref{eq:distribution-function} of $\mu$-distribution of $\tilde{u}$, the previous equality, the layer-cake formula once again, and \cref{lem:levelset-symmetrizedset-inclusion}, we have
+%
+\begin{align*}
+    \|u\|^p_{p,\mu,\Omega}
+    =
+    \|\tilde{u}\|^p_{p,\mu,X}
+    &= p\int_0^{+\infty} t^{p-1}\,\mu\bigl(\{\,x\in X:|\tilde{u}(x)|>t\,\}\bigr)\,\di t \\
+    &= p\int_0^{+\infty} t^{p-1}\Phi_{\tilde{u}}(t)\,\di t
+     = p\int_0^{+\infty} t^{p-1}\Phi_{u^\sharp}(t)\,\di t \\
+    &= \|u^\sharp\|^p_{p,\mu,X}
+    = \|u^\sharp\|^p_{p,\mu,\Omega^\sharp}.
+    \qedhere
+\end{align*}
+%
+\end{proof}
+
+
+\section{\texorpdfstring{P\'olya--Szeg\H{o}}{Polya--Szego} principle in Sobolev spaces}
+\label{sec:polya-szego}
+
+P\'olya--Szeg\H{o} principles arising from symmetrizations ensure that integrals of Young functions $F(\,\cdot\,)$, depending only on $|\nabla u|$, decrease when evaluated on $|\nabla u^\sharp|$, and we refer the interested reader to~\cite{PS51book} for its first appearance, in the Euclidean context. The usual symmetrizations rely on transforming level sets in isoperimetric sets. Talenti showed in~\cite{Tal97} that this principle stays true for Lipschitz functions also for his symmetrization provided that: the measure space  $(X,\mu)$ possesses a relative isoperimetric inequality with respect to the notions of weighted volume and perimeter, see~\ref{item:isoperimetrica}; $f$ is chosen so that its superlevel sets are isoperimetric sets, see~\ref{item:superlevelsets-f}, and it satisfies a suitable steepest descent condition, see~\ref{item:steepest-descent}. 
+
+We recall below the theorem, tailored to the case of our interest, $F(z) = |z|^p$. 
+In order to properly state it, we recall that the $\mu$-perimeter, with $\mu=e^W\mathcal{L}^N$, of a Borel set $\Omega$ relative to $X$ is
+%
+\begin{equation}
+\label{eq:P-mu}
+\Per_\mu(\Omega; X) = \int_{\partial^* \Omega \cap X} e^{W(x)}\,\mathrm{d}\mathcal{H}^{N-1}(x),
+\end{equation}
+%
+where $\partial^*\Omega$ is the reduced boundary of $\Omega$, refer to~\cite{Mag12book}.
+
+\begin{theorem}[P\'olya--Szeg\H{o} principle of~\cite{Tal97}]
+\label{thm:talenti}
+%
+Let $\mu$ and $f$ be as in \cref{def:talenti}. Suppose that the following conditions hold:
+\begin{enumerate}[label=(\roman*), leftmargin = \parindent, align = left]
+%
+\item \label{item:isoperimetrica} there exists a smooth real-valued function $q:[0,\mu(X))\to\R_+$ such that
+%
+\[
+q(\mu(\Omega)) \le \Per_\mu(\Omega; X), \qquad \text{for all Borel subsets } \Omega\subset X;
+\]
+%
+\item \label{item:superlevelsets-f}
+    the superlevel sets of $f$ saturate the isoperimetric inequality of point~\ref{item:isoperimetrica}, \emph{i.e.},
+%
+\begin{equation*}
+%\label{eq:superlevelsets-f}
+\Per_\mu(\{\, x \in  X: f(x)>t\,\}; X) = q(\Phi_f^\mu(t)); 
+\end{equation*}
+%
+\item \label{item:steepest-descent}
+    the lines of steepest descent of $f$ are straight, that is, if we define the curves $s \mapsto x(s)\in \Rn$ such that
+    \[
+    \frac{\di x}{\di s} = \frac{\nabla f}{|\nabla f|}(x(s)),
+    \]
+    where $s$ is the arclength parameter, then they satisfy
+    \[
+    \frac{\di^2 x}{\di s^2} = 0.
+    \]
+%
+\end{enumerate}
+%
+Given any Lipschitz function $u:X\to \R$, the Talenti symmetrization $u^\sharp$ of $u$ is locally Lipschitz and for every $p\in(1,+\infty)$, it holds
+\begin{equation}
+\label{eq:PS-Lip}
+     \int_{X} |\nabla u|^p \, \di \mu 
+    \geq \int_{X} |\nabla u^\sharp|^p \, \di \mu.
+\end{equation}
+\end{theorem}
+
+We remark that Talenti does not explicitly mention that the symmetrized function is locally Lipschitz, but this can be derived by closely inspecting his proof. Further, he does not use as perimeter the weighted $(N-1)$-dimensional Hausdorff measure~\eqref{eq:P-mu} but rather the relative dual-sided Minkowski content~\cite[Eq.~(1.7)]{Tal97}. Nevertheless, in the proof he uses the weighted variational relative perimeter to exploit coarea formula. This is well-known to be equivalent to~\eqref{eq:P-mu}, which coincides with the relative dual-sided Minkowski content for almost every superlevel set of a Lipschitz function. Finally, we refer the reader to~\cite{Mag91} for a finer study of condition~\ref{item:steepest-descent}.
+
+We now prove that~\eqref{eq:PS-Lip} extends from Lipschitz functions on $X$ to Sobolev functions with zero trace on any Borel subset $\Omega$, via a standard density argument.
+
+\begin{proposition}[P\'olya--Szeg\H{o} principle in $W^{1,p}_{\mu,0}(\Omega)$]
+\label{prop:polya-szego}
+%
+Let $\mu$, $f$, and $\Omega$ be as in \cref{def:talenti}. Assume further conditions~\ref{item:isoperimetrica}--\ref{item:steepest-descent} of \cref{thm:talenti}. Let $p\in(1,+\infty)$. Then, for every $u \in W^{1,p}_{\mu,0}(\Om)$, the Talenti symmetrization $u^\sharp$  belongs to $W^{1,p}_{\mu,0}(\Om^\sharp )$ and
+\begin{equation}
+\label{eq:extended-ps}
+     \int_\Om |\nabla u|^p \, \di \mu 
+    \geq \int_{\Om^\sharp} |\nabla u^\sharp|^p \, \di \mu.
+\end{equation}
+%
+\end{proposition}
+
+\begin{proof}
+
+Let $v$ be a function in $W^{1,p}_{\mu,0}(\Om)$. By definition, there exists a sequence $(v_n)_{n \in \mathbb{N}}\subset C^\infty_c(\Om)$ such that $v_n \to v$ in the norm~\eqref{eq:norm}. 
+
+For all $n$, by \cref{thm:talenti}, ${v}^\sharp_n$ is locally Lipschitz continuous whereas by \cref{lem:levelset-symmetrizedset-inclusion}, $\supp(v_n^\sharp)\subset \overline{\Omega^\sharp}$. Therefore, extending all functions to $X$ by setting them equal to zero on $X\setminus \mathrm{dom}(u)$, again by \cref{thm:talenti}, we have
+%
+\begin{equation}\label{eq: dis norme gradiente}
+\int_{\Omega} |\nabla {v}_n|^p\di\mu
+=
+\int_{X} |\nabla {v}_n|^p\di\mu
+\geq
+\int_{X}|\nabla {v}_n^\sharp|^p\di\mu
+\ge
+\int_{\Omega^\sharp}|\nabla {v}_n^\sharp|^p\di\mu.
+\end{equation}
+%
+Hence, $v^\sharp_n$ belongs to the space $W^{1,p}_\mu(\Om^\sharp)\cap C^0(\overline{\Om^\sharp})$ and vanishes on $\pa\Om^\sharp$. Adapting standard results to the setting of weighted Sobolev spaces, see, \emph{e.g.},~\cite[Thm.~9.17 and Rem.~19]{Bre10book}, this implies that $v_n^\sharp \in W^{1,p}_{\mu,0}(\Om)$, for every $n \in \mathbb{N}$.
+
+By the continuity of the symmetrization (see \cref{prop:cnt-sym}), we obtain that $v_n^\sharp\to v^\sharp$ in $L^p_\mu(\Om^\sharp)$. Moreover, the gradients are uniformly bounded in $L^p_\mu$, as a consequence of~\eqref{eq: dis norme gradiente} together with the convergence of $(v_n)_n$ in the norm~\eqref{eq:norm}. Hence, $(v_n^\sharp)_{n \in \mathbb{N}}$ is bounded in $W^{1,p}_{\mu,0}(\Om^\sharp)$. By Banach--Alaoglu Theorem, which holds for any normed vector space, there exist a subsequence $(v_{n_k}^\sharp)_{k\in\mathbb{N}}$ and a function $V \in W^{1,p}_{\mu,0}(\Om^\sharp)$ such that
+%
+\[
+v_{n_k}^\sharp\rightharpoonup V \quad \text{weakly in } L^p_\mu(\Om^\sharp)\quad \text{and} \quad \nabla v_{n_k}^\sharp\rightharpoonup\nabla V\quad \text{weakly in } L^p_\mu(\Om^\sharp).
+\]
+%
+From the uniqueness of the limit, $V=v^\sharp$, $\mu$-almost everywhere, therefore $v^\sharp \in W^{1,p}_{\mu,0}(\Omega^\sharp)$. Further, by the weak convergence of the gradients, by inequality~\eqref{eq: dis norme gradiente}, and by the convergence of $(v_n)_{n\in\mathbb{N}}$ in $W^{1,p}_{\mu,0}(\Om)$, one has
+\[
+\|\nabla v^\sharp\|_{p,\mu,\Om^\sharp}
+\leq 
+\liminf_{k \to \infty}\|\nabla v_{n_k}^\sharp\|_{p,\mu,\Om^\sharp}
+\leq
+\liminf_{k\to \infty}\|\nabla v_{n_k}\|_{p,\mu,\Om}
+=
+\|\nabla v\|_{p,\mu,\Om}.
+\qedhere
+\]
+\end{proof}
+
+As usual, the P\'olya--Szeg\H{o} principle on Sobolev spaces implies the corresponding Faber--Krahn and Saint-Venant inequalities.
+
+\begin{corollary}[Faber--Krahn inequality]
+\label{cor:fk-ineq}
+Let $\mu$, $f$, and $\Omega$ be as in \cref{def:talenti}. Assume further conditions~\ref{item:isoperimetrica}--\ref{item:steepest-descent} of \cref{thm:talenti}. Let $p\in(1,+\infty)$. Then,
+ %
+\begin{equation*}
+    \lambda^\mu_{1,p}(\Om^\sharp)\leq \lambda_{1,p}^\mu(\Om).
+\end{equation*}
+%
+\end{corollary}
+
+\begin{proof}
+Let $u \in W^{1,p}_{\mu,0}(\Om)$. By \cref{prop:polya-szego}, the Talenti symmetrization $u^\sharp$ belongs to $ W^{1,p}_{\mu,0}(\Om^\sharp)$. Moreover, by~\eqref{eq:Lp-norm-preserved} and~\eqref{eq:extended-ps}, we have
+\[
+\lambda^\mu_{1,p}(\Om^\sharp)\leq \frac{\displaystyle\int_{\Om^\sharp}|\nabla u^\sharp|^p\di \mu}{\displaystyle\int_{\Om^\sharp}|u|^p\di\mu}\leq \frac{\displaystyle\int_\Om|\nabla u|^p\di \mu}{\displaystyle\int_\Om|u|^p\di\mu}.
+\]
+ Taking now the infimum on the right-hand side among non identically zero functions in $W^{1,p}_{\mu,0}(\Om)$, the claim follows.
+\end{proof}
+
+\begin{corollary}[Saint-Venant inequality]
+\label{cor:sv-ineq}
+Let $\mu$, $f$, and $\Omega$ be as in \cref{def:talenti}. Assume further conditions~\ref{item:isoperimetrica}--\ref{item:steepest-descent} of \cref{thm:talenti}. Let $p\in(1,+\infty)$. Then,
+ %
+\begin{equation*}
+    T^\mu_{p}(\Om^\sharp)\geq T_{p}^\mu(\Om).
+\end{equation*}
+%
+\end{corollary}
+
+\begin{proof}
+Let $u \in W^{1,p}_{\mu,0}(\Om)$. By \cref{prop:polya-szego}, the Talenti symmetrization $u^\sharp$ belongs to $ W^{1,p}_{\mu,0}(\Om^\sharp)$. Moreover, by~\eqref{eq:Lp-norm-preserved} and~\eqref{eq:extended-ps}, we have
+\[
+T^\mu_{p}(\Om^\sharp)\geq \frac{\left(\displaystyle\int_{\Om^\sharp}|u^\sharp|\di \mu\right)^{p}}{\displaystyle\int_{\Om^\sharp}|\nabla u^\sharp|^p\di \mu}
+\geq
+\frac{\left(\displaystyle\int_\Om|u|\di \mu\right)^{p}}{\displaystyle\int_\Om|\nabla u|^p\di \mu}.
+\]
+Taking now the supremum on the right-hand side among non constant functions in $W^{1,p}_{\mu,0}(\Om)$, the claim follows.
+\end{proof}
+
+
+\begin{remark}
+\label{rem:pq-eingevalue}
+%
+\cref{cor:fk-ineq,cor:sv-ineq} are particular cases of the more general Faber--Krahn-type inequality that one can prove on the first Dirichlet $(p,q)$-eigenvalue of the $p$-weighted Laplacian on $\Omega$, $\lambda^\mu_{1,p,q}(\Omega)$. This is defined as
+%
+\[
+\lambda^\mu_{1,p,q}(\Omega)
+=
+\inf
+\left\{
+\frac{\|\nabla u\|^p_{p,\mu,\Omega}}{\|u\|^{p}_{q,\mu,\Omega}} \,:\, u\in W^{1,p}_{\mu,0}(\Omega),\, u \neq 0
+\right\},
+\]
+%
+where $q$ is such a way that the continuous embedding $W^{1,p}_{\mu,0}(\Omega) \hookrightarrow L^q_\mu(\Omega)$ holds. These first $(p,q)$-eigenvalues are linked to the optimal Poincar\'e--Sobolev constant in the above-mentioned embedding, refer to~\cite{Bra14} in the Euclidean case.
+
+The Talenti symmetrization keeps unchanged not only the $L^p_\mu$-norm of $u$, but rather all of its $L^q_\mu$-norms, as it can be seen by following the same exact proof of \cref{prop:cnt-sym}. Then, P\'olya--Szeg\H{o} principle of \cref{prop:polya-szego} entails, as in the proof of \cref{cor:fk-ineq}, that
+%
+\[
+\lambda^\mu_{1,p,q}(\Omega) \ge \lambda^\mu_{1,p,q}(\Omega^\sharp).
+\]
+%
+In particular, \cref{cor:fk-ineq} corresponds to the case $q=p$, whereas \cref{cor:sv-ineq} to the case $q=1$, since $T_p^\mu(\Omega) = 1/\lambda_{1,p,1}^\mu(\Omega)$.
+
+%
+\end{remark}
+
+\section{Examples}
+\label{sec:examples}
+
+In this section we collect several examples that fall within the general framework presented, thus obtaining the corresponding Faber--Krahn and Saint-Venant inequalities. Actually, in all of the following settings, it remains proved the more general inequality mentioned in~\cref{rem:pq-eingevalue} for the first $(p,q)$-ei\-gen\-val\-ue of the weighted $p$-Laplacian. We remark that the settings covered in \cref{sec:CROS,sec:gauss-ani,sec:gauss-perturbed} appear to be new. 
+
+\subsection{Isoperimetric sets are concentric balls}
+
+Let $X$ be an open convex cone centered in the origin and let $\mu$ be a locally finite measure. Assume that the one-para\-met\-er family of concentric balls $\{\,B_r(0)\,:\,r>0\,\}$ is such that the family
+%
+\begin{equation}
+\label{eq:balls-iso}
+\{\,B_r(0) \cap X\,\}_r,
+\end{equation}
+%
+is a complete family of isoperimetric sets, that is, for all $m\in(0,\mu(X))$ there exists $r=r(m)>0$ such that $\mu(B_r(0)\cap X)=m$ and
+%
+\begin{equation}
+\label{eq:iso-balls}
+\Per_\mu (B_r(0)\cap X; X) \le \Per_\mu(\Omega; X),
+\qquad \forall \Omega\subset X
+\text{ with $\mu(\Omega)=m$,}
+\end{equation}
+%
+that is, request~\ref{item:isoperimetrica} of \cref{thm:talenti} holds with
+%
+\[
+q(m) = \Per_\mu(B_{r(m)}(0)\cap X; X).
+\]
+%
+We now let
+%
+\[
+f(x) = \frac{1}{1+\|x\|^2}, \qquad \forall x\in X.
+\]
+%
+It is trivial that $\inf f = 0$ and $\sup f = 1$. Further, this function can be thought of as the composition $f = h(g)$, where
+%
+\[
+h(t) = \frac{1}{1+t}
+\qquad\text{and}\qquad 
+g(x)=\|x\|^2.
+\]
+%
+Therefore, it is smooth and its gradient never vanishes since $\nabla f = h'(g)\nabla g$, with $h'<0$ on $(0,+\infty)$ and $\nabla g \neq 0$ outside the origin. Therefore, \eqref{eq:hp-f-talenti} is met.
+%
+Further, it is immediate that all superlevel sets of $f$ are of the form in~\eqref{eq:balls-iso} so that: condition~\eqref{eq:hp-f-mu-talenti} holds, having asked $\mu$ to be locally finite; condition~\ref{item:superlevelsets-f} holds, having assumed the one-parameter family $\{\,B_r(0) \cap X\,\}_r$ to be isoperimetric.
+%
+Finally, condition~\ref{item:steepest-descent} is met, since the lines of the steepest descent are rays exiting the origin, being $f$ radial.
+
+\subsubsection{Standard Lebesgue measure}
+\label{sec:euclidean}
+
+The standard Lebesgue measure falls under the above assumptions. It corresponds, up to a multiplicative prefactor, to the choices
+%
+\[
+X=\mathbb{R}^N 
+\qquad\text{and}\qquad
+W(x)\equiv c \text{ with } c\in\mathbb{R}.
+\]
+%
+The classic isoperimetric inequality has been the object of extensive studies in the 20th century, eventually fully solved by De Giorgi, refer for instance to the book~\cite{Mag12book} for a proof of~\eqref{eq:iso-balls} in this setting.
+%
+
+The corresponding Faber--Krahn inequality had been proved independently by Faber~\cite{Fab23} and Krahn~\cite{Kra25}, whereas the corresponding Saint-Venant inequality by P\'olya~\cite{Pol48}, both relying on the \emph{Schwarz symmetrization}~\cite{HL30,Sch90book}. Such a symmetrization is a special case of the one of \cref{sec:symmetrization}.
+
+
+\subsubsection{Radial log-convex measures}
+
+A measure $\mu = e^W\mathcal{L}^N$ is said to be \emph{log-convex} if the potential $W$ is convex. A long-standing conjecture asserted that if $W$, besides being convex, is smooth and radial, then balls centered at the origin are isoperimetric sets, that is,~\eqref{eq:iso-balls} holds with $X=\mathbb{R}^N$. This has been positively settled in~\cite{Cha19}. Choosing then $X=\mathbb{R}^N$ and $W(x)$ satisfying the above properties yields the corresponding Faber--Krahn and Saint-Venant inequalities. The former has been recently proved in~\cite[Thm.~1.1]{CM25} and~\cite[Sect.~7.1]{NV25}.
+
+\subsubsection{Convex cones and homogeneous densities}
+\label{sec:CROS}
+
+Let $X\subset \mathbb{R}^N$ be an open and convex cone with vertex at the origin. If the potential $W$ is constant, \emph{i.e.}, the measure $\mu$ is the Lebesgue measure up to a prefactor, the relative isoperimetric inequality~\eqref{eq:iso-balls} was first proved in~\cite{LP90}. Thus, the Faber--Krahn and Saint-Venant inequalities follow in this case. 
+
+Relative weighted isoperimetric inequalities in open and convex cones with vertex at the origin---different from the whole space or a half-space---have also been proved in~\cite[Thm.~1.3]{CROS16}, under suitable assumptions on the density function $w=e^{W}$. Specifically, the density needs to be: continuous up to the boundary of $X$; positively homogeneous of degree $\alpha\ge 0$; and such that $w^{1/\alpha}$ is concave, if $\alpha>0$. Hence, the Faber--Krahn and Saint-Venant inequalities follow when the above assumptions are met.
+
+In particular, we refer to~\cite[Sect.~2]{CROS16} for several choices of $X$ and of $w$ which fall within these hypotheses. We here only recall the case~\cite[Sect.~2(iv)]{CROS16}, \emph{i.e.}, 
+%
+\[
+W(x) = \log\left(\prod_{i=1}^k x_i^{\alpha_i}\right),
+\]
+%
+with $\alpha_i > 0$ and $X=\{\,x\in\mathbb{R}^N\,:\, x_i>0,\, \forall i=1,\dots,k\,\}$, which leads to the density
+%
+\[
+w = e^W = \prod_{i=1}^k x_i^{\alpha_i}.
+\]
+%
+When $k=N$, one usually refers to such a density as to a \emph{monomial weight}.
+
+A Faber--Krahn inequality has been proved in the case $N=2$ and $k=1$, for the standard Laplacian ($p=2$) in~\cite{MS81}.
+
+\subsection{Isoperimetric sets are half-spaces}
+%
+Suppose the ambient space $X$ is either an open slab, a half-space, or all of $\Rn$; that is, $X=\R^{N-1}\times(a,b)$ with $a, b \in [-\infty, +\infty]$ and $a < b$. Let $\mu$ be a finite measure on $X$ so that~\eqref{eq:hp-f-mu-talenti} is satisfied, independently of $f$. Given a direction $\nu \in \mathbb{S}^{N-1}$ we consider the one-parameter family of half-spaces $\{\,H_r(\nu)\,:\, r\in\mathbb{R}\,\}$, where
+%
+\[
+H_r(\nu)=\{\, x \in \R^{N}\,:\,\langle x,\nu\rangle>r\,\}.
+\]
+%
+Assume there exists a direction $\theta$ such that the family $\{H_r(\theta)\cap X\}_r$ is such that for all $m\in(0,\mu(X))$, there exists $r=r(m)$ with $\mu(H_r(\theta)\cap X)=m$ such that
+%
+\begin{equation}
+\label{eq:iso-half-spaces}
+\Per_\mu (H_r(\theta)\cap X; X) \le \Per_\mu(\Omega; X),
+\qquad \forall \Omega\subset X
+\text{ with $\mu(\Omega)=m$,}
+\end{equation}
+%
+that is, request~\ref{item:isoperimetrica} of \cref{thm:talenti} holds with
+%
+\[
+q(m) = \Per_\mu(H_{r(m)}(\theta)\cap X; X).
+\]
+%
+Given $h:\R\to (0,1)$ any smooth, strictly increasing map with $\inf h=0$ and $\sup h=1$, we let 
+%
+\begin{equation}\label{eq:def-f-halfspaces}
+f_{\theta}(x)=h(\langle x,\theta\rangle), \qquad \forall x \in X.
+\end{equation}
+%
+Trivially: $f_{\theta}$ is smooth; $\inf f_{\theta}=0$; $\sup f_{\theta} =1$; and $\nabla f_{\theta} \neq 0$, since we have $\nabla f_{\theta}=h'(\langle x,\theta \rangle )\theta$ with $h'>0$ in $\R$. Therefore, assumption~\eqref{eq:hp-f-talenti} is met. 
+
+By construction, the superlevel sets of $f_{\theta}$ are precisely half-spaces orthogonal to $\theta$, intersected with $X$:
+%
+\[
+\{\, x \in X\,:\,f_{\theta}(x)>t\,\}
+=
+\{\, x \in X\,:\,\langle x,\theta\rangle>h^{-1}(t)\,\}=H_{h^{-1}(t)}(\theta)\cap X.
+\]
+%
+This, combined with our hypothesis on $\{H_r(\theta)\cap X\}_{r}$, guarantees condition~\ref{item:superlevelsets-f} to be satisfied. Lastly, the lines of steepest descent are straight lines parallel to $\theta$, hence also condition~\ref{item:steepest-descent} holds.
+
+\subsubsection{Standard Gaussian measure}
+\label{sec:gaussian}
+
+The Gaussian setting is the first instance that comes to mind where half-spaces are the isoperimetric sets. It corresponds, up to a multiplicative prefactor, to the choices
+%
+\begin{equation}
+\label{eq:std-gaussian}
+X=\Rn
+\qquad\text{and}\qquad 
+W(x) = -\frac{\|x\|^2}{2},
+\end{equation}
+%
+that is, the Euclidean space weighted by $e^{-\|x\|^2/2}$.
+
+The celebrated Gaussian isoperimetric inequality, independently proved by Borell~\cite{Bor75} and Sudakov--Cirel'son~\cite{SC74}, guarantees the validity of~\eqref{eq:iso-half-spaces} for any choice of $\theta$.
+
+The associated Faber--Krahn inequality has been proved in~\cite[Thm.~4.7]{Ehr84}, whereas the Saint-Venant inequality is proved in~\cite[Prop.~5.6]{Liv24} for $p=2$ (for general $p$ it is mentioned in~\cite[Thm.~2.3]{CFMW26}). Their proofs rely on the so called \emph{Ehrhard symmetrization}~\cite{Ehr83}. Within our framework, Ehrhard's construction is exactly equivalent to the $(\mu,f_\theta)$-Talenti symmetrization on $X=\Rn$, provided $f_\theta$ is defined according to~\eqref{eq:def-f-halfspaces} for an arbitrary unit direction $\theta$. For completeness, we mention that in~\cite[Cor.~1.5]{CFLS-in-press} (for $p=2$) and~\cite[Cor.~1.4]{CQS26} (for general $p$), a Faber--Krahn inequality under a  \emph{mean width constraint} (rather than a measure constraint) has been proved in the Gaussian setting: balls centered at the origin are optimal.  While seemingly surprising, note that the mean width is measure-independent (and that half-spaces have infinite mean width!).
+
+\subsubsection{Anisotropic Gaussian measures}
+\label{sec:gauss-ani}
+
+The anisotropic Gaussian space is a modification of the setting presented above. It still corresponds to choosing $X=\Rn$, but we now equip it with an anisotropic Gaussian measure, that is, in place of the usual Euclidean norm appearing in~\eqref{eq:std-gaussian}, we use an anisotropic one, namely,
+%
+\[
+W(x)=-\frac{\langle Ax,x\rangle}{2},
+\]
+%
+where $A$ is a symmetric and positive-definite matrix. Clearly, if $A=\mathrm{Id}_N$, we recover the isotropic setting discussed previously. This space can be interpreted as the Gaussian one where certain directions carry more weight than others; thus, one would expect isoperimetric sets to be half-spaces oriented along specific directions. This has been proved by Yeh~\cite[Thm.~1.1]{Yeh24}: the isoperimetric inequality~\eqref{eq:iso-half-spaces} holds, suitably choosing $\theta$ as any direction in the eigenspace corresponding to the smallest eigenvalue of $\sqrt{A}$.
+
+Therefore, by employing the $(\mu,f_\theta)$-Talenti symmetrization on $X=\Rn$ with respect to the function $f_\theta$ from~\eqref{eq:def-f-halfspaces}, we immediately recover the Faber--Krahn and Saint-Venant inequalities.
+
+\subsubsection{Concave \texorpdfstring{$1$}{1}d-perturbations of the Gaussian measure}
+\label{sec:gauss-perturbed}
+
+A log-con\-cave one-dimensional perturbation of the Gaussian measure on $\Rn$, up to an isometry, is a measure of type~\eqref{eq:measures} with potential
+%
+\[
+W(x)=\varphi(\pi_N(x))-c\|x\|^2,
+\]
+%
+where $\varphi$ is a smooth concave function, $\pi_N$ denotes the projection onto the vertical axis, and $c$ is a positive constant. Clearly, if $\varphi$ is constant, choosing $c=1/2$, we recover the standard Gaussian measure.
+
+As established in~\cite[Thm.~5.10]{Ros14}, the nature of the isoperimetric sets depends on $\varphi$:
+%
+\begin{enumerate}[label=(\roman*)]
+    \item if $\varphi$ is an affine function, then isoperimetric sets are half-spaces $H_r(\nu)$ oriented along any arbitrary direction $\nu$;
+    \item if $\varphi$ is not affine, then isoperimetric sets are exclusively vertical half-spaces, meaning they are of the form $H_r(\theta)$ with $\langle \theta,e_N\rangle=0$.
+\end{enumerate}
+%
+Consequently, by applying the $(\mu,f_\theta)$-Talenti symmetrization on the space $X=\Rn$ with an appropriately chosen direction $\theta$, we successfully recover the Faber--Krahn and Saint-Venant inequalities. We mention that one can drop the smoothness assumption on $\varphi$, with the caveat that then one needs to take as family of isoperimetric sets vertical half-spaces, \emph{i.e.}, as in point~(ii) above, see~\cite[Thm.~5.13]{Ros14}.
+
+This result can be extended to the cases where the ambient space is a slab or a half-space of the form $X=\R^{N-1}\times (a,b)$, equipped with the same log-concave perturbed Gaussian measure. In this framework, provided $\varphi$ is concave (and possibly non-smooth) on $(a,b)$, the isoperimetric sets of any given volume are precisely the intersections of $X$ with vertical half-spaces $H_r(\theta)$ (see~\cite[Thm.~5.12]{Ros14}). Therefore, we can apply the theory developed above in the space $X=\R^{N-1}\times(a,b)$ with $f_\theta$ described in~\eqref{eq:def-f-halfspaces} to establish that the Faber--Krahn and Saint-Venant inequalities also holds in this restricted setting. For completeness, we point out to~\cite[Thm.~3.1]{BCM08}, where a P\'olya--Szeg\H{o} principle has been proved in this framework for the choices $X=\mathbb{R}^{N-1}\times (0,+\infty)$ and $\varphi(t)=k \log(t)$ with $k\ge 0$.
+
+\section{Future directions}
+\label{sec:future}
+
+%
+\subsection{Kohler-Jobin inequality}
+\label{ssec:kj-ineq}
+%
+In the Euclidean setting of \cref{sec:euclidean}, P\'olya conjectured that the ball minimizes the first eigenvalue of the Dirichlet $p$-Laplacian among sets of given $p$-torsional rigidity, that is,
+%
+\begin{equation}
+\label{eq:kj-ineq}
+\lambda_{1,p} (B) \le \lambda_{1,p} (\Omega), \qquad \forall \Omega\subset \mathbb{R}^N \text{ with } T_p(\Omega)=T_p(B).
+\end{equation}
+%
+This inequality is named after Kohler-Jobin who first proved it for $p=2$ in~\cite{KJ78,KJ82}, whereas for general $p$ was proved much later in~\cite{Bra14}. 
+It can be thought of as a strenghtning of the Faber--Krahn inequality, as the measure constraint is weaker than the torsional one. Indeed, due to the rescaling properties of the first Dirichlet $p$-eigenvalue and of the $p$-torsional rigidity, one can relax the constraint in~\eqref{eq:kj-ineq} to $T_p(\Omega)\le T_p(B)$. Then, the Faber--Krahn easily follows from the Saint-Venant and Kohler-Jobin inequalities.
+
+The proofs of~\eqref{eq:kj-ineq} given in~\cite{Bra14,KJ78,KJ82} exploit a sophisticated rearrangement, called \emph{Dirichlet transplantation}, which ports to the \emph{anisotropic} setting~\cite[Sect.~6]{Bra14} but not the \emph{weighted} one we are concerned with.
+
+The only other setting, where the weighted analog of~\eqref{eq:kj-ineq} has been proved, is the standard Gaussian one of \cref{sec:gaussian}. This has been recently settled in~\cite{HL24} for $p=2$ with an argument substantially different from the Euclidean one. The inequality has then been extended to general $p$ in~\cite{CFMW26}, with a more general method---still tailored to the Gaussian space though---which lacks the ability to completely characterize cases of the equality.
+
+The techniques used in the Euclidean and Gaussian settings are highly dependent on the underlying ambient and there is no clear all-rounder method. Nevertheless, it is natural to wonder whether one can still prove the weighted analog of~\eqref{eq:kj-ineq} in each of the settings discussed in \cref{sec:examples} with ad hoc methods. Of course, it would be desirable to come up with an abstract new route---\`a la \cref{thm:talenti}---which applies to all settings presented in \cref{sec:examples}.
+
+\subsection{Boosted \texorpdfstring{P\'olya--Szeg\H{o}}{Polya--Szego} principle}
+\label{ssec:boosted}
+%
+The abstract framework presented here naturally lends itself to stability questions. Suppose that, in place of the classical (relative) isoperimetric inequality required in \cref{thm:talenti}~\ref{item:isoperimetrica}, one has a quantitative version, \emph{i.e.},
+%
+\[
+q(\mu(\Omega))\bigl(1+c(\mu(\Omega)) \alpha_\mu^\beta(\Omega)\bigr) \le \Per_\mu(\Omega; X),
+\quad \text{for all Borel subsets } \Omega\subset X;
+\]
+%
+where $\alpha_\mu(\,\cdot\,)$ is the $\mu$-Fraenkel asymmetry index (with respect to the measure $\mu$ and the corresponding isoperimetric sets), $\beta$ a positive constant, and $c$ a function, depending on, at most, $\mu(\Omega)$. Would one be able to prove a boosted P\'olya--Szeg\H{o} principle as in~\cite[Lem.~7.10]{BDP17}, which deals with the Euclidean case? Then, following ideas from Hansen--Nadirashvili~\cite{HN94}, one could derive a (non-sharp) quantitative Faber--Krahn inequality as in~\cite[Thm.~7.11]{BDP17}.
+
+Apart from the above-mentioned Euclidean case, this route has been successfully followed in the standard Gaussian case~\cite{CCLMP24}, so that we expect it to be portable to this abstract setting. This would lead to proving a quantitative Faber--Krahn inequality in the setting covered in \cref{sec:CROS}, since a quantitative inequality is available, refer to~\cite{CFPROS22}.
+
+Finally, it is worth noting that, in order to get the sharp quantitative inequality, in the Euclidean case one reduces first to prove a quantitative version of Saint-Venant inequality~\cite[Thm.~7.20]{BDP17}, then exploits the relevant Kohler-Jobin inequality, which we briefly touched upon in \cref{ssec:kj-ineq}.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% BIBLIO %%%
+\bibliographystyle{plainurl} %not w/amsrefs or bibtex
+\bibliography{fk-type-ineq-wittens} %amsrefs
+%\emergencystretch=1em
+%\printbibliography
+
+\end{document}

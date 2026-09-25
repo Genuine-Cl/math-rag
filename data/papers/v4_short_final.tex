@@ -1,0 +1,1825 @@
+\documentclass[10pt,reqno]{amsart}
+
+%% ── Packages ──────────────────────────────────────────────────────────────────
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\usepackage{biblatex}
+\addbibresource{bib.bib}
+
+
+%% ── Theorem environments ──────────────────────────────────────────────────────
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+
+%% ── Macros ────────────────────────────────────────────────────────────────────
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Ric}{\operatorname{Ric}}
+\newcommand{\Inj}{\operatorname{Inj}}
+\newcommand{\Vol}{\operatorname{Vol}}
+\newcommand{\vol}{\operatorname{vol}}
+\newcommand{\diam}{\operatorname{diam}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\dist}{d}
+\newcommand{\mm}{\mathrm{MM}}
+
+% Weighted norms and forms
+\newcommand{\normw}[1]{\lVert #1 \rVert_{w}}
+\newcommand{\norml}[1]{\lVert #1 \rVert_{L^{2}}}
+\newcommand{\normell}[1]{\lVert #1 \rVert_{\ell^{2}}}
+\newcommand{\DD}{\mathcal{D}}
+\newcommand{\Rw}{R_{w}}
+
+% Space form volume
+\newcommand{\Vk}{V_{-\kappa}}
+
+% Balls
+\newcommand{\B}[2]{B(#1,\,#2)}
+\newcommand{\Sec}{\operatorname{Sec}}
+
+%% ── Title block ───────────────────────────────────────────────────────────────
+\begin{document}
+\title{\textbf{A Weighted Discretization of Riemannian Manifolds with Lower Ricci Bounds}}
+\author{Aditya Tiwari}
+\address{Department of Mathematical Sciences, Indian Institute of Science Education
+and Research Mohali, Sector 81, SAS Nagar, Punjab, 140306, India.}
+\email{adityatiwari@iisermohali.ac.in}
+
+\begin{abstract}
+Let $(M,g)$ be a connected compact $n$-dimensional Riemannian manifold
+with $\Ric(M,g)\geq-(n-1)\kappa g$. We introduce a weighted combinatorial Laplacian on $\varepsilon$-discretizations of $M$ and prove a spectral comparison theorem between the weighted graph Laplacian and the Laplace--Beltrami operator. More precisely, the eigenvalues of the two operators are uniformly comparable with constants depending only on $n,\kappa,\varepsilon$,
+independently of the injectivity radius. As an application, we prove spectral stability under measured Gromov--Hausdorff convergence. We also recover the Schoen--Wolpert--Yau inequality using the weighted discretization on families of pinching genus-$2$ hyperbolic surfaces.
+\end{abstract}
+
+\subjclass[2020]{Primary 58J50; Secondary 53C23, 05C50, 53C20}
+\keywords{Laplacian eigenvalues, discretization, weighted graph, Ricci curvature}
+\maketitle
+
+%% ════════════════════════════════════════════════════════════════════════════
+\section{Introduction}
+\label{sec:intro}
+The study of the eigenspectrum of the Laplacian has been central to
+spectral geometry. Since explicit computation is typically intractable,
+a natural strategy is to discretize the manifold by a suitable graph,
+such as one constructed from a maximal $\varepsilon$-separated set
+$V\subset M$: namely, the finite graph $X=(V,E)$ with $\{p,q\}\in E$
+whenever $d(p,q)<3\varepsilon$, and then ask whether the two spectra
+are comparable. The discretized graph $X$ carries a combinatorial
+Laplacian whose eigenvalues $\lambda_k(X)$ one hopes to compare,
+uniformly over a geometric class of manifolds, with the eigenvalues
+$\lambda_k(M)$ of the Laplacian on $M$. 
+
+Kanai~\cite{Kanai1985,Kanai1986} studied manifolds of \emph{bounded
+geometry} ($\Ric\geq-(n-1)\kappa g$ together with $\Inj\geq r_0>0$)
+and showed that rough isometries preserve qualitative analytic
+properties such as the positivity of the isoperimetric constants and volume growth rates. Under
+the same bounded-geometry assumptions, Mantuano~\cite{Mantuano2005}
+proved the sharp two-sided comparison
+\[
+  c\,\lambda_k(M)\leq\lambda_k(X)\leq C\,\lambda_k(M)
+\]
+for all $k<|X|$, where the constants depend only on the geometric
+class. Fujiwara~\cite{Fujiwara1995} obtained a comparison without
+curvature or injectivity assumptions, but with constants depending on
+the individual manifold rather than uniformly on the class. Burago,
+Ivanov, and Kurylev~\cite{BuragoIvanovKurylev2014} established the
+convergence $\lambda_k(X)\to\lambda_k(M)$ as $\varepsilon\to 0$, under
+the substantially stronger assumption of two-sided sectional curvature
+bounds and positive injectivity radius.
+
+However, no prior result achieves a uniform two-sided comparison under
+a Ricci lower bound alone, with constants depending only on the
+ geometric class. 
+% In a different direction, the convergence theory for
+% Ricci limit spaces and RCD spaces, developed by Cheeger and
+% Colding~\cite{CheegerColding2000} in the non-collapsing setting and
+% extended by Gigli, Mondino, and
+% Savar\'e~\cite{GigliMondinoSavare2015}, addresses the spectral
+% behavior of limit spaces rather than uniform discretization, while
+% related coarse-geometric stability results for weighted graphs trace
+% back to Coulhon and Saloff-Coste~\cite{CoulhonSaloffCoste1993} in
+% their work on isoperimetric inequalities.
+
+We replace the standard combinatorial Laplacian with a weighted
+version in which vertices carry their local volume. For an
+$\varepsilon$-discretization $X=(V,E)$ of $(M,g)$, assign to each
+vertex $p$ the weight $w(p)=\Vol(\B{p}{\varepsilon})$, recording how
+much volume of $M$ concentrates near $p$, and to each edge
+$\{p,q\}\in E$ the weight $\mu(p,q)=\min(w(p),w(q))$. The
+\emph{weighted combinatorial Laplacian} is
+\[
+  (\Delta_w f)(p)
+  \;=\;
+  \frac{1}{w(p)}\sum_{q\sim p}\mu(p,q)\bigl(f(p)-f(q)\bigr),
+\]
+with Dirichlet form $\DD(f,f)=\sum_{\{p,q\}\in E}\mu(p,q)|f(p)-f(q)|^2$
+and weighted Rayleigh quotient $\Rw(f)=\DD(f,f)/\normw{f}^2$, where
+$\normw{f}^2=\sum_{p\in V}f(p)^2w(p)$. Weighting by $w(p)$ replaces
+the role of local charts in regions where $w(p)$ is
+small. Every term in the Rayleigh quotient is rescaled accordingly,
+maintaining uniform control even in regions of small volume. This idea
+was identified in Mantuano's thesis~\cite{MantuanoThesis} following a
+suggestion of G.~Carron; we develop it systematically.
+
+\begin{theorem}[Main theorem]
+\label{thm:main}
+Let $n\geq 2$, $\kappa\geq 0$, $\varepsilon>0$. There exist constants
+$c_1,c_2>0$ depending only on $n,\kappa,\varepsilon$ such that for
+every connected compact $n$-dimensional Riemannian manifold $(M,g)$
+with $\Ric(M,g)\geq-(n-1)\kappa g$, and every
+$\varepsilon$-discretization $X$,
+\[
+  c_1\,\lambda_k(X)\;\leq\;\lambda_k(M)\;\leq\;c_2\,\lambda_k(X)
+  \qquad\text{for all }k<|X|.
+\]
+The constants are independent of $M$, of $\Inj(M)$, and of $k$.
+\end{theorem}
+
+The proof of the main theorem rests on two analytic ingredients, both available under
+$\Ric\geq-(n-1)\kappa g$ alone. First, the local Poincar\'e inequality of
+Saloff-Coste~\cite{SaloffCoste1992}, which holds on every geodesic
+ball with a constant $C_P=C_P(n,\kappa)$ and replaces the chart-based
+estimates that the injectivity radius previously enabled. Second,
+the Bishop--Gromov volume comparison theorem, which controls both the
+degree of the discretization graph and the comparability of adjacent
+vertex weights. The argument is driven entirely by volume doubling and
+a $(2,2)$-Poincar\'e inequality. In future work, we plan to
+investigate whether this allows the result to extend beyond the
+Riemannian setting.
+
+When $\Inj(M)\geq r_0>0$, Bishop--Gromov gives two-sided bounds on
+the vertex weights and $\Delta_w$ becomes spectrally equivalent to the
+unweighted combinatorial Laplacian, so Theorem~\ref{thm:main} recovers
+\cite[Theorem~3.7]{Mantuano2005}. When $\Inj(M)$ is small or
+approaches zero (through pinching of hyperbolic surfaces, Berger-type
+collapse, or other degenerations), the vertex weights adapt to the
+local volume and maintain spectral control where the standard
+Laplacian fails. We illustrate this on pinching families of genus-$2$ hyperbolic
+surfaces, on which the weighted graph detects the
+Schoen-Wolpert-Yau dichotomy intrinsically.
+
+\begin{proposition}
+\label{prop:intro-swy}
+Fix $r_0>0$, and let $\{\Sigma_\ell\}$ be a family of closed
+hyperbolic surfaces of genus~$2$, each carrying a simple closed
+geodesic $\gamma_\ell$ of length $\ell\to0$, such that
+\begin{equation}
+\label{eq:intro-thick}
+  \Inj_{\Sigma_\ell}(x)\;\geq\;r_0
+  \qquad\text{for every }x\in\Sigma_\ell\setminus\mathcal C(\gamma_\ell),
+\end{equation}
+where $\mathcal C(\gamma_\ell)$ is the collar of $\gamma_\ell$ given by
+the Collar Lemma. Then there exists $\varepsilon_0(r_0)>0$ such that for every fixed
+$\varepsilon\in(0,\varepsilon_0)$ there are constants $c_1,c_2,c_3>0$,
+depending only on $r_0,\varepsilon$ and in particular independent
+of~$\ell$, such that every $\varepsilon$-discretization $X_\ell$ of
+$\Sigma_\ell$ satisfies
+\[
+c_1\,\ell \;\leq\; \lambda_1(X_\ell) \;\leq\; c_2\,\ell
+\quad\text{when $\gamma_\ell$ separates},
+\qquad
+\lambda_1(X_\ell) \;\geq\; c_3
+\quad\text{when $\gamma_\ell$ is non-separating.}
+\]
+\end{proposition}
+
+\begin{remark}
+\label{rem:scope}
+Hypothesis~\eqref{eq:intro-thick} ensures that the degeneration occurs
+only along $\gamma_\ell$, and is essential. Indeed, if a second simple
+closed geodesic, disjoint from and not freely homotopic to
+$\gamma_\ell$, is allowed to shrink simultaneously, then
+$\lambda_1\to0$ may occur even when $\gamma_\ell$ is non-separating.
+Such families violate~\eqref{eq:thick-inj}, since the additional short
+geodesic eventually lies outside $\mathcal C(\gamma_\ell)$.
+\end{remark}
+
+Proposition~\ref{prop:intro-swy} is proved in
+\S\ref{sec:examples}. Combined
+with Theorem~\ref{thm:main}, it recovers the Schoen-Wolpert-Yau
+inequality~\cite{SchoenWolpertYau1980} on such families:
+
+\begin{corollary}
+\label{cor:intro-swy}
+With $r_0,\varepsilon$ as in Proposition~\ref{prop:intro-swy}, there
+exist constants $C_1,C_2,C_3>0$ depending only on $r_0,\varepsilon$
+such that
+\[
+C_1\,\ell \;\le\; \lambda_1(\Sigma_\ell) \;\le\; C_2\,\ell
+\quad\text{when $\gamma_\ell$ separates},
+\qquad
+\lambda_1(\Sigma_\ell) \;\ge\; C_3
+\quad\text{when $\gamma_\ell$ is non-separating.}
+\]
+\end{corollary}
+
+A direct corollary of Theorem~\ref{thm:main} is a uniform spectral
+comparison along a tower $\{M_i\}_{i\geq1}$ of finite-sheeted
+Riemannian coverings of $M$, with constants depending only on
+$n,\kappa,\varepsilon$ and uniform in $i$. For $k=1$ and towers
+arising from normal subgroup sequences, this recovers
+Brooks'~\cite{Brooks1986} correspondence between spectral gaps and
+Cheeger constants of Schreier graphs, without his integral geometry on
+fundamental-domain boundaries; see 
+\S\ref{subsec:tower}.
+
+Example~\ref{ex:torus} shows that the $\varepsilon$-dependence of the
+constants $c_1(\varepsilon)\sim\varepsilon^2$ and
+$c_2(\varepsilon)\sim\varepsilon^{-2}$ is sharp, via a direct Fourier
+computation on the flat torus.
+
+We also prove the following stability theorem under
+measured Gromov-Hausdorff (mGH) convergence. Restricted to the
+same-dimensional setting of Mantuano's Theorem~5.1~\cite{Mantuano2005}
+(she also treats a dimension-dropping collapse, which we do not), our
+result improves hers by weakening the injectivity radius hypothesis
+to non-collapsing.
+
+\begin{theorem}
+\label{thm:mGH}
+Let $(M,g_M)$ and $(N,g_N)$ be compact Riemannian $n$-manifolds with
+$\Ric\geq-(n-1)\kappa g$, equipped with their volume measures. Fix
+$\varepsilon>0$, $v_0>0$, and $\eta\in(0,\varepsilon/2)$, and assume
+\begin{enumerate}[label=(\roman*)]
+\item $\Vol(\B{p}{\varepsilon})\geq v_0$ for all $p\in M\cup N$
+  (uniform non-collapsing at scale $\varepsilon$);
+\item $d_{\mathrm{mGH}}(M,N)<\eta$.
+\end{enumerate}
+Then there exist constants $c,C>0$ depending only on
+$n,\kappa,\varepsilon,v_0,\eta$ such that
+\[
+  c\,\lambda_k(M)\;\leq\;\lambda_k(N)\;\leq\;C\,\lambda_k(M)
+  \qquad\text{for all }k<\min(|X_M|,|X_N|),
+\]
+where $X_M,X_N$ are any $\varepsilon$-discretizations of $M,N$.
+\end{theorem}
+
+Mantuano's example in~\cite[\S6]{Mantuano2005} establishing the
+necessity of the injectivity radius hypothesis in her Theorem~5.1 is
+specifically a comparison between a collapsing family $\{M_\delta\}$
+and the circle $S_\delta$ of strictly lower Hausdorff dimension to
+which it converges; it is this dimension drop that drives the spectral
+divergence. The family itself satisfies
+$\Ric(M_\delta,g_\delta)\geq-3g_\delta$ uniformly in~$\delta$, so
+Theorem~\ref{thm:main} applies to it with $\kappa=3$: the
+manifold--graph comparison survives a collapse under which the
+manifold--limit comparison fails. No analogous
+counterexample is known in the same-dimensional setting. In the
+non-collapsed regime, Cheeger--Colding~\cite{CheegerColding2000}
+proved that eigenvalues vary continuously under measured
+Gromov--Hausdorff convergence whenever $\Ric\geq-(n-1)\kappa g$. By
+contrast, in the collapsing same-dimensional setting the question of
+whether a uniform two-sided comparison can hold without an absolute
+volume lower bound has not previously been addressed at the level of
+weighted graph discretizations.
+
+As a corollary of our proof of Theorem~\ref{thm:mGH}, we show that the
+non-collapsing hypothesis $\Vol(\B{p}{\varepsilon})\geq v_0$ can be
+replaced by the strictly weaker condition that the local volumes of $M$
+and $N$ are \emph{mutually comparable} at scale~$\varepsilon$. Here we
+write $A\asymp B$ to mean $c^{-1}B\leq A\leq cB$ for a constant $c$
+depending only on the admissible parameters. This assumption is natural
+for two manifolds collapsing at the same rate. For instance, two members
+$M_{\delta_1}, M_{\delta_2}$ of a collapsing family with
+$\delta_1 \asymp \delta_2$ satisfy it even though no uniform $v_0$
+exists; see Corollary~\ref{cor:relative-noncollapsing}. 
+ % We note that the recent work of Inagaki~\cite{Inagaki2025}, working in a
+% probabilistic framework with random graph Laplacians, also removes the injectivity radius bound under a
+% positive total volume hypothesis; our results are complementary, as
+% we work with deterministic discretizations, obtain uniform
+% non-probabilistic constants, and address two-manifold spectral
+% stability which Inagaki does not consider.
+
+\medskip
+\noindent\textbf{Organisation.}
+Section~\ref{sec:setup} defines weighted discretizations and
+establishes the Bishop--Gromov degree and weight estimates.
+Section~\ref{sec:operators} constructs the smoothing and
+discretization operators and proves their $L^2$ and Dirichlet form
+estimates. Section~\ref{sec:main} proves Theorem~\ref{thm:main},
+separates small and large eigenvalue regimes, and closes with the
+flat-torus sharpness example and the tower-of-coverings corollary.
+Section~\ref{sec:applications} proves Theorem~\ref{thm:mGH} and
+Corollary~\ref{cor:relative-noncollapsing} via a weighted
+rough-isometry theorem for graphs. Section~\ref{sec:examples} applies the
+framework to pinching families of hyperbolic surfaces, recovering the
+Schoen--Wolpert--Yau inequality.
+
+%% ════════════════════════════════════════════════════════════════════════════
+\section{Weighted Discretizations}
+\label{sec:setup}
+
+Throughout, $(M,g)$ denotes a connected compact Riemannian $n$-manifold,
+$n\geq 2$, with
+\begin{equation}
+\label{eq:ricci}
+  \Ric(M,g)\;\geq\;-(n-1)\kappa\,g,
+  \qquad\kappa\geq 0.
+\end{equation}
+We fix $\varepsilon>0$ once and for all; all constants may depend on
+$n,\kappa,\varepsilon$ but on nothing else.
+We write $\B{p}{r}$ for the open geodesic ball of radius $r$ centred at
+$p\in M$, $d(\cdot,\cdot)$ for the Riemannian distance, and $dV$ for the
+Riemannian volume form.
+The space-form volume function $\Vk(r)$ denotes the volume of a geodesic
+ball of radius $r$ in the simply connected $n$-dimensional space form of
+constant sectional curvature $-\kappa$.
+
+\begin{definition}
+\label{def:disc}
+An \emph{$\varepsilon$-discretization} of $M$ is a finite graph $X=(V,E)$
+where $V\subset M$ is a maximal $\varepsilon$-separated subset
+(i.e.\ $d(v,w)\geq\varepsilon$ for all distinct $v,w\in V$, and
+$\bigcup_{v\in V}\B{v}{\varepsilon}=M$) and
+\[
+  \{p,q\}\in E
+  \;\iff\;
+  0<d(p,q)<3\varepsilon.
+\]
+We write $|X|$ for the cardinality of $V$.
+\end{definition}
+
+
+\begin{definition}
+\label{def:weights}
+For an $\varepsilon$-discretization $X=(V,E)$ of $M$, define
+\begin{align*}
+  w(p) &\;=\; \Vol\bigl(\B{p}{\varepsilon}\bigr),
+  \qquad p\in V,\\
+  \mu(p,q) &\;=\; \min\bigl(w(p),w(q)\bigr),
+  \qquad \{p,q\}\in E.
+\end{align*}
+The associated \emph{weighted inner product} on $\ell^2(V,w)$ is
+$\langle f,g\rangle_w = \sum_{p\in V}f(p)g(p)w(p)$,
+and the \emph{weighted Dirichlet form} is
+\[
+  \DD(f,f)
+  \;=\;
+  \sum_{\{p,q\}\in E}|f(p)-f(q)|^2\,\mu(p,q).
+\]
+The \emph{weighted combinatorial Laplacian} $\Delta_w$ is the unique
+self-adjoint operator on $\ell^2(V,w)$ satisfying
+$\langle\Delta_w f,g\rangle_w = \DD(f,g)$ for all $f,g:V\to\R$.
+Explicitly,
+\[
+  (\Delta_w f)(p)
+  \;=\;
+  \frac{1}{w(p)}\sum_{q\sim p}\mu(p,q)\bigl(f(p)-f(q)\bigr).
+\]
+Its spectrum $0=\lambda_0(X)\leq\lambda_1(X)\leq\cdots\leq\lambda_{|X|-1}(X)$
+satisfies
+\[
+  \lambda_k(X)
+  \;=\;
+  \inf_{W\in\mathcal{E}_{k+1}}
+  \sup_{f\in W\setminus\{0\}}\Rw(f),
+  \qquad
+  \Rw(f)=\frac{\DD(f,f)}{\normw{f}^2},
+\]
+where $\mathcal{E}_{k+1}$ denotes the collection of all $(k+1)$-dimensional
+subspaces of $\ell^2(V,w)$.
+\end{definition}
+
+\begin{remark}
+\label{rem:quadform}
+By direct computation, $\langle\Delta_w f,f\rangle_w = \DD(f,f)$ for all
+$f:V\to\R$. Consequently, if $f$ belongs to the span of the first $k+1$
+eigenfunctions of $\Delta_w$, then
+$\DD(f,f)\leq\lambda_k(X)\normw{f}^2$.
+\end{remark}
+
+
+In the following lemma, we use the Bishop--Gromov volume comparison theorem to establish estimates required later in the proof.  
+
+\begin{lemma}
+\label{lem:BG}
+Under \eqref{eq:ricci}, define the \emph{doubling constant}
+\[
+  C_d \;=\; \frac{\Vk(4\varepsilon)}{\Vk(\varepsilon)}.
+\]
+\begin{enumerate}[label=(\roman*)]
+\item\label{it:degree}
+Every vertex $v\in V$ has at most
+$N = \bigl[\Vk(7\varepsilon/2)/\Vk(\varepsilon/2)\bigr]^2$
+neighbours.
+\item\label{it:comp}
+For every edge $\{p,q\}\in E$,
+$C_d^{-1}\leq w(p)/w(q)\leq C_d$,
+and hence $C_d^{-1}w(p)\leq\mu(p,q)\leq w(p)$.
+\item\label{it:Rw}
+$\Rw(f)\leq 2N$ for every nonzero $f:V\to\R$.
+\end{enumerate}
+The constants $N$ and $C_d$ depend only on $n,\kappa,\varepsilon$.
+\end{lemma}
+
+\begin{proof}
+\ref{it:degree}.
+Let $w_1,\ldots,w_N$ be the neighbours of $v$.
+Since $d(w_i,w_j)\geq\varepsilon$ for $i\neq j$, the balls
+$\B{w_i}{\varepsilon/2}$ are pairwise disjoint.
+Since $d(v,w_i)<3\varepsilon$, each lies in $\B{v}{7\varepsilon/2}$.
+
+
+Since $d(w_i,v)<3\varepsilon$, we have
+$\B{v}{\varepsilon/2}\subset\B{w_i}{7\varepsilon/2}$. Applying the Bishop--Gromov inequality at $w_i$ with radii
+$\varepsilon/2 < 7\varepsilon/2$, we get
+\[
+  \Vol\!\bigl(\B{w_i}{\varepsilon/2}\bigr)
+  \;\geq\;
+  \Vol\!\bigl(\B{w_i}{7\varepsilon/2}\bigr)
+  \cdot\frac{\Vk(\varepsilon/2)}{\Vk(7\varepsilon/2)}
+  \;\geq\;
+  \Vol\!\bigl(\B{v}{\varepsilon/2}\bigr)
+  \cdot\frac{\Vk(\varepsilon/2)}{\Vk(7\varepsilon/2)}.
+\]
+Therefore, summing over the disjoint balls contained in $\B{v}{7\varepsilon/2}$,
+\[
+  N\cdot\Vol\!\bigl(\B{v}{\varepsilon/2}\bigr)
+  \cdot\frac{\Vk(\varepsilon/2)}{\Vk(7\varepsilon/2)}
+  \;\leq\;
+  \Vol\!\bigl(\B{v}{7\varepsilon/2}\bigr)
+  \;\leq\;
+  \Vol\!\bigl(\B{v}{\varepsilon/2}\bigr)
+  \cdot\frac{\Vk(7\varepsilon/2)}{\Vk(\varepsilon/2)},
+\]
+where the second inequality is again Bishop--Gromov at $v$.
+Cancelling $\Vol(\B{v}{\varepsilon/2})>0$ gives
+$N\leq[\Vk(7\varepsilon/2)/\Vk(\varepsilon/2)]^2$.
+
+\ref{it:comp}.
+Since $d(p,q)<3\varepsilon$, we have
+$\B{p}{\varepsilon}\subset\B{q}{4\varepsilon}$.
+Bishop--Gromov at $q$ gives
+$\Vol(\B{q}{4\varepsilon})\leq w(q)\cdot C_d$,
+so $w(p)\leq C_d\cdot w(q)$.
+By symmetry $w(q)\leq C_d\cdot w(p)$, giving the comparability bounds.
+Since $\mu(p,q)=\min(w(p),w(q))\geq w(p)/C_d$ and
+$\mu(p,q)\leq w(p)$, the bounds on $\mu$ follow.
+
+\ref{it:Rw}.
+Using $|f(p)-f(q)|^2\leq 2(f(p)^2+f(q)^2)$, we obtain
+\[
+  \DD(f,f)
+  \;\leq\;
+  2\sum_p f(p)^2\sum_{q\sim p}\mu(p,q)
+  \;\leq\;
+  2\sum_p f(p)^2\cdot N\cdot w(p)
+  \;=\;
+  2N\normw{f}^2,
+\]
+where we used $\mu(p,q)\leq w(p)$ for all $q\sim p$.
+\end{proof}
+
+%% ════════════════════════════════════════════════════════════════════════════
+\section{Smoothing and Discretization Operators}
+\label{sec:operators}
+
+We adapt the smoothing and discretization operators of
+Chavel~\cite{Chavel2001} to the weighted $\ell^2$ setting, replacing
+the chart-based gradient estimates of the bounded-geometry framework
+by Saloff-Coste's local Poincar\'e inequality, which holds without an
+injectivity radius bound. Throughout, $C_P=C_P(n,\kappa)$ denotes the
+constant in this inequality on geodesic balls
+\begin{equation}
+\label{eq:Poincare}
+  \int_{\B{p}{r}}\!\bigl(F-\bar{F}_{p,r}\bigr)^2 dV
+  \;\leq\;
+  C_P\,r^2\!\int_{\B{p}{r}}\!|dF|^2\,dV,
+\end{equation}
+where $\bar{F}_{p,r}=\Vol(\B{p}{r})^{-1}\int_{\B{p}{r}}F\,dV$.
+Inequality~\eqref{eq:Poincare} holds for all $F\in W^{1,2}(M)$ and all
+geodesic balls $\B{p}{r}\subset M$ under the sole assumption
+$\Ric(M,g)\geq-(n-1)\kappa g$; see Saloff-Coste~\cite{SaloffCoste1992}.
+
+\subsection{The smoothing operator}
+
+\begin{definition}
+\label{def:smooth}
+Let $\{\varphi_v\}_{v\in V}$ be a smooth partition of unity subordinate
+to the cover $\{\B{v}{2\varepsilon}\}_{v\in V}$ of $M$, with
+$|\nabla\varphi_v|\leq C/\varepsilon$ pointwise for a constant
+$C=C(n,\kappa,\varepsilon)$.
+The \emph{smoothing operator} $S:\ell^2(V,w)\to C^\infty(M)$ is
+\[
+  (Sf)(x) \;=\; \sum_{v\in V}\varphi_v(x)\,f(v).
+\]
+\end{definition}
+
+\begin{remark}
+\label{rem:gradphi}
+The gradient bound $|\nabla\varphi_v|\leq C/\varepsilon$ is obtained as
+follows. Set $\psi_v(x)=\phi(d(x,v)/\varepsilon)$ where
+$\phi\in C^\infty(\R,[0,1])$ satisfies $\phi\equiv 1$ on $[0,1]$ and
+$\phi\equiv 0$ on $[2,\infty)$. Since $d(\cdot,v)$ is Lipschitz-$1$,
+$|\nabla\psi_v|\leq\|\phi'\|_\infty/\varepsilon$ a.e.\
+The cover $\{\B{v}{2\varepsilon}\}$ has multiplicity at most $N$, so
+$\sum_w\psi_w\geq\phi(1)>0$ uniformly, and
+$|\nabla\varphi_v|\leq 2N\|\phi'\|_\infty/(\varepsilon\phi(1))=:C/\varepsilon$.
+No injectivity radius is needed.
+\end{remark}
+
+\begin{lemma}
+\label{lem:smooth}
+There exist positive constants $c_1=C_d$ and
+$c_2 = 2NC^2C_d/\varepsilon^2$,
+depending only on $n,\kappa,\varepsilon$, such that for all $f:V\to\R$
+\begin{align}
+  \norml{Sf}^2 &\;\leq\; c_1\,\normw{f}^2,
+  \label{eq:L2S}\\
+  \norml{d(Sf)}^2 &\;\leq\; c_2\,\DD(f,f).
+  \label{eq:GradS}
+\end{align}
+\end{lemma}
+
+\begin{proof}
+Since $\varphi_v\geq 0$ and $\sum_v\varphi_v=1$, the Cauchy--Schwarz
+inequality gives $|(Sf)(x)|^2\leq\sum_v\varphi_v(x)f(v)^2$.
+Integrating and using
+$\int_M\varphi_v\,dV\leq\Vol(\B{v}{2\varepsilon})\leq C_d\,w(v)$, we obtain
+\[
+  \norml{Sf}^2
+  \;\leq\;
+  \sum_v f(v)^2\,\Vol\!\bigl(\B{v}{2\varepsilon}\bigr)
+  \;\leq\;
+  C_d\sum_v f(v)^2 w(v)
+  \;=\;
+  C_d\normw{f}^2.
+\]
+
+For \eqref{eq:GradS}, differentiating $\sum_v\varphi_v\equiv 1$ gives
+$\sum_v\nabla\varphi_v=0$ everywhere.
+Hence, for any $p_x\in V$ with $x\in\B{p_x}{\varepsilon}$, we have
+\[
+  \nabla(Sf)(x)
+  \;=\;
+  \sum_v\bigl(f(v)-f(p_x)\bigr)\nabla\varphi_v(x).
+\]
+The only active terms satisfy $d(v,p_x)<3\varepsilon$, so either
+$v=p_x$ (in which case the term vanishes) or $v\sim p_x$.
+Therefore, applying Cauchy--Schwarz with $|\nabla\varphi_v|\leq C/\varepsilon$, we get
+\[
+  |\nabla(Sf)(x)|^2
+  \;\leq\;
+  \frac{NC^2}{\varepsilon^2}
+  \sum_{v\sim p_x}\!\bigl(f(v)-f(p_x)\bigr)^2.
+\]
+Also, note that $\mu(v,p_x)\geq w(p_x)/C_d$ (Lemma~\ref{lem:BG}\ref{it:comp}), hence
+\[
+  \bigl(f(v)-f(p_x)\bigr)^2
+  \;\leq\;
+  \frac{C_d}{\mu(v,p_x)}\cdot\mu(v,p_x)\bigl(f(v)-f(p_x)\bigr)^2.
+\]
+Therefore
+\[
+  |\nabla(Sf)(x)|^2
+  \;\leq\;
+  \frac{NC^2 C_d}{\varepsilon^2\,w(p_x)}
+  \sum_{v\sim p_x}\mu(v,p_x)\bigl(f(v)-f(p_x)\bigr)^2.
+\]
+Note that the sets $\{x:p_x=p\}$ partition $M$ with $\int_{\{p_x=p\}}dV\leq w(p)$. Hence,
+integrating and summing over $p$, we obtain
+\[
+  \norml{d(Sf)}^2
+  \;\leq\;
+  \frac{NC^2 C_d}{\varepsilon^2}
+  \sum_p\sum_{v\sim p}\mu(v,p)\bigl(f(v)-f(p)\bigr)^2
+  \;=\;
+  \frac{2NC^2 C_d}{\varepsilon^2}\,\DD(f,f).
+  \qedhere
+\]
+\end{proof}
+
+\subsection{The discretization operator}
+
+\begin{definition}
+\label{def:disc-op}
+The \emph{discretization operator} $D:L^2(M)\to\ell^2(V,w)$ is
+\[
+  (DF)(p)
+  \;=\;
+  \frac{1}{w(p)}\int_{\B{p}{\varepsilon}}F(x)\,dV(x).
+\]
+\end{definition}
+
+\begin{lemma}
+\label{lem:disc}
+There exist positive constants $C_1$ and $C_2$, depending only on
+$n,\kappa,\varepsilon$, such that for all $F\in W^{1,2}(M)$
+\begin{align}
+  \normw{DF}^2 &\;\leq\; C_1\,\norml{F}^2,
+  \label{eq:L2D}\\
+  \DD(DF,DF) &\;\leq\; C_2\,\norml{dF}^2.
+  \label{eq:GradD}
+\end{align}
+Explicitly, one may take $C_1=N$ and $C_2=64\,C_P\,\varepsilon^2\,N\,N''$
+where $N''=[\Vk(9\varepsilon/2)/\Vk(\varepsilon/2)]^2$.
+\end{lemma}
+
+\begin{proof}
+By Jensen's inequality applied to the probability measure
+$w(p)^{-1}dV|_{\B{p}{\varepsilon}}$,
+$|(DF)(p)|^2\leq w(p)^{-1}\int_{\B{p}{\varepsilon}}F^2\,dV$
+$\implies$
+$\normw{DF}^2\leq\sum_p\int_{\B{p}{\varepsilon}}F^2\,dV\leq N\norml{F}^2$,
+where $N$ bounds the multiplicity of the cover $\{\B{p}{\varepsilon}\}$.
+
+Now fix an edge $\{p,q\}\in E$, so $d(p,q)<3\varepsilon$ and
+$\B{p}{\varepsilon}\cup\B{q}{\varepsilon}\subset\B{p}{4\varepsilon}$.
+Let $\bar{F}_{4,p}$ denote the average of $F$ over $\B{p}{4\varepsilon}$.
+By Jensen's inequality, 
+\begin{align*}
+  |(DF)(p)-\bar{F}_{4,p}|^2
+  &\leq
+  \frac{1}{w(p)}\int_{\B{p}{4\varepsilon}}\!\bigl(F-\bar{F}_{4,p}\bigr)^2 dV,\\
+  |(DF)(q)-\bar{F}_{4,p}|^2
+  &\leq
+  \frac{1}{w(q)}\int_{\B{p}{4\varepsilon}}\!\bigl(F-\bar{F}_{4,p}\bigr)^2 dV.
+\end{align*}
+By the triangle inequality and setting
+$\mathcal{I}_p=\int_{\B{p}{4\varepsilon}}(F-\bar{F}_{4,p})^2\,dV$,
+\[
+  |(DF)(p)-(DF)(q)|^2
+  \;\leq\;
+  2\Bigl(\tfrac{1}{w(p)}+\tfrac{1}{w(q)}\Bigr)\mathcal{I}_p.
+\]
+Now, multiplying by $\mu(p,q)=\min(w(p),w(q))$ and noting
+$\min(w(p),w(q))(w(p)^{-1}+w(q)^{-1})\leq 2$,
+\[
+  |(DF)(p)-(DF)(q)|^2\mu(p,q)
+  \;\leq\;
+  4\,\mathcal{I}_p.
+\]
+We also have $\mathcal{I}_p\leq 16\,C_P\varepsilon^2\int_{\B{p}{4\varepsilon}}|dF|^2\,dV$, by the Poincar\'e inequality~\eqref{eq:Poincare} on $\B{p}{4\varepsilon}$. 
+Therefore, summing over edges and grouping by $p$, we obtain
+\[
+  \DD(DF,DF)
+  \;\leq\;
+  64\,C_P\varepsilon^2\cdot N\cdot N''\cdot\norml{dF}^2
+  \;=\;
+  C_2\,\norml{dF}^2.
+  \qedhere
+\]
+\end{proof}
+
+
+
+\begin{lemma}[$X\to M\to X$]
+\label{lem:compXMX}
+With $c_3 = 2C_d^2$, for all $f:V\to\R$
+\[
+  \normw{f-DSf}^2 \;\leq\; c_3\,\DD(f,f).
+\]
+\end{lemma}
+
+\begin{proof}
+Define $\alpha_v(p)=w(p)^{-1}\int_{\B{p}{\varepsilon}}\varphi_v\,dV\geq 0$;
+these satisfy $\sum_v\alpha_v(p)=1$ and $\alpha_v(p)=0$ unless $v=p$ or
+$v\sim p$. Then
+\[
+  (DSf)(p)-f(p)
+  \;=\;
+  \sum_v\alpha_v(p)\bigl(f(v)-f(p)\bigr),
+\]
+where the $v=p$ term vanishes. Treating the
+$\alpha_\cdot(p)$ as a probability measure on $\{p\}\cup N(p)$ and
+applying Jensen's inequality to the convex function $x\mapsto x^2$,
+\[
+  |(DSf)(p)-f(p)|^2
+  \;\leq\;
+  \sum_{v\sim p}\alpha_v(p)\bigl(f(v)-f(p)\bigr)^2.
+\]
+Since
+$\alpha_v(p)\cdot w(p)
+ =\int_{\B{p}{\varepsilon}}\varphi_v\,dV
+ \leq\Vol(\B{v}{2\varepsilon})
+ \leq C_d\,w(v)$
+and $w(v)\leq C_d\,\mu(v,p)$, we get
+\[
+  |(DSf)(p)-f(p)|^2\cdot w(p)
+  \;\leq\;
+  C_d^2\sum_{v\sim p}\mu(v,p)\bigl(f(v)-f(p)\bigr)^2.
+\]
+The result follows by summing over $p$ and counting each edge twice.
+\end{proof}
+
+\begin{lemma}[$M\to X\to M$]
+\label{lem:compMXM}
+With $C_3 = 8(1+C_d)\,C_P\,\varepsilon^2\,N'$, where
+$N'=[\Vk(5\varepsilon/2)/\Vk(\varepsilon/2)]^2$,
+for all $F\in W^{1,2}(M)$
+\[
+  \norml{F-SDF}^2 \;\leq\; C_3\,\norml{dF}^2.
+\]
+\end{lemma}
+
+\begin{proof}
+Since $\sum_p\varphi_p\equiv 1$,
+$F(x)-(SDF)(x)=\sum_p\varphi_p(x)(F(x)-(DF)(p))$.
+By Jensen's inequality,
+\[
+  \norml{F-SDF}^2
+  \;\leq\;
+  \sum_p\int_{\B{p}{2\varepsilon}}\bigl(F-(DF)(p)\bigr)^2 dV.
+\]
+Fix $p$ and let $\bar{F}_{p,2}$ denote the average of $F$ over
+$\B{p}{2\varepsilon}$.
+Then, by the triangle inequality,
+\[
+  \int_{\B{p}{2\varepsilon}}\!\bigl(F-(DF)(p)\bigr)^2 dV
+  \;\leq\;
+  2\int_{\B{p}{2\varepsilon}}\!\bigl(F-\bar{F}_{p,2}\bigr)^2 dV
+  \;+\;
+  2\,\Vol\!\bigl(\B{p}{2\varepsilon}\bigr)\cdot|\bar{F}_{p,2}-(DF)(p)|^2.
+\]
+Note that by~\eqref{eq:Poincare},
+$\int_{\B{p}{2\varepsilon}}\!\bigl(F-\bar{F}_{p,2}\bigr)^2 dV \leq 4\,C_P\varepsilon^2\int_{\B{p}{2\varepsilon}}|dF|^2\,dV$, and since
+$\bar{F}_{p,2}-(DF)(p)=w(p)^{-1}\int_{\B{p}{\varepsilon}}(\bar{F}_{p,2}-F)\,dV$,
+Jensen gives
+$|\bar{F}_{p,2}-(DF)(p)|^2\leq w(p)^{-1}\int_{\B{p}{2\varepsilon}}(F-\bar{F}_{p,2})^2\,dV$,
+so
+\begin{equation*}
+    \begin{split}
+    \Vol\!\bigl(\B{p}{2\varepsilon}\bigr)\cdot|\bar{F}_{p,2}-(DF)(p)|^2
+  & \;\leq\;
+  \frac{\Vol(\B{p}{2\varepsilon})}{w(p)}
+  \int_{\B{p}{2\varepsilon}}\!\bigl(F-\bar{F}_{p,2}\bigr)^2 dV \\
+  & \;\leq\;
+  C_d\int_{\B{p}{2\varepsilon}}\!\bigl(F-\bar{F}_{p,2}\bigr)^2 dV \\
+  & \leq 4\,C_d\,C_P\varepsilon^2\int_{\B{p}{2\varepsilon}}|dF|^2\,dV.
+    \end{split}
+\end{equation*}
+Therefore
+\[\int_{\B{p}{2\varepsilon}}(F-(DF)(p))^2\,dV
+ \leq 8(1+C_d)C_P\varepsilon^2\int_{\B{p}{2\varepsilon}}|dF|^2\,dV.\]
+Summing over $p$ and using the multiplicity bound $N'$ for the cover
+$\{\B{p}{2\varepsilon}\}$ gives the result.
+\end{proof}
+
+\section{Proof of the Main Theorem}
+\label{sec:main}
+Recall the constants
+\[
+c_1=C_d,\qquad
+c_3=2C_d^2,\qquad
+C_3=8(1+C_d)C_P\varepsilon^2N'.
+\] Set
+\[
+  a_X \;=\; \frac{1}{8C_d^2}
+  \qquad\text{and}\qquad
+  a_M \;=\; \frac{1}{32(1+C_d)C_P\varepsilon^2 N'}.
+\]
+Both $a_X$ and $a_M$ depend only on $n,\kappa,\varepsilon$.
+
+\begin{theorem}
+\label{thm:small}
+There exist positive constants $c=4c_2C_1$ and $C=4c_1C_2$,
+depending only on $n,\kappa,\varepsilon$, such that for all $k<|X|$
+\begin{enumerate}[label=(\roman*)]
+\item\label{it:smallX}
+If $\lambda_k(X)\leq a_X$, then $\lambda_k(M)\leq c\,\lambda_k(X)$.
+\item\label{it:smallM}
+If $\lambda_k(M)\leq a_M$, then $\lambda_k(X)\leq C\,\lambda_k(M)$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\ref{it:smallX}.
+Let $f_0,\ldots,f_k:V\to\R$ be $\ell^2(V,w)$-orthonormal eigenfunctions
+of $\Delta_w$ for $\lambda_0(X)\leq\cdots\leq\lambda_k(X)$, and set
+$W=\mathrm{span}\{f_0,\ldots,f_k\}$ and
+$SW=\mathrm{span}\{Sf_0,\ldots,Sf_k\}$. For nonzero $f=\sum_i a_i f_i
+\in W$, Remark~\ref{rem:quadform} gives
+$\DD(f,f)\leq\lambda_k(X)\normw{f}^2$. Combining~\eqref{eq:L2D} applied
+to $Sf$ with the triangle inequality and
+Lemma~\ref{lem:compXMX} yields
+\[
+  \norml{Sf}
+  \;\geq\;
+  C_1^{-1/2}\normw{DSf}
+  \;\geq\;
+  C_1^{-1/2}\bigl(\normw{f}-\normw{f-DSf}\bigr)
+  \;\geq\;
+  C_1^{-1/2}\normw{f}\bigl(1-c_3^{1/2}\lambda_k(X)^{1/2}\bigr).
+\]
+The hypothesis $\lambda_k(X)\leq a_X=(4c_3)^{-1}$ forces
+$c_3^{1/2}\lambda_k(X)^{1/2}\leq\frac{1}{2}$, so
+$\norml{Sf}\geq\frac{1}{2}C_1^{-1/2}\normw{f}>0$, and the map $f\mapsto Sf$
+is injective on $W$; hence $\dim SW=k+1$. The Rayleigh quotient on $M$
+of $F=Sf$ then satisfies
+\[
+  R(F)
+  \;=\;
+  \frac{\norml{dF}^2}{\norml{F}^2}
+  \;\leq\;
+  \frac{c_2\,\DD(f,f)}{\frac{1}{4}C_1^{-1}\normw{f}^2}
+  \;\leq\;
+  4c_2C_1\,\lambda_k(X),
+\]
+where the numerator uses~\eqref{eq:GradS} and the denominator uses the
+lower bound on $\norml{Sf}$. The min-max principle applied to the
+$(k+1)$-dimensional subspace $SW\subset C^\infty(M)$ gives
+$\lambda_k(M)\leq\sup_{SW}R\leq 4c_2C_1\,\lambda_k(X)$.
+
+\ref{it:smallM}. The argument is symmetric. Let
+$F_0,\ldots,F_k\in L^2(M)$ be orthonormal eigenfunctions of $\Delta_M$
+for $\lambda_0(M)\leq\cdots\leq\lambda_k(M)$, and set
+$W'=\mathrm{span}\{DF_0,\ldots,DF_k\}\subset\ell^2(V,w)$. For nonzero
+$F=\sum_i a_i F_i$ in their span,
+$\norml{dF}^2\leq\lambda_k(M)\norml{F}^2$, and
+combining~\eqref{eq:L2S} with the triangle inequality and
+Lemma~\ref{lem:compMXM},
+\[
+  \normw{DF}
+  \;\geq\;
+  c_1^{-1/2}\norml{SDF}
+  \;\geq\;
+  c_1^{-1/2}\norml{F}\bigl(1-C_3^{1/2}\lambda_k(M)^{1/2}\bigr)
+  \;\geq\;
+  \tfrac{1}{2}c_1^{-1/2}\norml{F}>0,
+\]
+where the last inequality uses $\lambda_k(M)\leq a_M=(4C_3)^{-1}$.
+Hence $\dim W'=k+1$. The weighted Rayleigh quotient of $f=DF$ then
+satisfies
+\[
+  \Rw(f)
+  \;=\;
+  \frac{\DD(f,f)}{\normw{f}^2}
+  \;\leq\;
+  \frac{C_2\,\norml{dF}^2}{\frac{1}{4}c_1^{-1}\norml{F}^2}
+  \;\leq\;
+  4c_1C_2\,\lambda_k(M),
+\]
+using~\eqref{eq:GradD} for the numerator and the lower bound on
+$\normw{DF}$ for the denominator. The min-max principle on $X$ gives
+$\lambda_k(X)\leq 4c_1C_2\,\lambda_k(M)$.
+\end{proof}
+
+\begin{proof}[Proof of Main Theorem~\ref{thm:main}] Fix $k<|X|$. We treat the small- and large-eigenvalue regimes separately on each side.
+\par
+\emph{Upper bound}: If $\lambda_k(X)\leq a_X$, Theorem~\ref{thm:small}(i) gives $\lambda_k(M)\leq 4c_2C_1\lambda_k(X)$. If instead $\lambda_k(X)>a_X$, let $\psi_i:M\to\R$ be the first Dirichlet eigenfunction on $B(v_i,\varepsilon/2)$, extended by zero. The balls $B(v_i,\varepsilon/2)$ are pairwise disjoint (since $d(v_i,v_j)\geq\varepsilon$), so the $\psi_i$ are $L^2$-orthogonal, and Cheng's comparison theorem~\cite{Cheng1975} gives $R(\psi_i)\leq\lambda_1^{-\kappa}(\varepsilon/2)=:A$. The min-max principle over $\operatorname{span}\{\psi_0,\ldots,\psi_k\}$ yields $\lambda_k(M)\leq A$, whence $\lambda_k(M)\leq(A/a_X)\lambda_k(X)$. In both cases $\lambda_k(M)\leq c_2^{\mathrm{Thm}}\lambda_k(X)$ with $c_2^{\mathrm{Thm}}=\max(4c_2C_1,\,A/a_X)$. 
+\par
+\emph{Lower bound}: If $\lambda_k(M)\leq a_M$, Theorem~\ref{thm:small}(ii) gives $\lambda_k(X)\leq 4c_1C_2\lambda_k(M)$. If instead $\lambda_k(M)>a_M$, Lemma~\ref{lem:BG}\ref{it:Rw} gives $\lambda_k(X)\leq 2N=:B$, whence $\lambda_k(X)\leq(B/a_M)\lambda_k(M)$. In both cases $\lambda_k(X)\leq(c_1^{\mathrm{Thm}})^{-1}\lambda_k(M)$ with $c_1^{\mathrm{Thm}}=[\max(4c_1C_2,\,B/a_M)]^{-1}$. Both constants depend only on $n,\kappa,\varepsilon$. \end{proof}
+
+
+A natural consequence is that the weighted spectrum is an invariant of
+the manifold at scale $\varepsilon$, independent of the choice of
+discretization.
+
+\begin{corollary}
+\label{cor:independence}
+Let $(M,g)$ be a compact Riemannian manifold with
+$\Ric(M,g)\geq-(n-1)\kappa g$.
+Let $X$ and $Y$ be any two $\varepsilon$-discretizations of $M$.
+Then there exist constants $c_1,c_2>0$ depending only on
+$n,\kappa,\varepsilon$ such that
+\[
+  c_1\,\lambda_k(Y)\;\leq\;\lambda_k(X)\;\leq\; c_2\,\lambda_k(Y)
+  \qquad\text{for all }k<\min(|X|,|Y|).
+\]
+\end{corollary}
+
+\begin{proof}
+Apply Theorem~\ref{thm:main} to both pairs $(M,X)$ and $(M,Y)$:
+\[
+  c_1\,\lambda_k(X)\leq\lambda_k(M)\leq c_2\,\lambda_k(X),
+  \qquad
+  c_1\,\lambda_k(Y)\leq\lambda_k(M)\leq c_2\,\lambda_k(Y).
+\]
+Dividing the two inequalities gives the result.
+\end{proof}
+\subsection{Sharpness of the \texorpdfstring{$\varepsilon$}{epsilon}-dependence}
+\label{subsec:sharpness}
+
+\begin{example}
+\label{ex:torus}
+Let $M = \mathbb{T}^2 = S^1(2\pi)\times S^1(2\pi)$ be the flat torus, so
+$n=2$ and $\kappa=0$. Fix $\varepsilon>0$, let $N_\varepsilon=\lfloor 2\pi/\varepsilon\rfloor$,
+and consider the $\varepsilon$-discretization $V=\{(p\varepsilon,q\varepsilon):
+0\le p,q<N_\varepsilon\}$. By homogeneity $w\equiv\pi\varepsilon^2$ and
+$\mu\equiv\pi\varepsilon^2$, so $\Delta_w$ reduces to the standard
+combinatorial Laplacian and $0<d(v,u)<3\varepsilon$ implies that
+each vertex has $24$ neighbours $(m,n)\neq(0,0)$ with $m^2+n^2<9$. The eigenfunctions of $\Delta_w$ are the discrete Fourier modes $f_{j,k}(p,q) = e^{2\pi i(jp+kq)/N_\varepsilon}$ with eigenvalues
+\[
+  \lambda_{j,k}(X)
+  =\!\!\sum_{\substack{(m,n)\neq(0,0)\\ m^2+n^2<9}}\!\!
+   \Bigl(1-\cos\bigl(\tfrac{2\pi}{N_\varepsilon}(mj+nk)\bigr)\Bigr)
+  =\tfrac12(j^2+k^2)\varepsilon^2\!\!
+   \sum_{\substack{(m,n)\neq(0,0)\\ m^2+n^2<9}}\!\! m^2+O(\varepsilon^4)
+  =25(j^2+k^2)\varepsilon^2+O(\varepsilon^4),
+\]
+on expanding to second order in $\varepsilon$. Since $\lambda_{j,k}(M)=j^2+k^2$,
+\[
+  \frac{\lambda_{j,k}(X)}{\lambda_{j,k}(M)}
+  =25\varepsilon^2+O(\varepsilon^4)\longrightarrow 0
+  \qquad(\varepsilon\to0),
+\]
+so no comparison of the form in Theorem~\ref{thm:main} can hold with
+constants $c_1,c_2$ independent of~$\varepsilon$.
+\end{example}
+
+% \subsection{Sharpness of the \texorpdfstring{$\varepsilon$}{epsilon}-dependence}
+% \label{subsec:sharpness}
+
+% \begin{example}
+% \label{ex:torus}
+% Let $M = \mathbb{T}^2 = S^1(2\pi)\times S^1(2\pi)$ be the flat torus, so
+% $n=2$ and $\kappa=0$.
+% Fix $\varepsilon>0$ and let $N_\varepsilon = \lfloor 2\pi/\varepsilon\rfloor$.
+% The $\varepsilon$-discretization $X$ has
+% vertex set
+% \[
+%   V \;=\; \{(p\varepsilon,\,q\varepsilon) : p,q = 0,\ldots,N_\varepsilon-1\},
+%   \qquad |X| = N_\varepsilon^2.
+% \]
+% Since $\mathbb{T}^2$ is homogeneous, the weights satisfy
+% \[
+%   w(v) \;=\; \Vol\!\bigl(\B{v}{\varepsilon}\bigr) \;=\; \pi\varepsilon^2
+%   \quad\text{for all } v\in V,
+% \]
+% \[
+%   \mu(v,u) \;=\; \min(w(v),w(u)) \;=\; \pi\varepsilon^2
+%   \quad\text{for all } \{v,u\}\in E.
+% \]
+% The weights cancel identically in the weighted combinatorial Laplacian
+% as
+% \[
+%   (\Delta_w f)(v)
+%   \;=\;
+%   \frac{1}{\pi\varepsilon^2}\sum_{u\sim v}\pi\varepsilon^2\,(f(v)-f(u))
+%   \;=\;
+%   \sum_{u\sim v}(f(v)-f(u)).
+% \]
+% Thus $\Delta_w$ reduces to the standard combinatorial Laplacian on $X$.
+% The adjacency condition $0 < d(v,u) < 3\varepsilon$ gives each vertex
+% exactly $24$ neighbours, corresponding to all integer pairs $(m,n)\neq(0,0)$
+% with $m^2+n^2<9$.
+% The eigenfunctions of $\Delta_w$ are the discrete Fourier modes
+% $f_{j,k}(p,q) = e^{2\pi i(jp+kq)/N_\varepsilon}$ with eigenvalues
+% \[
+%   \lambda_{j,k}(X)
+%   \;=\;
+%   \sum_{\substack{(m,n)\neq(0,0)\\ m^2+n^2<9}}
+%   \Bigl(1 - \cos\!\bigl(m\tfrac{2\pi j}{N_\varepsilon}
+%                        + n\tfrac{2\pi k}{N_\varepsilon}\bigr)\Bigr).
+% \]
+% For fixed $j,k$ and $\varepsilon\to 0$ (equivalently
+% $N_\varepsilon\to\infty$), set $\alpha = j\varepsilon$ and
+% $\beta = k\varepsilon$ and expand:
+% \begin{align*}
+%   \lambda_{j,k}(X)
+%   &\;=\;
+%   \frac{1}{2}
+%   \sum_{\substack{(m,n)\neq(0,0)\\ m^2+n^2<9}}
+%   (m\alpha + n\beta)^2
+%   + O(\varepsilon^4)\\
+%   &\;=\;
+%   \frac{1}{2}\bigl(\alpha^2+\beta^2\bigr)
+%   \sum_{\substack{(m,n)\neq(0,0)\\ m^2+n^2<9}} m^2
+%   + O(\varepsilon^4)\\
+%   &\;=\; 25(j^2+k^2)\,\varepsilon^2 + O(\varepsilon^4).
+% \end{align*}
+% Since the eigenvalues of $\Delta_M$ on $\mathbb{T}^2$ are
+% $\lambda_{j,k}(M) = j^2+k^2$, we obtain
+% \[
+%   \frac{\lambda_{j,k}(X)}{\lambda_{j,k}(M)}
+%   \;=\;
+%   25\varepsilon^2 + O(\varepsilon^4)
+%   \;\longrightarrow\; 0
+%   \quad\text{as } \varepsilon\to 0.
+% \]
+% \end{example}
+
+\subsection{Towers of coverings}
+\label{subsec:tower}
+
+The spectral comparison of Theorem~\ref{thm:main} is stable under
+finite-sheeted coverings, with constants uniform along the tower. Let
+$(M^n,g)$ satisfy $\Ric(M,g)\geq-(n-1)\kappa g$, fix
+$0<\varepsilon<\tfrac{1}{2}\Inj(M)$, and let $X=(V,E)$ be an
+$\varepsilon$-discretization of $M$. For each $i\geq 1$, let
+$\pi_i:M_i\to M$ be a finite-sheeted Riemannian covering with
+pulled-back metric $g_i=\pi_i^*g$, and let $X_i=(V_i,E_i)$ be the
+associated $\varepsilon$-discretization of $M_i$ with vertex set $V_i=\pi_i^{-1}(V)$ and edge
+set $\{p,q\}\in E_i\iff 0<d_{M_i}(p,q)<3\varepsilon$, carrying the
+weights $w_i(p)=\Vol(\B{p}{\varepsilon})$ and
+$\mu_i(p,q)=\min(w_i(p),w_i(q))$.
+
+Each $(M_i,g_i)$ satisfies $\Ric\geq-(n-1)\kappa g_i$ because $\pi_i$
+is a local isometry. Distinct vertices $p,q\in V_i$ with
+$\pi_i(p)\neq\pi_i(q)$ have $d_{M_i}(p,q)\geq d_M(\pi_i(p),\pi_i(q))
+\geq\varepsilon$, while vertices with $\pi_i(p)=\pi_i(q)$ differ by a
+nontrivial deck transformation and hence satisfy
+$d_{M_i}(p,q)\geq 2\Inj(M_i)\geq 2\Inj(M)>\varepsilon$; maximality
+follows by lifting a minimizing geodesic to any prescribed endpoint.
+The $\varepsilon$-balls lift isometrically, so $w_i(p)=w(\pi_i(p))$.
+Applying Theorem~\ref{thm:main} to each pair $(M_i,X_i)$ and using the
+fact that its constants depend only on $n,\kappa,\varepsilon$, we obtain
+
+\begin{theorem}
+\label{thm:tower}
+There exist $c_1,c_2>0$ depending only on $n,\kappa,\varepsilon$ such
+that for all $i\geq 1$ and all $k<|X_i|$,
+\[
+  c_1\,\lambda_k(X_i)\;\leq\;\lambda_k(M_i)\;\leq\;c_2\,\lambda_k(X_i).
+\]
+In particular, $\lambda_k(M_i)\to 0$ if and only if
+$\lambda_k(X_i)\to 0$ as $i\to\infty$.
+\end{theorem}
+
+\begin{remark}
+\label{rem:brooks}
+The volumes $\Vol(M_i)$ may grow unboundedly while the local geometry
+stays controlled. For towers arising from nested normal coverings, one may also consider
+the corresponding Schreier graphs $\Gamma_i$. Standard graph
+comparison results identify the vanishing of $\lambda_1(X_i)$ with the
+vanishing of the Cheeger constants $h(\Gamma_i)$. Combined with
+Theorem~\ref{thm:tower}, this yields a discrete proof of the spectral
+degeneration phenomenon underlying Brooks'
+theorem~\cite{Brooks1986}.
+\end{remark}
+
+\section{Stability under Measured Gromov--Hausdorff Convergence}
+\label{sec:applications}
+In this section we prove a spectral stability theorem under measured
+Gromov--Hausdorff convergence. Mantuano~\cite[Theorem~5.1]{Mantuano2005}
+established such a result under a uniform injectivity radius bound;
+we replace that bound with the strictly weaker non-collapsing
+hypothesis $\Vol(\B{p}{\varepsilon})\geq v_0$.
+
+\begin{definition}
+\label{def:rough-isom}
+A map $\Phi:(X_1,d_1)\to(X_2,d_2)$ is a \emph{rough isometry} with
+constants $(a,b,\tau)$, $a\geq 1$, $b,\tau\geq 0$, if
+\[
+  a^{-1}d_1(x,y)-b \;\leq\; d_2(\Phi(x),\Phi(y))
+  \;\leq\; a\,d_1(x,y)+b
+  \qquad\text{for all }x,y\in X_1,
+\]
+and $\bigcup_{x\in X_1}B(\Phi(x),\tau)=X_2$.
+\end{definition}
+
+We adopt the formulation of mGH distance from
+Fukaya~\cite{Fukaya1987} and Sturm~\cite{Sturm2006}.
+
+\begin{definition}
+\label{def:mGH}
+Let $(M,d_M,\mu_M)$ and $(N,d_N,\mu_N)$ be compact metric measure
+spaces. We write $d_{\mathrm{mGH}}(M,N)<\eta$ if there exist a metric
+space $(Z,d_Z)$ and isometric embeddings $f:M\hookrightarrow Z$,
+$g:N\hookrightarrow Z$ such that
+\begin{enumerate}[label=(\roman*)]
+\item $d_H^Z(f(M),g(N))<\eta$, where $d_H^Z$ is the Hausdorff
+distance in $Z$;
+\item\label{it:mGH-measure} $\bigl|f_*\mu_M(A)-g_*\mu_N(A)\bigr|<\eta$
+for every Borel $A\subset Z$.
+\end{enumerate}
+\end{definition}
+
+The first lemma converts mGH closeness, together with non-collapsing,
+into a multiplicative comparison of vertex weights. The proximity
+parameter~$\delta$ is kept separate from the mGH parameter~$\eta$
+because the construction in Theorem~\ref{thm:mGH} produces pairs
+$(p,\Phi(p))$ whose $Z$-distance exceeds~$\eta$.
+
+\begin{lemma}
+\label{lem:weight-comp}
+Let $(M,g_M)$ and $(N,g_N)$ be compact Riemannian $n$-manifolds with
+$\Ric\geq-(n-1)\kappa g$, equipped with their volume measures. Fix
+$v_0>0$, $\varepsilon>0$, $\eta\in(0,\varepsilon/2)$, and assume
+$\Vol(\B{p}{\varepsilon})\geq v_0$ for every $p\in M\cup N$. Suppose
+$d_{\mathrm{mGH}}(M,N)<\eta$ via embeddings $f:M\hookrightarrow Z$,
+$g:N\hookrightarrow Z$. Then for any $p\in M$ and $q\in N$ with
+$d_Z(f(p),g(q))<\delta$ for some $\delta>0$,
+\[
+  K^{-1}\,w_M(p)\;\leq\; w_N(q)\;\leq\; K\,w_M(p),
+\]
+with $K=K(n,\kappa,\varepsilon,\eta,\delta,v_0)$.
+\end{lemma}
+
+\begin{proof}
+Applying condition~\ref{it:mGH-measure} of Definition~\ref{def:mGH} to
+$A=B_Z(f(p),\varepsilon-\eta)$ and using that $f$ is an isometric
+embedding gives
+\[
+  \mu_M\bigl(B_M(p,\varepsilon-\eta)\bigr)
+  \;\leq\;
+  g_*\mu_N\bigl(B_Z(f(p),\varepsilon-\eta)\bigr)+\eta.
+\]
+Any $q'\in N$ with $g(q')\in B_Z(f(p),\varepsilon-\eta)$ satisfies
+$d_Z(g(q'),g(q))\leq(\varepsilon-\eta)+\delta$, hence
+$d_N(q',q)<\varepsilon-\eta+\delta$ by isometry of~$g$. Set
+$R=\varepsilon-\eta+\delta$; then
+\begin{equation}
+\label{eq:weight-containment}
+  \mu_M\bigl(B_M(p,\varepsilon-\eta)\bigr)
+  \;\leq\;
+  \mu_N\bigl(B_N(q,R)\bigr)+\eta.
+\end{equation}
+Bishop--Gromov at~$p$ with radii $\varepsilon-\eta<\varepsilon$
+gives the lower bound
+\[
+  \mu_M\bigl(B_M(p,\varepsilon-\eta)\bigr)
+  \;\geq\;
+  w_M(p)\cdot\frac{\Vk(\varepsilon-\eta)}{\Vk(\varepsilon)}.
+\]
+For the right-hand side, Bishop--Gromov at~$q$ with radii
+$\varepsilon\leq R$ gives
+$\mu_N(B_N(q,R))\leq w_N(q)\cdot\Vk(R)/\Vk(\varepsilon)$.
+Substituting into~\eqref{eq:weight-containment} and using
+$w_N(q)\geq v_0$ to absorb the additive~$\eta$:
+\[
+  w_M(p)\cdot\frac{\Vk(\varepsilon-\eta)}{\Vk(\varepsilon)}
+  \;\leq\;
+  w_N(q)\cdot\frac{\Vk(R)}{\Vk(\varepsilon)}\,+\,\eta
+  \;\leq\;
+  w_N(q)\cdot\frac{\Vk(R)}{\Vk(\varepsilon)}
+  \bigl(1+\eta/v_0\bigr).
+\]
+This gives $w_N(q)\geq K^{-1}w_M(p)$ with
+\[
+  K^{-1}\;=\;
+  \frac{\Vk(\varepsilon-\eta)}{(1+\eta/v_0)\,\Vk(R)},
+  \qquad R=\varepsilon-\eta+\delta.
+\]
+Swapping $M$ and $N$ (with the same proximity~$\delta$) gives the
+reverse inequality.
+\end{proof}
+
+We now obtain a spectral comparison between roughly isometric
+$\varepsilon$-discretizations.
+\begin{proposition}
+\label{prop:weighted-rough}
+Let $M$ and $N$ be compact Riemannian $n$-manifolds with
+$\Ric\geq-(n-1)\kappa g$, and let $X_M$, $X_N$ be their
+$\varepsilon$-discretizations. Let $\Phi:V(X_M)\to V(X_N)$ be a
+rough isometry with constants $(a,b,\tau)$ satisfying
+\begin{equation}
+\label{eq:weight-comp}
+  K^{-1}\,w_M(p)\;\leq\; w_N(\Phi(p))\;\leq\; K\,w_M(p)
+  \qquad\text{for all }p\in V(X_M).
+\end{equation}
+Then there exist $\tilde c,\tilde C>0$ depending only on
+$n,\kappa,\varepsilon,a,b,\tau,K$ such that
+\[
+  \tilde c\,\lambda_k(X_N)\;\leq\;\lambda_k(X_M)\;\leq\;
+  \tilde C\,\lambda_k(X_N)
+  \qquad\text{for all }k<\min(|X_M|,|X_N|).
+\]
+\end{proposition}
+
+\begin{proof}
+By symmetry it suffices to prove the upper bound. Define $\Phi^*:\ell^2(V(X_N),w_N)\to\ell^2(V(X_M),w_M)$ by
+$(\Phi^*f)(p)=f(\Phi(p))$. For
+$p,p'\in\Phi^{-1}(q)$, we have $d_M(p,p')\leq ab$ since
+$d_N(\Phi(p),\Phi(p'))=0$, and Lemma~\ref{lem:BG}\ref{it:degree} bounds the
+number of $\varepsilon$-separated points in any ball of radius~$ab$
+by a constant $m_\Phi=m_\Phi(a,b,n,\kappa,\varepsilon)$. Therefore,
+using~\eqref{eq:weight-comp},
+\begin{equation}
+\label{eq:pullback-norm}
+  \|\Phi^*f\|_{w_M}^2
+  \;=\;\sum_{q\in\mathrm{Im}(\Phi)}f(q)^2\!\sum_{p\in\Phi^{-1}(q)}\!w_M(p)
+  \;\leq\;
+  K\,m_\Phi\,\|f\|_{w_N}^2.
+\end{equation}
+For the reverse inequality, let $q\in\mathrm{Im}(\Phi)$ and pick
+any $p\in\Phi^{-1}(q)$. By~\eqref{eq:weight-comp},
+$w_M(p)\geq K^{-1}w_N(q)$; summing over $q\in\mathrm{Im}(\Phi)$
+gives
+\begin{equation}
+\label{eq:pullback-norm-covered}
+  \|\Phi^*f\|_{w_M}^2
+  \;\geq\;
+  K^{-1}\!\sum_{q\in\mathrm{Im}(\Phi)}f(q)^2\,w_N(q).
+\end{equation}
+
+Let $U=V(X_N)\setminus\mathrm{Im}(\Phi)$ and define
+\[
+  \mathcal{U}(f)\;=\;\sum_{q\in U}f(q)^2\,w_N(q).
+\]
+By $\tau$-density of $\Phi$, for each $q \in U$ there exists
+$p_q \in V(X_M)$ with $d_N(\Phi(p_q), q) \le \tau$; set
+$\sigma(q) = \Phi(p_q) \in \mathrm{Im}(\Phi)$. Let
+$\gamma : [0, \ell] \to N$ be a minimizing geodesic from $q$ to
+$\sigma(q)$, parametrized by arc length, with
+$\ell = d_N(q, \sigma(q)) \le \tau$. Set $s = \varepsilon/2$, let
+$J = \lceil \ell/s \rceil$, and consider the sample points
+$\gamma(0), \gamma(s), \gamma(2s), \ldots, \gamma(Js) = \sigma(q)$
+(with the convention $\gamma(t) = \sigma(q)$ for $t \ge \ell$).
+Since $V(X_N)$ is a maximal $\varepsilon$-separated subset of $N$,
+for each $j = 1, \ldots, J-1$ there exists $q_j \in V(X_N)$ with
+$d_N(q_j, \gamma(js)) < \varepsilon$; set $q_0 = q$ and
+$q_{L_0} = \sigma(q)$, where $L_0 = J \le \lceil 2\tau/\varepsilon \rceil + 1$.
+By the triangle inequality,
+\[
+  d_N(q_j, q_{j+1})
+  \le d_N(q_j, \gamma(js)) + s + d_N(\gamma((j+1)s), q_{j+1})
+  < 2\varepsilon + s
+  = \tfrac{5\varepsilon}{2}
+  < 3\varepsilon,
+\]
+so $\{q_j, q_{j+1}\} \in E(X_N)$ for each $j$. The sequence
+\[
+  q = q_0, q_1, \ldots, q_{L_0} = \sigma(q)
+\]
+is therefore a path in $X_N$ of combinatorial length $L_0$.
+Deleting cycles if necessary, we may assume it is a simple path. By the Cauchy--Schwarz inequality,
+\[
+  |f(q)-f(\sigma(q))|^2
+  \;\leq\;
+  L_0\sum_{j=0}^{L_0-1}|f(q_j)-f(q_{j+1})|^2,
+\]
+and the inequality $a^2\leq 2b^2+2(a-b)^2$ yields
+\begin{equation}
+\label{eq:pointwise-mm}
+  f(q)^2
+  \;\leq\;
+  2\,f(\sigma(q))^2
+  +
+  2L_0\sum_{j=0}^{L_0-1}|f(q_j)-f(q_{j+1})|^2.
+\end{equation}
+Iterating Lemma~\ref{lem:BG}\ref{it:comp} along the path gives
+$w_N(q)\leq C_d^{L_0}w_N(\sigma(q))$ and
+$w_N(q)\leq C_d^{L_0+1}\mu_N(q_j,q_{j+1})$ for each $j$.
+Multiplying~\eqref{eq:pointwise-mm} by $w_N(q)$ and applying these
+bounds,
+\begin{equation}
+\label{eq:weighted-pointwise}
+  f(q)^2\,w_N(q)
+  \;\leq\;
+  2C_d^{L_0}\,f(\sigma(q))^2\,w_N(\sigma(q))
+  +
+  2L_0 C_d^{L_0+1}\sum_{j=0}^{L_0-1}\mu_N(q_j,q_{j+1})|f(q_j)-f(q_{j+1})|^2.
+\end{equation}
+We now sum~\eqref{eq:weighted-pointwise} over $q\in U$. Applying Lemma~\ref{lem:BG}\ref{it:degree} gives
+$|\{q \in U : \sigma(q) = q'\}| \le M_1$ for each $q' \in \mathrm{Im}(\Phi)$,
+and $|\{q \in U : \text{path of } q \text{ uses } \{r, r'\}\}| \le M_2$
+for each $\{r, r'\} \in E(X_N)$, with $M_1, M_2$ depending only on
+$n, \kappa, \varepsilon, \tau$. Therefore, by~\eqref{eq:pullback-norm-covered},
+\begin{equation}
+\label{eq:mm-clean}
+  \begin{split}
+  \mathcal{U}(f)
+  &\;\leq\;
+  2C_d^{L_0}M_1\!\sum_{q'\in\mathrm{Im}(\Phi)}\!f(q')^2 w_N(q')
+  + 2L_0 C_d^{L_0+1}M_2\,\DD_N(f,f)\\
+  &\;\leq\; K_4 K\,\|\Phi^*f\|_{w_M}^2 + K_5\,\DD_N(f,f),
+  \end{split}
+\end{equation}
+where $K_4=2C_d^{L_0}M_1$ and $K_5=2L_0 C_d^{L_0+1}M_2$, both
+depending only on $n,\kappa,\varepsilon,\tau$. Writing $\|f\|_{w_N}^2
+=\sum_{q'\in\mathrm{Im}(\Phi)}f(q')^2 w_N(q')+\mathcal{U}(f)$ and applying
+~\eqref{eq:pullback-norm-covered} and~\eqref{eq:mm-clean},
+\[
+  \|f\|_{w_N}^2
+  \;\leq\;
+  K(1+K_4)\,\|\Phi^*f\|_{w_M}^2 + K_5\,\DD_N(f,f).
+\]
+Rearranging, we have
+\begin{equation}
+\label{eq:pullback-norm-lower}
+  \|\Phi^*f\|_{w_M}^2
+  \;\geq\;
+  K_2^{-1}\|f\|_{w_N}^2 - K_2^{-1}K_5\,\DD_N(f,f)
+\end{equation}
+where $K_2=K(1+K_4)$.
+We now turn to the Dirichlet form. Fix $\{p,p'\}\in E(X_M)$, so
+$d_M(p,p')<3\varepsilon$ and hence
+$d_N(\Phi(p),\Phi(p'))\leq 3a\varepsilon+b$. Using the same construction as for $\gamma$, $\Phi(p)$ and $\Phi(p')$ are
+joined in $X_N$ by a path
+$\Phi(p)=r_0,r_1,\ldots,r_{L_1}=\Phi(p')$ of length
+$L_1=\lceil(3a\varepsilon+b)/\varepsilon\rceil+1$, and Cauchy--Schwarz gives
+\[
+  |f(\Phi(p))-f(\Phi(p'))|^2
+  \;\leq\;
+  L_1\sum_{j=0}^{L_1-1}|f(r_j)-f(r_{j+1})|^2.
+\]
+The edge weight satisfies
+$\mu_M(p,p')\leq w_M(p)\leq K\,w_N(\Phi(p))$
+by~\eqref{eq:weight-comp}, and iterating Lemma~\ref{lem:BG}\ref{it:comp}
+along the path gives
+$w_N(\Phi(p))\leq C_d^{L_1+1}\,\mu_N(r_j,r_{j+1})$ for each $j$.
+Each edge of $X_N$ lies on the path of at most $m_\Phi\cdot N$
+edges of $X_M$, where $N$ is the degree bound of
+Lemma~\ref{lem:BG}\ref{it:degree}; absorbing these multiplicities yields
+\begin{equation}
+\label{eq:pullback-dirichlet}
+  \DD_M(\Phi^*f,\Phi^*f)\;\leq\; K_1\,\DD_N(f,f),
+\end{equation}
+with $K_1=K_1(n,\kappa,\varepsilon,a,b,\tau,K)$.
+
+The min-max argument now follows the template of
+Theorem~\ref{thm:small}. Set $a_0 = (4K_5)^{-1}$. If
+$\lambda_k(X_N) \le a_0$, taking $W$ to be the span of the first
+$k+1$ eigenfunctions of $\Delta_{w,N}$ and combining
+\eqref{eq:pullback-norm-lower} with $\DD_N(f,f) \le \lambda_k(X_N)\|f\|_{w_N}^2$
+on $W$ gives $\|\Phi^* f\|_{w_M}^2 \ge \tfrac{3}{4} K_2^{-1} \|f\|_{w_N}^2$
+for $f \in W \setminus \{0\}$, so $\Phi^*W$ is $(k+1)$-dimensional and
+\eqref{eq:pullback-dirichlet} yields
+$\Rw(\Phi^* f) \le \tfrac{4}{3} K_1 K_2 \, \lambda_k(X_N)$. The min-max
+principle gives $\lambda_k(X_M) \le \tfrac{4}{3} K_1 K_2 \, \lambda_k(X_N)$.
+The case $\lambda_k(X_N) > a_0$ follows from $\lambda_k(X_M) \le 2N$
+(Lemma~\ref{lem:BG}\ref{it:Rw}). Taking
+$\tilde C = \max(\tfrac{4}{3} K_1 K_2, \, 2N/a_0)$ completes the proof.
+\end{proof}
+
+The proof of Theorem~\ref{thm:mGH} now reduces to verifying that
+the natural map produced by the mGH embedding is a rough isometry
+in the sense of Definition~\ref{def:rough-isom}, including its
+$\tau$-density.
+\begin{proof}[Proof of Theorem~\ref{thm:mGH}]
+Fix $\varepsilon$-discretizations $X_M, X_N$ of $M$ and $N$, and let
+$f : M \hookrightarrow Z$, $g : N \hookrightarrow Z$ be embeddings
+with $d_H^Z(f(M), g(N)) < \eta$. For
+each $p \in V(X_M)$, there exists
+$p' \in N$ with $d_Z(f(p), g(p')) < \eta$, and $\varepsilon$-density
+of $V(X_N)$ in $N$ gives $\Phi(p) \in V(X_N)$ with
+$d_N(\Phi(p), p') < \varepsilon$; hence
+\begin{equation}
+\label{eq:prox}
+  d_Z(f(p), g(\Phi(p))) < \eta + \varepsilon.
+\end{equation}
+Applying \eqref{eq:prox} to $p_1, p_2 \in V(X_M)$ and using that
+$f, g$ are isometric embeddings,
+$|d_N(\Phi(p_1), \Phi(p_2)) - d_M(p_1, p_2)| \le 2(\eta + \varepsilon)$.
+For the density condition, given $q \in V(X_N)$, there exists $p_0 \in M$ with $d_Z(f(p_0), g(q)) < \eta$,
+$\varepsilon$-density of $V(X_M)$ in $M$ gives $p \in V(X_M)$
+with $d_M(p, p_0) < \varepsilon$, and combining with \eqref{eq:prox}
+yields $d_N(\Phi(p), q) < 2(\eta + \varepsilon)$. Thus $\Phi$ is a
+rough isometry with
+constants $(1, 2(\eta + \varepsilon), 2(\eta + \varepsilon))$.
+
+Lemma~\ref{lem:weight-comp} applied at each pair $(p, \Phi(p))$
+via \eqref{eq:prox} with $\delta = \eta + \varepsilon$
+gives $K^{-1} w_M(p) \le w_N(\Phi(p)) \le K w_M(p)$, with
+$K = K(n, \kappa, \varepsilon, \eta, v_0)$ since the radius
+$R = \varepsilon - \eta + \delta = 2\varepsilon$. Hence Proposition~\ref{prop:weighted-rough} combined with
+  Theorem~\ref{thm:main} applied to $(M, X_M)$ and $(N, X_N)$
+  yields $\lambda_k(M) \asymp \lambda_k(N)$ with constants
+  depending only on $n, \kappa, \varepsilon, \eta, v_0$.
+\end{proof}
+
+\begin{corollary}
+\label{cor:relative-noncollapsing}
+Let $(M,g_M)$ and $(N,g_N)$ be compact Riemannian $n$-manifolds with
+$\Ric\geq-(n-1)\kappa g$, equipped with their volume measures.
+Fix $\varepsilon>0$ and $\eta\in(0,\varepsilon/2)$, and suppose
+$d_{\mathrm{mGH}}(M,N)<\eta$ via embeddings $f:M\hookrightarrow Z$,
+$g:N\hookrightarrow Z$. Assume there exists $K>0$ such that for every
+$p\in M$ and $q\in N$ with $d_Z(f(p),g(q))<\eta$,
+\begin{equation}
+\label{eq:relative-weight}
+  K^{-1}\,w_M(p)\;\leq\;w_N(q)\;\leq\;K\,w_M(p).
+\end{equation}
+Then there exist constants $c,C>0$ depending only on
+$n,\kappa,\varepsilon,\eta,K$ such that
+\[
+  c\,\lambda_k(M)\;\leq\;\lambda_k(N)\;\leq\;C\,\lambda_k(M)
+  \qquad\text{for all }k<\min(|X_M|,|X_N|),
+\]
+where $X_M,X_N$ are any $\varepsilon$-discretizations of $M$ and $N$.
+In particular, no absolute lower bound on ball volumes is required:
+the result applies whenever $M$ and $N$ collapse at comparable rates.
+\end{corollary}
+\begin{proof}
+The proof follows that of Theorem~\ref{thm:mGH} with
+\eqref{eq:relative-weight} replacing Lemma~\ref{lem:weight-comp},
+the $\varepsilon$-gap absorbed via Lemma~\ref{lem:BG}\ref{it:comp}.
+\end{proof}
+%% ════════════════════════════════════════════════════════════════════════════
+\section{An Application: The Schoen--Wolpert--Yau Inequality}
+\label{sec:examples}
+
+Throughout, $A\asymp B$ means $c\,B\le A\le C\,B$ for some constants
+$c,C>0$ depending only on $r_0$ and $\varepsilon$, and
+$\DD=\DD_{X_\ell}$ denotes the total Dirichlet form. Since
+$\varepsilon$ is fixed, factors of $\varepsilon$ are absorbed into such
+constants without comment.
+
+Let $\{\Sigma_\ell\}$ be a family as in
+Proposition~\ref{prop:intro-swy}: closed genus-$2$ hyperbolic surfaces
+carrying a simple closed geodesic $\gamma_\ell$ of length $\ell\to0$,
+with $\Inj\ge r_0$ off the collar $\mathcal C(\gamma_\ell)$. Then
+$\Ric(\Sigma_\ell)=-g_\ell$ and $\Inj(\Sigma_\ell)\to0$, so Mantuano's
+Theorem~3.7 does not apply with uniform constants, whereas
+Theorem~\ref{thm:main} applies with $\kappa=1$ and any fixed
+$\varepsilon\in(0,\min(r_0,\tfrac15))$, giving
+\begin{equation}
+\label{eq:pinching-comparison}
+  \tilde c_1\,\lambda_k(X_\ell)\;\le\;\lambda_k(\Sigma_\ell)
+  \;\le\;\tilde c_2\,\lambda_k(X_\ell)\qquad(k<|X_\ell|)
+\end{equation}
+for every $\varepsilon$-discretization $X_\ell$, uniformly in~$\ell$.
+We prove that $X_\ell$ detects the Schoen--Wolpert--Yau dichotomy
+intrinsically (Proposition~\ref{prop:intro-swy});
+with~\eqref{eq:pinching-comparison} this recovers the inequality on
+the family (Corollary~\ref{cor:intro-swy}). Figure~\ref{fig:dichotomy}
+illustrates the two cases.
+
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth]{swy_dichotomy.pdf}
+\caption{Separating vs.\ non-separating geodesic.}
+\label{fig:dichotomy}
+\end{figure}
+
+\subsection*{The geometry of the discretization}
+
+By the Collar Lemma, $\gamma_\ell$ admits an embedded collar
+$\mathcal C(\gamma_\ell)$ of half-width $\omega(\ell)\to\infty$ with
+metric $d\rho^2+\ell^2\cosh^2\rho\,dt^2$, whose boundary circles have
+length $\ell\coth(\ell/2)\to2$. By hypothesis,
+\begin{equation}
+\label{eq:thick-inj}
+  \Inj\bigl(\Sigma_\ell\setminus\mathcal C(\gamma_\ell)\bigr)\ge r_0>0,
+\end{equation}
+uniformly in~$\ell$: the degeneration is confined to the collar.
+
+Write $\rho(p)$ for the signed distance from $p$ to $\gamma_\ell$, and set
+\[
+T=\{p:|\rho(p)|<\rho_c\},\qquad
+\rho_c=\operatorname{arccosh}(\varepsilon/\ell),
+\]
+so that every fibre in $T$ has length $\ell\cosh\rho<\varepsilon$.
+
+Let $\Gamma^\pm$ denote the set of vertices lying within distance
+$\varepsilon$ of the level curves $\{\rho=\pm\omega(\ell)\}$. Define
+$A^\pm$ to consist of the vertices satisfying
+\[
+\rho_c\le\pm\rho_p\le\omega(\ell),
+\]
+together with the vertices in $\Gamma^\pm$.
+
+If $\gamma_\ell$ is separating, let $H^\pm$ be the union of
+$\Gamma^\pm$ with the connected component of
+$\Sigma_\ell\setminus\mathcal C(\gamma_\ell)$ contained in
+$\Sigma_\ell^\pm$. Then
+\[
+E^\pm=A^\pm\cup H^\pm,
+\qquad
+A^\pm\cap H^\pm=\Gamma^\pm.
+\]
+
+If $\gamma_\ell$ is non-separating, let $H$ be the union of
+$\Gamma^+$, $\Gamma^-$, and the connected region
+$\Sigma_\ell\setminus\mathcal C(\gamma_\ell)$. Then
+\[
+E=X_\ell\setminus T=A^+\cup A^-\cup H.
+\]
+
+Since each fibre of $T$ has diameter $<\varepsilon/2$, it carries at
+most one vertex; joining $p,q\in T$ radially and then along a fibre
+gives $d(p,q)\le|\rho(p)-\rho(q)|+\varepsilon/2$, so distinct vertices
+satisfy $|\rho(p)-\rho(q)|\ge\varepsilon/2$, while maximality forces
+consecutive radial gaps $\le2\varepsilon$. Since the gaps are at most $2\varepsilon$ over a range
+$2\rho_c$, $|V(X_\ell)\cap T|\ge\rho_c/\varepsilon\to\infty$. For $p\in T$ the
+ball $\B{p}{\varepsilon}$ contains the fibre through $p$ and extends
+over a radial interval of length between $\varepsilon$ and
+$2\varepsilon$; hence
+$\Vol(\{|\rho-\rho(p)|<s\})=2\ell\cosh\rho(p)\sinh s$. Note that every fiber in
+$\{|\rho-\rho(p)|<s\}$ has length at most $\varepsilon e^s$. Therefore, $\{|\rho-\rho(p)|<\varepsilon/4\}\subset \B{p}{\varepsilon}$, as a point there is joined to $p$ by a
+path of length at most $\varepsilon/4+\tfrac12\varepsilon e^{\varepsilon/4}
+\le\varepsilon$ for $\varepsilon\le\tfrac15$. Hence
+\begin{equation}
+\label{eq:collar-weight}
+  C_1\,\ell\cosh\rho(p)\;\le\;w(p)\;\le\;C_2\,\ell\cosh\rho(p),
+  \qquad
+  C_1=2\sinh\tfrac\varepsilon4,\quad C_2=2\sinh\varepsilon.
+\end{equation}
+Now, for every $p\in T$, $\B{p}{\varepsilon}\subset\{|\rho|<\rho_c+\varepsilon\}$ and the cover of $T$ through these balls has multiplicity at most~$N$, so,
+\begin{equation}
+\label{eq:volT}
+  \vol_w(T)\;\le\;2N\ell\sinh(\rho_c+\varepsilon)\;\le\;
+  2Ne^{2\varepsilon}\varepsilon ,
+\end{equation}
+and $\vol_w(T)\ge\Vol(\{|\rho|<\rho_c-2\varepsilon\})>0$ once
+$\ell\le\ell_0(\varepsilon)$; the
+remaining range $\ell\in[\ell_0(\varepsilon),\ell_0)$ is compact, where
+the conclusion follows from Theorem~\ref{thm:main} and continuity of
+$\lambda_1(\Sigma_\ell)$, so we assume $\ell\le\ell_0(\varepsilon)$
+throughout.
+
+Outside $T$ the injectivity radius is at least $\varepsilon/2$: a
+geodesic loop at $p$ is either freely homotopic to $\gamma_\ell$, hence
+of length at least the fibre length $\ge\varepsilon$, or of length at
+least $2r_0>2\varepsilon$ by~\eqref{eq:thick-inj}. Consequently
+$\B{p}{\varepsilon/2}$ is embedded, and since an embedded ball of
+radius $s$ in curvature $-1$ has area exactly $2\pi(\cosh s-1)$,
+\begin{equation}
+\label{eq:thick-weight}
+  \tfrac{\pi}{4}\,\varepsilon^2\;\le\;w(p)\;\le\;\pi e\,\varepsilon^2
+  \qquad (p\notin T).
+\end{equation}
+Each piece $P\in\{A^\pm,H^\pm,H\}$ has $\ell$-uniform geometry: $A^\pm$
+has radial width $\omega(\ell)-\rho_c\le\log(5/\varepsilon)$ in direction $\rho$  and fibre
+lengths in $[\varepsilon,3]$; for $H^\pm$ and $H$, points spaced
+$2r_0$ apart along a diameter-realising geodesic carry disjoint
+embedded balls of area $2\pi(\cosh r_0-1)$ by~\eqref{eq:thick-inj},
+while $\operatorname{Area}(\Sigma_\ell)=4\pi$ by Gauss--Bonnet, so at
+most $2/(\cosh r_0-1)$ of them fit. Uniformly in~$\ell$,
+\begin{equation}
+\label{eq:piece-geometry}
+  \operatorname{diam}(P)\le d_0,\qquad V_0\le\vol_w(P)\le V_1 ,
+\end{equation}
+and the chaining argument along geodesics in the $2\varepsilon$-neighbourhood
+$\mathcal N(P)$, using~\eqref{eq:thick-weight} and
+Lemma~\ref{lem:BG}\ref{it:comp}, yields the Poincar\'e inequality
+\begin{equation}
+\label{eq:piece-poincare}
+  \sum_{P}w\,(u-\bar u_P)^2\;\le\;C_P\,\DD(u,u),
+  \qquad C_P=C_P(r_0,\varepsilon).
+\end{equation}
+Finally, the circle $\{\rho=\pm\omega(\ell)\}$ has length
+$L=\ell\coth(\ell/2)\in[2,2\cosh(1/2)]$ and geodesic curvature $<1$,
+so points on it
+at arclength spacing $8\varepsilon$ are at mutual distance
+$\ge2\operatorname{arcsinh}(4\varepsilon)\ge3\varepsilon$; each has a
+vertex within $\varepsilon$, whence
+\begin{equation}
+\label{eq:overlap-volume}
+  |\Gamma^\pm|\;\ge\;\frac{L}{8\varepsilon}\;\ge\;\frac1{4\varepsilon},
+  \qquad
+  \vol_w(\Gamma^\pm)\;\ge\;\frac{\pi\varepsilon}{16}
+\end{equation}
+by~\eqref{eq:thick-weight}.
+By contrast the circles $\{\rho=\pm\rho_c\}$ have length
+$\varepsilon$ and carry $O(1)$ vertices, of total $w$-volume
+$O(\varepsilon^2)$.
+
+Ordering the vertices of $T$ by $\rho$ gives a spanning weighted path
+$P\subset T$ whose weights satisfy~\eqref{eq:collar-weight}; as $P$ spans $T$ the
+$w$-norms agree and $\DD_P\le\DD_T$, so Poincar\'e and Hardy
+inequalities proved on $P$ hold on $T$.
+
+We now prove two technical lemmas.
+
+\begin{lemma}
+\label{lem:glue}
+Let $(U,w)$ be a finite weighted set and $S\subseteq U$. Then
+$(\bar u_U-\bar u_S)^2\le\vol_w(S)^{-1}\sum_Uw(u-\bar u_U)^2$. If
+moreover $U=P_1\cup\dots\cup P_k$ with
+$\sum_{P_i}w(u-\bar u_{P_i})^2\le C_i\mathcal E(u)$ for each $i$, and if the
+graph on $\{1,\dots,k\}$ joining $i\sim j$ when
+$\vol_w(P_i\cap P_j)\ge v$ is connected, then
+\[
+  \sum_{U}w\,(u-\bar u_U)^2\;\le\;
+  2kC_{\max}\bigl(1+4k^2v^{-1}\vol_w(U)\bigr)\,\mathcal E(u).
+\]
+\end{lemma}
+
+\begin{proof}
+Since $\bar u_S-\bar u_U=\vol_w(S)^{-1}\sum_Sw(u-\bar u_U)$, the first
+claim is Cauchy--Schwarz. For the second, put $c=\bar u_{P_1}$; as the
+mean minimises the weighted square deviation and the $P_i$ cover $U$,
+\[
+  \sum_{U}w\,(u-\bar u_U)^2\le\sum_i\sum_{P_i}w\,(u-c)^2
+  \le\sum_i\Bigl(2\sum_{P_i}w\,(u-\bar u_{P_i})^2
+   +2\vol_w(P_i)(\bar u_{P_i}-c)^2\Bigr).
+\]
+If $i\sim j$, applying the first claim to
+$P_i\cap P_j\subseteq P_i$ and to $P_i\cap P_j\subseteq P_j$ gives
+$(\bar u_{P_i}-\bar u_{P_j})^2\le4C_{\max}v^{-1}\mathcal E(u)$; chaining along
+a path of at most $k-1$ edges to the index~$1$ bounds
+$(\bar u_{P_i}-c)^2$ by $4k^2v^{-1}C_{\max}\mathcal E(u)$.
+\end{proof}
+
+Applying Lemma~\ref{lem:glue} with the pieces $H^\pm,A^\pm$ overlapping
+in $\Gamma^\pm$ in the separating case, and with $H,A^+,A^-$ overlapping
+in $\Gamma^\pm$ in the non-separating case, and using \eqref{eq:piece-poincare},
+\eqref{eq:overlap-volume}, we obtain $c_0=c_0(r_0,\varepsilon)>0$ with
+\begin{equation}
+\label{eq:side-gap}
+  \sum_{E^\pm}w\,(u-\bar u_{E^\pm})^2\le c_0^{-1}\DD(u,u),
+  \qquad
+  \sum_{E}w\,(u-\bar u_{E})^2\le c_0^{-1}\DD(u,u)
+\end{equation}
+in the separating and non-separating cases respectively.
+
+\begin{lemma}
+\label{lem:neck}
+There exist constants $c_T,C_N$ depending only on $r_0,\varepsilon$ such that
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item\label{it:neck-pin} for each half-column
+$T^\pm=\{p\in T:0\le\pm\rho_p<\rho_c\}$ with outermost vertex $q_\pm$,
+\[
+  \sum_{T^\pm}w\,(u-u(q_\pm))^2\;\le\;C_N\,\varepsilon^{-2}\,
+  \DD_{T^\pm}(u,u);
+\]
+\item\label{it:neck-two} $c_T^{-1}\ell\le\lambda_1(T)\le c_T\ell$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+On the spanning path the node and edge weights $m_j,\mu_j$
+satisfy~\eqref{eq:collar-weight}, at positions whose consecutive gaps
+lie in $[\varepsilon/2,2\varepsilon]$. For~\ref{it:neck-pin}, the one-sided weighted
+Hardy inequality (\cite{Miclo}, Proposition~1) for $u$ vanishing at
+$q_\pm$ implies $\sum_jm_ju_j^2\le4H_\pm\sum_j\mu_j(u_{j+1}-u_j)^2$ with
+$H_\pm=\sup_k\bigl(\sum_{|\rho_j|\le|\rho_k|}m_j\bigr)
+\bigl(\sum_{|\rho_k|\le|\rho_j|<\rho_c}\mu_j^{-1}\bigr)$, both sums over
+$T^\pm$. Comparing sums with integrals by monotonicity of $\cosh$ and
+$\operatorname{sech}$,
+\[
+  H_\pm\;\le\;\frac{4C_2e^{4\varepsilon}}{C_1\varepsilon^{2}}
+  \sup_{\rho^*}\;
+  \sinh(\rho^*+2\varepsilon)\!\int_{\rho^*-2\varepsilon}^{\infty}
+  \!\operatorname{sech}
+  \;\le\;\frac{16\,C_2e^{8\varepsilon}}{C_1\varepsilon^{2}},
+\]
+since $\int_r^\infty\operatorname{sech}=2\arctan e^{-r}\le2e^{-r}$ and
+$\sinh r\le\tfrac12e^r$, so that
+$\sinh(\rho^*+2\varepsilon)\int_{\rho^*-2\varepsilon}^\infty
+\operatorname{sech}\le e^{4\varepsilon}$. Therefore, \ref{it:neck-pin} follows.
+
+For~\ref{it:neck-two}, splitting the path at its centre and applying
+the same Hardy inequality on each half bounds $\lambda_1(P)^{-1}$ by
+$4H$ with
+$H=\sup_{\rho^*}\bigl(\sum_{\rho_j\ge\rho^*}m_j\bigr)
+\bigl(\sum_{|\rho_j|<\rho^*}\mu_j^{-1}\bigr)$. The same comparison,
+with the constants of~\eqref{eq:collar-weight}, gives
+\[
+  \sum_{\rho_j\ge\rho^*}m_j\le
+  \frac{2C_2e^{2\varepsilon}\ell}{\varepsilon}
+  \bigl(\sinh\rho_c-\sinh\rho^*\bigr)
+  +2C_2e^{2\varepsilon}\ell\cosh\rho_c,
+  \qquad
+  \sum_{|\rho_j|<\rho^*}\mu_j^{-1}\le\frac{2\pi}{C_1\varepsilon\ell},
+\]
+the factor $\ell$ cancelling in the product. Bounding both factors over all $\rho^*$
+using $\int_{\mathbb R}\operatorname{sech}=\pi$ and
+$\cosh\rho_c\le2\sinh\rho_c$, and bounding $H$ below at $\rho^*=1$ where
+$\int_{-1}^{1}\operatorname{sech}=4\arctan(\tanh\tfrac12)\ge\tfrac85$,
+gives
+\begin{equation}
+\label{eq:H-bounds}
+  \frac{C_1}{10\,C_2}\cdot\frac{\sinh\rho_c}{\varepsilon^2}
+  \;\le\;H\;\le\;
+  \frac{16\pi C_2e^{2\varepsilon}}{C_1}\cdot\frac{\sinh\rho_c}{\varepsilon^2},
+\end{equation}
+so that, since $\ell\sinh\rho_c\le\varepsilon$ and
+$\lambda_1(T)\ge(4H)^{-1}$,
+\begin{equation}
+\label{eq:cT}
+  \lambda_1(T)\;\ge\;c_T^{-1}\ell,
+  \qquad
+  c_T=\frac{64\pi C_2e^{2\varepsilon}}{C_1\varepsilon}.
+\end{equation}
+For the matching upper bound, the
+$w$-orthogonalisation of $\operatorname{sign}(\rho)$ has energy carried
+by the uniformly bounded number of edges crossing $\{\rho=0\}$, each of
+weight $\mu\asymp\ell$, so $\DD_T\le C\ell$, while its $w$-norm is
+bounded below uniformly in~$\ell$.
+\end{proof}
+
+\subsection*{Proof of the dichotomy}
+
+\begin{proof}[Proof of Proposition~\ref{prop:intro-swy}]
+Write $\bar u_S=\vol_w(S)^{-1}\sum_{p\in S}u(p)w(p)$.
+
+\emph{Separating case, upper bound.} Fix $\rho_0=1$ and let
+$\tilde f(\rho)=\rho$ on $\{|\rho_p|\le\rho_0\}$ and $\pm1$ on the
+rest of $\Sigma^\pm_\ell$; this is well defined since
+$\{|\rho|\le\rho_0\}$ lies in the collar. Put
+$f=\tilde f-m_\ell\mathbf1$ with $\langle f,\mathbf1\rangle_w=0$. Then
+\[\normw{f}^2 \geq  \vol_w(E^+)(1-m_\ell)^2+\vol_w(E^-)(1+m_\ell)^2.\]
+Now minimizing $\vol_w(E^+)(1-m_\ell)^2+\vol_w(E^-)(1+m_\ell)^2$ over $m_\ell$ implies
+$\normw{f}^2\ge4\vol_w(E^+)\vol_w(E^-)/(\vol_w(E^+)+\vol_w(E^-))
+\ge\delta_0(r_0,\varepsilon)>0$ by~\eqref{eq:piece-geometry}. Every edge
+across which $\tilde f$ varies lies in
+$\{|\rho|\le\rho_0+3\varepsilon\}$, where
+$w\le C_2\ell\cosh(\rho_0+3\varepsilon)$
+by~\eqref{eq:collar-weight}; that region contains at most
+$4(\rho_0+3\varepsilon)/\varepsilon$ vertices, which carry all
+contributing edges,
+and $|\tilde f(p)-\tilde f(q)|\le2\varepsilon/\rho_0$ for every edge $\{p,q\}$. Each such vertex has at
+most $N$ neighbours, so
+$\DD(f,f)=\DD(\tilde f,\tilde f)\le
+\bigl[4(\rho_0+3\varepsilon)/\varepsilon\bigr]\,N\,
+C_2\ell\cosh(\rho_0+3\varepsilon)\,(2\varepsilon/\rho_0)^2$, and with
+$\rho_0=1$ and $\normw{f}^2\ge\delta_0=2V_0$ the min--max principle
+gives
+\begin{equation}
+\label{eq:c2}
+  \lambda_1(X_\ell)\le c_2\,\ell,
+  \qquad
+  c_2=\frac{8NC_2(1+3\varepsilon)\cosh(1+3\varepsilon)\,\varepsilon}{V_0}.
+\end{equation}
+
+\emph{Separating case, lower bound.} Take $\langle f,\mathbf1\rangle_w=0$,
+$\normw{f}^2=1$, $D=\DD(f,f)$, and assume $D\le\ell$. Let $a_\pm,b$ be
+the $w$-averages on $E^\pm,T$. By~\eqref{eq:side-gap} and
+Lemma~\ref{lem:neck}\ref{it:neck-two},
+\begin{equation}
+\label{eq:region-flux}
+  \sum_{E^\pm}w\,(f-a_\pm)^2\le\frac{D}{c_0},\qquad
+  \sum_{T}w\,(f-b)^2\le c_T\,\frac{D}{\ell}.
+\end{equation}
+Each of these circles $\{\rho=\pm\rho_c\}$ have $O(1)$ edges. Let $\{p,q\}$ be such an edge with
+vertex $p\notin T$ and $q\in T$. Therefore, $\mu(p,q)\ge C_1\varepsilon$. As every
+summand in~\eqref{eq:region-flux} is nonnegative,
+$|f(p)-a_\pm|^2\le 4D/(\pi c_0\varepsilon^2)$,
+$|f(p)-f(q)|^2\le D/(C_1\varepsilon)$, and
+$|f(q)-b|^2\le c_TD/(C_1\varepsilon\ell)$.
+Since $\ell\le\varepsilon$, $D/(C_1\varepsilon)=(\ell/C_1)D/(\varepsilon\ell)
+\le(\varepsilon/C_1)D/(\varepsilon\ell)$, so
+\begin{equation}
+\label{eq:K1}
+  (b-a_\pm)^2\;\le\;K_1\,\frac{D}{\varepsilon\ell},
+  \qquad
+  K_1=3\Bigl(\frac{4}{\pi c_0}+\frac{\varepsilon}{C_1}+\frac{c_T}{C_1}\Bigr).
+\end{equation}
+Orthogonality gives
+$a_+\vol_w(E^+)+a_-\vol_w(E^-)+b\vol_w(T)=0$; substituting
+$a_\pm=b+(a_\pm-b)$ and using $\vol_w(E^\pm)\le V_1$ together with
+$\vol_w(X_\ell)\ge V_0$ gives
+$|b|\le(2V_1/V_0)\max_\pm|a_\pm-b|$, hence
+$b^2\le(4V_1^2/V_0^2)K_1D/(\varepsilon\ell)$ and
+$a_\pm^2\le(8V_1^2/V_0^2+2)K_1D/(\varepsilon\ell)$. Expanding
+$1=\normw{f}^2$ over $E^\pm$ and $T$, bounding each block by
+$2\sum w(f-\cdot)^2+2(\cdot)^2\vol_w$, and
+using~\eqref{eq:region-flux}, \eqref{eq:volT} and $\ell\le\varepsilon$,
+\begin{equation}
+\label{eq:c1}
+  1\;\le\;K_3\,\frac{D}{\varepsilon\ell},
+  \qquad
+  K_3=\frac{4\varepsilon^2}{c_0}
+  +4V_1\Bigl(\frac{8V_1^2}{V_0^2}+2\Bigr)K_1
+  +2c_T\varepsilon
+  +\frac{32NV_1^2e^{2\varepsilon}\varepsilon}{V_0^2}K_1 ,
+\end{equation}
+that is $\lambda_1(X_\ell)\ge c_1\ell$ with $c_1=\varepsilon/K_3$.
+
+\emph{Non-separating case.} Now $E=X_\ell\setminus T$ is connected and
+satisfies~\eqref{eq:side-gap}. Take $\langle f,\mathbf1\rangle_w=0$,
+$\normw{f}^2=1$, $D=\DD(f,f)$, and let $v_\pm=f(q_\pm)$ where $q_\pm$ denote the endpoints of the spanning path in $T$. The vertex $p\in E$ adjacent to $q_\pm$
+satisfies $(f(p)-\bar f_E)^2\le4D/(\pi c_0\varepsilon^2)$, and the edge
+$\{p,q_\pm\}$ has weight at least $C_1\varepsilon$, giving
+$(v_\pm-f(p))^2\le D/(C_1\varepsilon)=(\varepsilon/C_1)D/\varepsilon^2$;
+by the triangle inequality,
+\begin{equation}
+\label{eq:K4}
+  (v_\pm-\bar f_E)^2\;\le\;K_4\,\frac{D}{\varepsilon^2},
+  \qquad
+  K_4=\frac{8}{\pi c_0}+\frac{2\varepsilon}{C_1}.
+\end{equation}
+Applying
+\[
+\sum_{T^\pm}w(f-\bar f_E)^2
+\le
+2\sum_{T^\pm}w(f-v_\pm)^2
++2\vol_w(T^\pm)(v_\pm-\bar f_E)^2,
+\]
+together with Lemma~\ref{lem:neck}\ref{it:neck-pin},
+\eqref{eq:K4}, \eqref{eq:side-gap}, and
+\eqref{eq:volT}, we obtain
+\[
+1=\normw{f}^2
+\le
+\sum_Ew(f-\bar f_E)^2
++\sum_{T^+}w(f-\bar f_E)^2
++\sum_{T^-}w(f-\bar f_E)^2
+\le
+\frac{D}{c_3},
+\]
+\begin{equation}
+\label{eq:c3}
+  \frac1{c_3}=\frac1{c_0}+\frac{4C_N}{\varepsilon^2}
+  +\frac{8Ne^{2\varepsilon}K_4}{\varepsilon}.
+\end{equation}
+Hence $\lambda_1(X_\ell)\ge c_3$.
+\end{proof}
+
+\begin{proof}[Proof of Corollary~\ref{cor:intro-swy}]
+Combine Proposition~\ref{prop:intro-swy} with~\eqref{eq:pinching-comparison},
+in agreement with~\cite{SchoenWolpertYau1980}.
+\end{proof}
+
+
+
+\section*{Acknowledgements}
+The author thanks Prof.~Bruno Colbois for suggestions during and
+after the workshop \emph{GSTW02: Geometry of Eigenvalues} that
+shaped this paper. The author also thanks the Isaac Newton Institute
+for Mathematical Sciences, Cambridge, for support and hospitality
+during the programme \emph{Geometric Spectral Theory and
+Applications}, where work on this paper was initiated. This work was
+supported by EPSRC grant no.\ EP/Z000580/1.
+
+\printbibliography
+
+\end{document}

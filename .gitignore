@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+build/
+dist/
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# 运行时产物
+chroma_db/
+logs/
+*.pkl
+*.bin
+
+# 数据（PDF/原始论文不入库，只放示例 tex）
+data/papers/*.pdf
+data/papers/*.pdf.gz
+data/papers/*.pdf_tex
+
+# 环境变量与密钥
+.env
+
+# IDE
+.vscode/
+.idea/
+.ipynb_checkpoints/

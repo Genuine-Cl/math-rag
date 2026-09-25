@@ -1,0 +1,14 @@
+# 基础依赖（不锁版本，便于安装；生产环境建议锁定版本）
+langchain
+langchain-chroma
+langchain-huggingface
+langchain-community
+langchain-openai
+langchain-text-splitters
+chromadb
+sentence-transformers
+pyyaml
+rank-bm25
+
+# 开发/测试
+pytest

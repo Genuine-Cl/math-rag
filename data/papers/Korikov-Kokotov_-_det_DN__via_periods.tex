@@ -1,0 +1,342 @@
+\documentclass{amsart}
+\usepackage{amsthm}
+\usepackage{graphicx,textcomp}
+\usepackage{amsmath,bm,amsfonts,mathrsfs,amssymb}
+\usepackage{hyperref}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{prop}[theorem]{Proposition}
+\newtheorem{defi}[theorem]{Definition}
+\newtheorem{rem}[theorem]{Remark}
+\newtheorem{cor}[theorem]{Corollary}
+%\usepackage{comment,refcheck}
+\usepackage{appendix}
+\usepackage[normalem]{ulem}
+\usepackage{graphicx,color}
+\usepackage{xcolor}
+\def\blue{\color{blue}}
+\def\red{\color{red}}
+
+\counterwithout{equation}{section}   
+
+\begin{document}
+\title[Determinant of the Dirichlet-to-Neumann map]{The determinant of the Dirichlet-to-Neumann map for a surface with boundary and periods of holomorphic differentials on its double}
+
+\author{Dmitrii Korikov}
+	\address{St. Petersburg Department of Steklov Mathematical Institute
+of Russian Academy of Sciences, 27 Fontanka, St. Petersburg, Russia, \url{https://orcid.org/0000-0002-3212-5874}}
+	\email{dmitrii.v.korikov@gmail.com}
+	
+	\author{Alexey Kokotov}
+	\address{Department of Mathematics \& Statistics, Concordia University, 1455 De Maisonneuve Blvd. W. Montreal, QC  H3G 1M8, Canada, \url{https://orcid.org/0000-0003-1940-0306}}
+	\email{alexey.kokotov@concordia.ca}
+	
+\begin{abstract}
+Let $(M,g)$ be a smooth orientable $2d$ Riemannian manifold of genus $\mathfrak{g}$ with  Riemannian metric $g$ and connected boundary $\Gamma$. Let $\Lambda$ be the Dirichlet-to-Neumann map on $\Gamma$ and let ${\rm det}_\zeta(\Lambda)$ be its (modified, i. e. with  zero mode excluded) $\zeta$-regularized determinant. It is well-known that the quantity ${\rm det}_\zeta(\Lambda)/|\Gamma|$ (where $|\Gamma|$ is the length of $\Gamma$) is a conformal invariant. It was shown by Edward and Wu (\cite{EV}) that this invariant equals one for $\mathfrak{g}=0$; in the case $\mathfrak{g}>0$ Guillarmou and Guillop\'e \cite{Guillarmou} found two explicit expressions for this invariant through the Rouelle and (respectively) the Selberg zeta-functions of the two surfaces of negative constant curvature from the conformal class of $(M,g)$: one is  of infinite volume and complete whereas another has geodesic boundary. 
+
+We present an elementary counterpart of the formulae of Guillarmou and Guillop\'e using  the periods of holomorphic differentials on the double $2M$ of $M$ only.  Our approach is based on the properties of the Hilbert transform of $M$ \cite{B,HilbKor} and the Kontsevich-Vishik-Friedlander-Guillemin regularization of the determinants of pseudodifferenial operators \cite{KV,Ww,F}. In particular, a connection between the length spectra of (uniformized) $M$, $2M$  and the periods of holomorphic differentials on $2M$  is established.
+\end{abstract}
+
+	\maketitle
+
+\section*{Introduction}
+Let $(M,g)$ be a (smooth) orientable surface of genus $\mathfrak{g}$ with metric $g$ and connected boundary $\Gamma$. We assume that $\Gamma$ is parametrized by the arc length and identify it with the boundary of the disk $\mathbb{D}$ of radius $|\Gamma|/2\pi$. The Dirichlet-to-Neumann (DN  in the sequel) map of $(M,g)$ is the self-adjoint operator in $L_2(\Gamma,dl_g;\mathbb{C})$ given by $\Lambda f:=\partial_\nu u^f|_\Gamma$, where $u^f$ is the harmonic extension of $f\in H^{1}(\Gamma;\mathbb{C})\equiv {\rm Dom}(\Lambda)$ into $(M,g)$ and $\nu$ is the unit exterior normal to $\Gamma$. Let $\partial_\gamma$ denotes differentiation with respect to the length along $\Gamma$. It is well-known \cite{LeeU} that $\Lambda$ is a $\Psi$DO of order one, admitting decomposition
+\begin{equation}
+\label{DN PDO decomp}
+\Lambda=\Lambda_0+\tilde{\Lambda}, \qquad \Lambda_0=|\partial_\gamma|,
+\end{equation}
+where $\tilde{\Lambda}$ is smoothing $\Psi$DO. Note that $\Lambda_0$ is the DN map of $\mathbb{D}$.
+
+In the sequel we restrict all the operators to the Hilbert space $\mathscr{H}:={\rm Ran}(\Lambda)=L_2(\Gamma,dl_g;\mathbb{C})\ominus\mathbb{C}$, thereby making $\Lambda$ and $\partial_\gamma$ invertible. As follows from formula (4.2.62), \cite{Grubb} ("no pure $\log$-term in the heat asymptotics")  the operator $\zeta$-function $\zeta_{\Lambda}(s)$ is regular at $s=0$. The (modified) $\zeta$-regularized determinant of $\Lambda$ is defined as ${\rm det}_\zeta(\Lambda):={\rm exp}\big(-\zeta'_\Lambda(0)\big)$; according to  \cite{Guillarmou} it is related to the length spectrum of $(M\backslash\Gamma,h_\infty)$ (where $h_\infty$ is the unique complete hyperbolic metric on $M\backslash\Gamma$) via
+\begin{equation}
+\label{GG formula}
+{\rm det}_\zeta(\Lambda)/|\Gamma|=\Big((2\pi s)^{-\mathfrak{g}}\mathscr{R}(s)\Big)\Big|_{s=0}/(1-\mathfrak{g})
+\end{equation}
+for $\mathfrak{g}>1$, where $\mathscr{R}(s):=\prod_{\gamma}(1-e^{-s\,|\gamma|_h})$ is the Ruelle zeta-function, the product is over all primitive closed geodesics in $(2M,h_\infty)$ (note that the left-hand side is a confromal invariant). (There is a similar relation also established in  \cite{Guillarmou} with Selberg zeta-function  of the hyperbolic surface with geodesic boundary conformally equivalent to $M$, we do not quote this result in full for brevity sake.)
+
+
+For the trivial case $\mathfrak{g}=0$, the explicit formulas $\zeta_{\Lambda_0}(s)=2\zeta(s)\Big(\frac{2\pi}{|\Gamma|}\Big)^{-s}$, $\zeta_{\partial_\gamma}(s)=\zeta_{\Lambda_0}(s){\rm cos}\Big(\frac{\pi s}{2}\Big)$ and $\zeta(0)=-\frac{1}{2}$, $\zeta'(0)=-\frac{{\rm log}(2\pi)}{2}$ (where $\zeta$ is the Riemann zeta function) imply
+\begin{equation}
+\label{GG formula disk}
+{\rm det}_\zeta(\Lambda_0)={\rm det}_\zeta(\partial_\gamma)=|\Gamma|.
+\end{equation}
+
+Introduce the {\it Hilbert transform} of $M$ by
+\begin{equation*}
+%\label{Hilbert}
+H:=\partial_\gamma^{-1}\Lambda.
+\end{equation*}
+It is easy to see that the operator $f+\mathbb{C}\mapsto Hf+\mathbb{C}$ acting on the quotient space $L_2(\Gamma,dl_g;\mathbb{C})/\mathbb{C}$ depends only on the complex structure on $M$ (if $H'$ is the Hilbert transfrom of $(M,h:=e^\phi g)$, then $H'f=Hf+c(f)$, where $c(f)$ is the constant providing the orthogonality of $H'f$ to the constants in $L_2(\Gamma,dl_h;\mathbb{C})$). Conversely, the Hilbert transforms $H$ determines the surface $M$ up to biholomorphism \cite{B}. 
+
+Decomposition (\ref{DN PDO decomp}) implies
+\begin{equation}
+\label{Hilbert PDO decomp}
+H=H_0+\tilde{H}, \qquad H_0=\partial_\gamma^{-1}|\partial_\gamma|,
+\end{equation}
+where $\tilde{H}$ is a smoothing $\Psi$DO and $H_0$ is the Hilbert transform of $\mathbb{D}$. Note that $H_0^2=-I$. The spectrum of $H$ is described in \cite{HilbKor}. The essential spectrum of $H$ consists of two eigenvalues $-i,+i$; the corresponding eigenspaces ${\rm Ker}(H+i)$ (${\rm Ker}(H-i)$) are spanned by the boundary traces of holomorphic (anti-holomorphic) functions with square-integrable differentials on $M$. The discrete spectrum of $H$ consists of the eigenvalues (having the same algebraic and geometric finite multiplicities)
+$$\lambda_{\pm 1}(H)=\pm i\mu_1,\dots,\lambda_{\pm\mathfrak{g}}(H)=\pm i\mu_{\mathfrak{g}}$$ 
+(here the eigenvalues are repeated according to their multiplicities). The numbers $\mu_k\in (0,1)$ are related to the periods of Abelian differentials on the Schottky double $2M$ of $M$ (equipped with the antiholomorphic involution $\tau$, $2M/\tau\equiv M$. 
+\begin{lemma}[see Corollary 4, \cite{znsbKor}] \label{Kolemma} There is the basis $\{\omega_{k},\omega_{-k}\}_{k=1}^{\mathfrak{g}}$ in $H^0(2M;K)$ obeying
+$$\int_{\tau\circ l}\omega_{\pm k}=\frac{\pm \mu_k+1}{\pm\mu_k-1}\int_{l}\omega_{\pm k}$$
+for any loop $l$ in $M\subset 2M$.
+\end{lemma}
+(For the convenience of the reader, the proof of this statement is presented in the appendix. Also, we deduce equation (\ref{finding mus}) expressing $\lambda_{\pm k}$ in terms of the b-period matrix in symmetric homology basis on $2M$.)
+
+Due to the presence of the essential spectrum $\{-i,+i\}$, neither zeta-regularized nor Fredholm determinant of $H$ can be defined.We simply define  the determinant of $H$ via
+\begin{equation}
+\label{toy det}
+{\rm DET}(H):=\lambda_1\cdot\dots\cdot\lambda_{\mathfrak{g}}\cdot\lambda_{-1}\cdot\dots\cdot\lambda_{-\mathfrak{g}}={\rm det}(H_{\rm disc}).
+\end{equation}
+i. e. by restricting $H$ to its discrete spectrum subspace $\mathcal{H}_{\rm disc}:=\bigoplus\limits_{\pm k}{\rm Ker}(H-\lambda_k)$ of dimension $2\mathfrak{g}$; such a restriction is denoted by $H_{\rm disc}$ (thus, roughly speaking, we formally put $(-i)(+i)(-i)(+i)\dots=1$ for the eigenvalues of $H$ of infinite multiplicity, by this definition, we have ${\rm DET}(H_0)=1$).
+
+\smallskip
+
+In this note, we prove the following relation 
+\begin{equation}
+\label{dumb formula}
+{\rm det}_\zeta(\Lambda)={\rm det}_\zeta(\partial_\gamma)\cdot{\rm DET}(H).
+\end{equation}
+As a corollary of (\ref{dumb formula}), (\ref{GG formula disk}), (\ref{toy det}), and (\ref{GG formula}), one arrives to
+\begin{align*}
+(\mu_1\cdot\dots\cdot\mu_{\mathfrak{g}})^2={\rm DET}(H)={\rm det}_\zeta(\Lambda)/{\rm det}_\zeta(\partial_\gamma)=\\
+={\rm det}_\zeta(\Lambda)/|\Gamma|=\Big((2\pi s)^{-\mathfrak{g}}\mathscr{R}(s)\Big)\Big|_{s=0}/(1-\mathfrak{g}).
+\end{align*}
+Thus, we have obtained the formula
+\begin{equation}
+\label{KoKoFormula}
+\Big((2\pi s)^{-\mathfrak{g}}\mathscr{R}(s)\Big)\Big|_{s=0}=(1-\mathfrak{g})(\mu_1\cdot\dots\cdot\mu_{\mathfrak{g}})^2
+\end{equation}
+that relates the length spectrum on $(M\backslash\Gamma,h_\infty)$ with the periods of certain basic Abelian differentials on the double $(2M,\tau)$. 
+
+\section*{Proof of formula (\ref{dumb formula})}
+The proof of (\ref{dumb formula}) is based on the Kontsevich-Vishik definition of the determinant of $\Psi$DO and the  variational approach of \cite{Ww,F}.
+
+{\bf i)} First, recall the basic facts and definitions. Let $A$ be an invertible $\Psi$DO of order $l\ge 0$. We assume that $A$ is sectorial, i.e. its spectrum is contained in some closed sector $\mathbb{K}:=\{\lambda\in\mathbb{C} \ | \ {\rm arg}(\lambda)\in[\varphi_1,\varphi_2]\}\ne\mathbb{C}$ and $\|A-\lambda I\|_{B(\mathcal{H})}=O(1/{\rm dist}(\Lambda,\mathbb{K}))$. Then one can define ${\rm log}(A)$ by using the basic holomorphic calculus
+$${\rm log}(A):=\frac{1}{2\pi i}\int\limits_{\mathfrak{C}}A(\lambda I-A)^{-1}\frac{{\rm log}(\lambda)}{\lambda}d\lambda,$$
+where $\mathfrak{C}$ is the (counterclockwise) curve enclosed $Sp(A)$ in such a way that $\|A-\lambda I\|_{B(\mathcal{H})}=O(1/|\lambda|)$ (say, $\mathfrak{C}$ is bounded or coincides with the rays ${\rm arg}(\lambda)=\varphi_1-\epsilon$, ${\rm arg}(\lambda)=\varphi_2+\epsilon$ ($\epsilon>0$) near infinity) for $\lambda\in\mathfrak{C}$, the cut of the logarithm is a ray intersecting $\mathbb{K}$ only at zero. 
+
+Introduce some regularizer $Q$ which is a positive 1st order elliptic $\Psi$DO (as such $Q$, one can take $\Lambda$ or $\Lambda_0$). The {\it Kontsevich–Vishik determinant} of $A$ is defined as
+\begin{equation*}
+%\label{KZ det}
+{\rm det}_Q(A):={\rm exp}\Bigg(\underset{s=0}{\rm f.p.}\,\,\Big[a.c.\,\,{\rm Tr}\Big(Q^{-s}{\rm log}(A)\Big)\Big]\Bigg),
+\end{equation*}
+where $a.c.$ is the analytic continuation from the half-plane $\Re s>s_0\gg 1$ in which $Q^{-s}{\rm log}(A)$ is of trace class, and ${\rm f.p.}$ means the Hadamard finite part. 
+
+Next, let $[0,1]\ni t\mapsto A(t)$ be a differentiable family of operators obeying the above conditions, $\dot{A}(t)=\partial_t A(t)$ is of trace class for all $t$, and $t\mapsto \dot{A}(t)$ is continuous in the trace-norm $\|\cdot\|_1$. We have
+\begin{equation}
+\label{variation of logdet}
+\partial_t{\rm log}\,{\rm det}_Q(A)=\frac{1}{2\pi i}\underset{s=0}{\rm f.p.}\,\,\Big[a.c.\,\,\Big(\int\limits_{\mathbb{C}}{\rm Tr}\Big(Q^{-s}\partial_t(A(\lambda I-A)^{-1})\Big)\frac{{\rm log}(\lambda)}{\lambda}d\lambda\Big]
+\end{equation}
+(if the right-hand is well-defined for $\Re s>-\epsilon$ ($\epsilon>0$), then one ensures that one can interchange the differentiation in $t$ and the analytic continuation in $s$ in the above formula by integrating it in $t$). We have
+$$\partial_t(A(\lambda I-A)^{-1})=\dot{A}(z-A)^{-1}+(z-A)^{-1}A\dot{A}(z-A)^{-1},$$
+Note that $(z-A)^{-1}A=-I+z(z-A)^{-1}$ is bounded and thus $Q^{-s}(z-A)^{-1}A\dot{A}$ is of trace class. Hence,
+$${\rm Tr}\Big(Q^{-s}\partial_t(A(\lambda I-A)^{-1})\Big)={\rm Tr}\Big((z-A)^{-1}Q^{-s}\dot{A}+(z-A)^{-1}Q^{-s}(z-A)^{-1}A\dot{A}\Big)$$
+and the well-known estimate $|{\rm Tr}(B'B)|\le\|B'\|_{1}\|B\|_{B(H)}$ yields
+\begin{align*}
+\lim_{s\to 0}{\rm Tr}\Big(Q^{-s}\partial_t(A(\lambda I-A)^{-1})\Big)={\rm Tr}\Big(((z-A)^{-1}+(z-A)^{-2}A)\dot{A}\Big)=\\
+={\rm Tr}\Big(\Big((z-A)^{-1}-\partial_z\big(z(z-A)^{-1}\big)\Big)\dot{A}\Big).
+\end{align*}
+and the integration by parts in (\ref{variation of logdet}) leads to
+\begin{align}
+\label{variation formula}
+\begin{split}
+\partial_t{\rm log}\,{\rm det}_Q&(A)=\\
+={\rm Tr}\Bigg(\frac{1}{2\pi i}&\int\limits_{\mathfrak{C}}\Bigg(\frac{{\rm log}(z)}{z}+z\Big(\frac{1}{z^{2}}-\frac{{\rm log}(z)}{z^2}\Big)\Bigg)(z-A)^{-1}dz\dot{A}\Bigg)={\rm Tr}(A^{-1}\dot{A})
+\end{split}
+\end{align}
+(boundary terms are of order $z\|(z-A)^{-1}\|_{B(\mathcal{H})}{\rm log}(z)/z=O(|{\rm log}(z)/z|)$ and this vanish at infinity).
+
+For the two families $A$ and $B$ obeying the above conditions, the $\partial_t(AB)=\dot{A}B+A\dot{B}$ is trace class and is continuous in $t$ in the trace norm. Then, as immediate corollary of (\ref{variation formula}), one obtains
+\begin{align*}
+\partial_t{\rm log}\,{\rm det}_Q&(AB)={\rm Tr}\big((AB)^{-1}\partial_t(AB)\big)={\rm Tr}\big(B^{-1}A^{-1}\dot{A}B+B^{-1}\dot{B}\big)=\\
+=&{\rm Tr}\big(B^{-1}A^{-1}\dot{A}B\big)+\partial_t{\rm log}\,{\rm det}_Q(B)= \ \text{($\dot{A}B$ is of trace class)}\\
+=&{\rm Tr}\big(\dot{A}BB^{-1}A^{-1}\big)+\partial_t{\rm log}\,{\rm det}_Q(B)=\partial_t({\rm log}\,{\rm det}_Q(A)+{\rm log}\,{\rm det}_Q(B)),
+\end{align*}
+i.e. the following multiplicativity formula is valid
+\begin{align}
+\label{multiplicativity deformation}
+\frac{{\rm det}_Q(A(1)B(1))}{{\rm det}_Q(A(1)){\rm det}_Q(B(1))}=\frac{{\rm det}_Q(A(0)B(0))}{{\rm det}_Q(A(0)){\rm det}_Q(B(0))}
+\end{align}
+regardless of the paths connecting $A(0)$ ($B(0)$) and $A(1)$ ($B(1)$) (as long as they satisfy the above conditions).
+
+{\bf ii)} Consider the families 
+\begin{align*}
+A(t)=\partial_\gamma, \quad B(t)=\theta(t)H+(1-\theta(t))H_0=H_0+\theta(t)\tilde{H}, \\ 
+A(t)B(t)=\theta(t)\Lambda+(1-\theta(t))\Lambda_0=\Lambda_0+\theta(t)\tilde{\Lambda},
+\end{align*}
+where $\theta$ is the smooth curve in $\mathbb{C}$ connecting $\theta(0)=0$ and $\theta(1)=1$. One can chose $\theta$ in such a way that $B(t)$, $A(t)B(t)$ are invertible for any $t$. Indeed, $B(\theta)=H_0+\theta\tilde{H}=H_0^{-1}(\theta H_0\tilde{H}-I)$ is non-invertible if and only if $\theta^{-1}$ belongs to the spectrum of $H_0\tilde{H}$; since $H_0\tilde{H}$ is a compact operator (moreover, is a smoothing $\Psi$DO), its spectrum has only one accumulation point $\theta^{-1}=0$. In addition, the derivatives
+$$\dot{A}=0, \quad \dot{B}=\dot{\theta}\tilde{H}$$
+are of trace class. So, the families $A,B$ obeys the condition of {\bf i)} and thus formula (\ref{multiplicativity deformation}) is valid for them and implies
+\begin{align}
+\label{multiplicativity DN Hilbert diff}
+\frac{{\rm det}_Q(\Lambda)}{{\rm det}_Q(\partial_\gamma){\rm det}_Q(H)}=\frac{{\rm det}_Q(\Lambda_0)}{{\rm det}_Q(\partial_\gamma){\rm det}_Q(H_0)}.
+\end{align}
+
+{\bf iii)} Introduce the family 
+$$J(t):=-B(t)^2, \qquad B(t)=H_0+\theta(t)\tilde{H}.$$
+It derivative $\dot{J}(t)=-\dot{\theta}(t)(B(t)\tilde{H}+\tilde{H}B(t))$ is a smoothing operator. Thus, repeating of the above reasoning yields
+\begin{align*}
+\partial_t{\rm log}\,{\rm det}_Q(J)={\rm Tr}(J^{-1}\dot{J})=\dot{\theta}(t){\rm Tr}_Q\Big(B(t)^{-1}\tilde{H}+B(t)^{-2}\cdot\tilde{H}B(t)\Big)=\\
+=2\dot{\theta}(t){\rm Tr}_Q\Big(B(t)^{-1}\tilde{H}\Big)=2\partial_t{\rm log}\,{\rm det}_Q(B).
+\end{align*}
+Integrating and taking into account that $B(0)=H_0$, $B(1)=H$, $-H_0^2=I$, and ${\rm det}_Q(I)=0$, one obtains
+\begin{align*}
+{\rm det}_Q(-H^2)=&\frac{{\rm det}_Q(-H^2)}{{\rm det}_Q(I)}=\frac{{\rm det}_Q(-H^2)}{{\rm det}_Q(-H_0^2)}=\\
+=&\frac{{\rm det}_Q(J(1))}{{\rm det}_Q(J(0))}=\Big(\frac{{\rm det}_Q(B(1))}{{\rm det}_Q(B(0))}\Big)^2=\Big(\frac{{\rm det}_Q(H)}{{\rm det}_Q(H_0)}\Big)^2.
+\end{align*}
+At the same time, decomposition (\ref{Hilbert PDO decomp}) implies that $K:=I+H^2$ is a smoothing $\Psi$DO, whence
+\begin{align*}
+{\rm log}{\rm det}_Q(-H^2)={\rm Tr}\big(Q^{-s}{\rm log}(I-K)\big)\big|_{s=0}=\sum_{k=1}^{\infty}\frac{{\rm Tr}\big(K^k\big)}{k}.
+\end{align*}
+Note that ${\rm Ker}(K)=\mathcal{H}\ominus\mathcal{H}_{\rm disc}$ and $K_{\rm disc}:=K|_{\mathcal{H}_{\rm disc}}=I+H_{\rm disc}^2$. Then the above formula implies
+\begin{align*}
+{\rm log}{\rm det}_Q(-H^2)=\sum_{k=1}^{\infty}\frac{{\rm Tr}\big(K_{\rm disc}^k\big)}{k}={\rm Tr}\big({\rm log}(-H_{\rm disc}^2)\big)=\\
+=(-1)^{{\rm dim}(\mathcal{H}_{\rm disc})}{\rm log}({\rm det}(H_{\rm disc})^2)={\rm log}({\rm DET}(H)^2).
+\end{align*}
+Thus, we finally obtain
+\begin{equation}
+\label{Q det of Hilbert}
+\frac{{\rm det}_Q(H)}{{\rm det}_Q(H_0)}={\rm DET}(H).
+\end{equation}
+Now combining (\ref{multiplicativity DN Hilbert diff}) with (\ref{Q det of Hilbert}) yields
+\begin{align}
+\label{Q-multiplicativity}
+{\rm det}_Q(\Lambda)={\rm det}_Q(\Lambda_0)\cdot{\rm DET}(H).
+\end{align}
+
+{\bf iv)} Let us show that ${\rm det}_{Q}(\Lambda)$ is independent of the choice of the regularizer $Q=\Lambda,\Lambda_0$. To this end, we let us consider the family of regularizers 
+$$t\mapsto Q(t)=\Lambda_0+\alpha(t)\tilde{\Lambda}=\Lambda_0+\alpha(t)\partial_\gamma\tilde{H},$$ 
+where the second term is again a smoothing $\Psi$DO, and $\alpha$ is again a smooth curve connecting $0$ and $1$ in such a way that $Q(t)$ is invertible for all $t$. Then 
+$$\dot{Q}=\dot{\alpha}\partial_\gamma\tilde{H}$$
+is a smoothing $\Psi$DO. We have
+$$\partial_t{\rm Tr}(Q^{-s}{\rm log}\Lambda)=-s{\rm Tr}(Q^{-s-1}\dot{Q}{\rm log}\Lambda);$$
+here the trace in the right-hand side is well defined for all $s$, so one can put $s=0$ and obtain $\partial_t{\rm Tr}(Q_t^{-s}{\rm log}\Lambda)|_{s=0}=0$. Thus, we have 
+\begin{align}
+\label{regularizer independence}
+{\rm log}\,{\rm det}_{\Lambda_0}(\Lambda)={\rm Tr}(Q(0)^{-s}{\rm log}\Lambda)={\rm Tr}(Q(1)^{-s}{\rm log}\Lambda)={\rm log}\,{\rm det}_{\Lambda}(\Lambda).
+\end{align}
+
+{\bf v)} Choosing $Q=\Lambda_0$ or $Q=\Lambda$ as a regularizer, one arrives at
+\begin{align*}
+{\rm log}\,{\rm det}_{\Lambda}(\Lambda)=a.c.{\rm Tr}(\Lambda^{-s}{\rm log}(\Lambda))\big|_{s=0}=a.c.\big[-\partial_s{\rm Tr}(\Lambda^{-s})\big]\big|_{s=0}=\\
+=-\zeta'_{\Lambda}(0)={\rm log}\,{\rm det}_\zeta(\Lambda),
+\end{align*}
+whence
+\begin{equation}
+\label{KZ and zeta det connection}
+{\rm det}_{\Lambda}(\Lambda)={\rm det}_\zeta(\Lambda), \qquad {\rm det}_{\Lambda_0}(\Lambda_0)={\rm det}_\zeta(\Lambda_0)={\rm det}_\zeta(\partial_\gamma)
+\end{equation}
+(the last equality follows from (\ref{GG formula disk})). Now substitution of (\ref{regularizer independence}) and (\ref{KZ and zeta det connection}) into (\ref{Q-multiplicativity}) yields
+\begin{align*}
+{\rm det}_\zeta(\Lambda)={\rm det}_{\Lambda}(\Lambda)={\rm det}_{\Lambda_0}(\Lambda)={\rm det}_{\Lambda_0}(\Lambda_0)\cdot{\rm DET}(H)={\rm det}_\zeta(\partial_\gamma)\cdot{\rm DET}(H).
+\end{align*}
+By this formula (\ref{dumb formula}) is proved. \qed
+
+\section{Appendix: proof of Lemma \ref{Kolemma}}
+Suppose that $Hf=-\lambda f\ne 0$, i.e. $\Lambda f=-\lambda\partial_\gamma f$ on $\Gamma$ and denote by $u^f$ the harmonic extension of $f$ into $M$. Let $\star$ denotes the Hodge operator on $2M\supset M$ and $\gamma$ is the unit tangent vector obtained by the counterclockwise rotation on the right angle of $\nu$. The space of harmonic 1-forms $\mathscr{H}^1=\{a\in L_2(M;T^*M) \ | \ da=d\star a = 0 \text{ in } M\}$ admits the orthogonal decomposition $\mathscr{H}^1=d\mathscr{H}^0\oplus\mathscr{N}$, where $\mathscr{H}^0=\mathscr{H}^1\cap dH^1(M;\mathbb{C})$ is the sub-space of the exact forms and $\mathscr{N}:=\{a\in \mathscr{H}^1 \ | \ a(\nu)=0\}$ is the sub-space of harmonic fields tangent to $\Gamma$. Thus, we have
+$$\star du^f=du^h+p, \qquad \star du^h=du^r+q \qquad (p,q\in\mathscr{N}).$$
+In particular, $q+\star p=-du^{r+f}$. Restricting the above equations to $\Gamma$, one arrives at
+$$\Lambda r=\star(du^h-q)(\nu)=-\partial_\gamma h, \qquad \Lambda h=-\partial_\gamma f=\lambda^{-1}\Lambda f.$$
+Hence $h=\lambda^{-1}f+{\rm const}$, $\Lambda r=-\lambda^{-1}\partial_\gamma f=\lambda^{-2}\Lambda f$, and $r=\lambda^{-2}f+{\rm const}$. So, we have 
+$$q+\star p=-(\lambda^{-2}+1)du^{f},$$ 
+in particular, 
+$$p(\gamma)=-[q+\star p](\nu)=(\lambda^{-2}+1)\Lambda f=-(\lambda^{-2}+1)\lambda\partial_\gamma f=\lambda[q+\star p](\gamma)=\lambda q(\gamma),$$
+whence $p=\lambda q$ due to the uniqueness of solutions to the Cauchy problem for elliptic equations (Tataru-Holmgren-Kovalevskaya theorem). 
+
+So, we have proved that the form $\tilde{\omega}:=q+\lambda\star q$ is exact. Since $q$ is tangent to $\Gamma$, it admits the harmonic extension (still denoted by $q$) onto the double $2M\supset M$ by the rule $\tau^*q=q$. Introduce the Abelian differrential 
+$$\omega:=(i-\star)q;$$
+note that its trace on $\Gamma$ obeys
+\begin{equation}
+\label{linear independence}
+\omega(\gamma)=\omega(\nu)=iq(\gamma)=-(\lambda^{-2}+1)\partial_\gamma f.
+\end{equation}
+Let $ l$ be a closed curve in $M$. Since the involution on $2M$ is anti-holomorphic, $\tau^*\star=-\star\tau^*$, one has
+\begin{align*}
+\int\limits_{\tau\circ l}\omega=&\int\limits_{ l}\tau^*\omega=\int\limits_{ l}\tau^*(i-\star)q=\int\limits_{ l}(i+\star)\tau^*q=\\=&\int\limits_{ l}(i+\star)q=\int\limits_{ l}(1-\lambda)\star q+\int\limits_{ l}i\tilde{\omega}=(1-i\lambda)\int\limits_{ l}\star q+0.
+\end{align*}
+At the same time,
+\begin{equation}
+\label{eigenad}
+\int\limits_{ l}\omega=\int\limits_{ l}(i\tilde{\omega}-(1+i\lambda)\star q)=-(1+i\lambda)\int\limits_{ l}\star q+0.
+\end{equation}
+Comparing the last two equalities, one obtains
+$$\int\limits_{\tau\circ l}\omega=\frac{\lambda+i}{\lambda-i}\int\limits_{ l}\omega.$$
+By this, Lemma \ref{Kolemma} is proved.\qed
+
+\
+
+Let $\{a_i,b_i\}_{i=1}^{\mathfrak{2g}}$ be a homology basis on the double $(2M,\tau)$ obeying symmetry conditions $a_{\mathfrak{g}+i}=\tau\circ a_{i}$, $b_{\mathfrak{g}+i}=-\tau\circ b_{i}$ and such that $\{a_i,b_i\}_{i=1}^{\mathfrak{g}}$ can be represented by the loops contained in $M$; then the dual basis $\{\theta_i\}_{i=1}^{2\mathfrak{g}}\subset H^0(2M;K)$, $\int_{a_i}\theta_j=\delta_{ij}$ satisfies $\theta_{\mathfrak{g}+i}=\overline{\theta_{i}\circ\tau}$. Hence, the corresponding $b$-period matrix $\mathbb{B}$ is of the form
+\begin{align*}
+\mathbb{B}=i\left(\begin{array}{cc}
+\mathfrak{G} & \mathfrak{F}\\
+\overline{\mathfrak{F}} & \overline{\mathfrak{G}}
+\end{array}\right) \qquad (\mathfrak{F}^*=\mathfrak{F}, \ \mathfrak{G}^T=\mathfrak{G}).
+\end{align*}
+Condition (\ref{eigenad}) for $\omega=\sum_{k=1}^{2\mathfrak{g}}c_k\theta_k$ is equivalent to equations
+\begin{align*}
+\frac{c_{\mathfrak{g}+j}}{c_j}=\frac{\lambda+i}{\lambda-i}, \qquad \frac{\sum_{k=1}^{2\mathfrak{g}}\mathbb{B}_{\mathfrak{g}+j,k}c_k}{\sum_{k=1}^{2\mathfrak{g}}\mathbb{B}_{j,k}c_k}=-\frac{\lambda+i}{\lambda-i} \qquad (j=1,\dots,\mathfrak{g}).
+\end{align*}
+which are compatible if and only if
+\begin{equation}
+\label{finding mus}
+{\rm det}\Bigg(\frac{\lambda+i}{\lambda-i}\cdot\mathfrak{F}+2\Re\mathfrak{G}+\frac{\lambda-i}{\lambda+i}\cdot\overline{\mathfrak{F}}\Bigg)=0.
+\end{equation}
+Thus, the solutions to (\ref{finding mus}) are exactly the eigenvalues of $H_{\rm disc}$.
+
+\begin{thebibliography}{99}
+\bibitem{EV}
+\newblock{J. Edward, S. Wu} 
+\newblock{\em  Determinant of the Neumann operator on smooth Jordan curves.}
+\newblock{Proc. AMS, 111(2), 357--363 (1991).}
+
+\bibitem{Guillarmou} 
+\newblock{Colin Guillarmou, Laurent Guillop\'e}
+\newblock{\em  The determinant of the Dirichlet-to-Neumann map for surfaces with boundary.}
+\newblock{(2007), \url{https://arxiv.org/abs/math/0701727}}
+
+\bibitem{B}
+\newblock{M.I. Belishev}
+\newblock{\em  The Calderon problem for two-dimensional manifolds by the BC-method.} 
+\newblock{SIAM Journal of Mathematical Analysis 35(1), 172--182 (2003). \url{https://doi.org/10.1137/S0036141002413919}}
+
+\bibitem{HilbKor} 
+\newblock{Dmitrii Korikov}
+\newblock{\em  Determination of period matrix of double of surface with boundary via its DN map.}
+\newblock{Canadian Journal of Mathematics (2025), \url{https://doi.org/10.4153/s0008414x25000264}}
+
+\bibitem{KV} 
+\newblock{Maxim Kontsevich, Simeon Vishik}
+\newblock{\em  Determinants of elliptic pseudo-differential operators.}
+\newblock{(1994), \url{https://arxiv.org/pdf/hep-th/9404046}}
+
+\bibitem{Ww} 
+\newblock{Richard A. Wentworth}
+\newblock{\em  Gluing formulas for determinants of Dolbeault laplacians on Riemann surfaces.}
+\newblock{(2012), \url{https://arxiv.org/abs/1008.2914}}
+
+\bibitem{F} 
+\newblock{Leonid Friedlander}
+\newblock{\em  On Multiplicative Properties of Determinants.}
+\newblock{(2018), \url{https://doi.org/10.48550/arXiv.1801.10606}}
+
+\bibitem{Grubb} 
+
+\newblock{G.Grubb}
+\newblock{\em  Functional calculus of pseudo-differential boundary value problems.}
+\newblock{Birkhaeuser, Boston, 1986}
+
+\bibitem{LeeU}
+\newblock{J.M. Lee, G. Uhlmann} 
+\newblock{\em  Determining anisotropic real‐analytic conductivities by boundary measurements.}
+\newblock{Comm. Pure Appl. Math., 42, 1097--1112 (1989).}
+
+\bibitem{znsbKor} 
+\newblock{Dmitrii Korikov}
+\newblock{\em  On non-homeomorphic surfaces with close DN maps.}
+\newblock{(2026), \url{https://arxiv.org/abs/2602.13236}}
+
+\end{thebibliography}
+
+
+\end{document}
+
